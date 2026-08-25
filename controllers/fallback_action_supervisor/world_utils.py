@@ -241,6 +241,8 @@ def _top_surface_z(node):
         if height is not None:
             position = get_world_position(descendant)
             candidates.append(position[2] + (height / 2.0 if centered else height))
+    if not candidates and node.getTypeName() == "Sink":
+        return get_world_position(node)[2]
     if not candidates:
         raise ValueError("target object has no exposed size or height")
     return max(candidates)

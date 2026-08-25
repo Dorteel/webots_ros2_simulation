@@ -118,6 +118,27 @@ python3 controllers/fallback_action_supervisor/action_cli.py close 'TIAGo++' fri
 The server listens only on `127.0.0.1:8765`. A successful command prints `ok`; validation and name
 lookup failures are returned to the terminal.
 
+## Ordered sequences
+
+`action_sequences.py` contains a plain editable list of actions. Its `cleanup` example moves two
+plates from the round table to the sink, puts the jam jar in the lower fridge, closes the door,
+and returns to the round table:
+
+```bash
+python3 controllers/fallback_action_supervisor/action_sequences.py cleanup
+```
+
+The runner prints every action and stops at the first failure. Each tuple contains the action,
+parameters, and the number of seconds to wait after success:
+
+```python
+("pick", {"robot": ROBOT, "object": "plate(10)"}, 1.0)
+```
+
+Add or remove tuples in `cleanup()` and adjust their wait times to change the routine.
+`FRIDGE_LOWER_SHELF` is an apartment-specific placement coordinate and can be adjusted if the
+fridge layout changes.
+
 Future ROS1 or ROS2 action servers should reuse this controller and call:
 
 ```python

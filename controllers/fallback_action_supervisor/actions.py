@@ -95,6 +95,7 @@ def place_to_object(supervisor, robot, object, target):
     if connection is not None and connection[2].getId() == item.getId():
         release_pick(robot)
     coordinates = get_stack_position(item, target_node)
+    set_yaw(item, 0.0)
     teleport_node(item, coordinates)
     return {"target": target, "position": coordinates}
 
