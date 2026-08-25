@@ -35,7 +35,7 @@ New pickable object types need a local PROTO containing
 Connector's `model`. The gripper similarly exposes `connectorModel` and `connectorLocked`, allowing
 the Supervisor to control it without writing read-only internal PROTO fields.
 
-Implemented actions match `actions.md`: `move`, `pick`, `place`, `open`, and `close`. Coordinates
+Implemented actions match `actions.md`: `move`, `move_to_object`, `pick`, `place`, `open`, and `close`. Coordinates
 are `[x, y, z]` in world coordinates. Open and close target the unique name of a HingeJoint's
 endpoint object.
 
@@ -60,6 +60,24 @@ Bash, so quote the object name:
 ```bash
 python3 controllers/fallback_action_supervisor/action_cli.py pick 'TIAGo++' 'plate(9)'
 ```
+
+### Move to object
+
+Move to the nearest sampled clear pose 0.8 m from `plate(9)` and face it:
+
+```bash
+python3 controllers/fallback_action_supervisor/action_cli.py move_to_object 'TIAGo++' 'plate(9)'
+```
+
+Override the stand-off distance and extra obstacle clearance when needed:
+
+```bash
+python3 controllers/fallback_action_supervisor/action_cli.py move_to_object 'TIAGo++' 'plate(9)' --distance 1.0 --clearance 0.2
+```
+
+This action checks sampled poses against conservative planar footprints of top-level Webots
+solids. It returns an error without moving when none are clear; it is a fallback placement check,
+not a replacement for a navigation planner.
 
 ### Place
 

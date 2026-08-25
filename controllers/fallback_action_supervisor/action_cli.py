@@ -17,10 +17,12 @@ from command_server import HOST, PORT
 def parse_arguments():
     """Parse the compact positional syntax for all fallback actions."""
     parser = argparse.ArgumentParser(description="Call a Webots fallback action")
-    parser.add_argument("action", choices=("move", "pick", "place", "open", "close"))
+    parser.add_argument("action", choices=("move", "move_to_object", "pick", "place", "open", "close"))
     parser.add_argument("robot", help="robot name")
     parser.add_argument("object", nargs="?", help="object name")
     parser.add_argument("coordinates", nargs="*", type=float, metavar="COORDINATE")
+    parser.add_argument("--distance", type=float, default=0.8, help="stand-off distance (default: 0.8)")
+    parser.add_argument("--clearance", type=float, default=0.15, help="extra obstacle clearance (default: 0.15)")
     return parser.parse_args()
 
 
@@ -39,7 +41,12 @@ def make_parameters(arguments):
         if arguments.object is None:
             raise ValueError(f"{arguments.action} requires an object name")
         parameters["object"] = arguments.object
-        if arguments.action == "place":
+        if arguments.action == "move_to_object":
+            if arguments.coordinates:
+                raise ValueError("move_to_object does not accept coordinates")
+            parameters["distance"] = arguments.distance
+            parameters["clearance"] = arguments.clearance
+        elif arguments.action == "place":
             parameters["coordinates"] = arguments.coordinates
         elif arguments.coordinates:
             raise ValueError(f"{arguments.action} does not accept coordinates")

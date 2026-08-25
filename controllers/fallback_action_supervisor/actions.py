@@ -4,6 +4,7 @@ Contents
 execute_action() - Validates and dispatches a fallback action.
 release_pick()    - Unlocks a robot's current Connector attachment.
 move()           - Teleports a robot to world coordinates.
+move_to_object() - Moves a robot to a clear pose near an object.
 pick()           - Connects an object to a robot's end effector.
 place()          - Teleports an object to world coordinates.
 open_object()    - Opens a HingeJoint to 80 degrees.
@@ -16,7 +17,9 @@ from world_utils import (
     get_node,
     get_object_connector,
     get_slot_connector,
+    find_clear_pose,
     set_hinge_position,
+    set_yaw,
     teleport_node,
 )
 
@@ -38,6 +41,16 @@ def release_pick(robot):
 def move(supervisor, robot, coordinates):
     """Teleport the robot identified by its name field."""
     teleport_node(get_node(supervisor, robot, "robot"), coordinates)
+
+
+def move_to_object(supervisor, robot, object, distance=0.8, clearance=0.15):
+    """Teleport a robot to the nearest clear sampled pose around an object."""
+    robot_node = get_node(supervisor, robot, "robot")
+    target = get_node(supervisor, object, "object")
+    coordinates, yaw = find_clear_pose(supervisor, robot_node, target, distance, clearance)
+    teleport_node(robot_node, coordinates)
+    set_yaw(robot_node, yaw)
+    return {"target": object, "position": coordinates, "yaw": yaw}
 
 
 def pick(supervisor, robot, object):
@@ -83,6 +96,7 @@ def close_object(supervisor, robot, object):
 
 _ACTIONS = {
     "move": (move, ("robot", "coordinates")),
+    "move_to_object": (move_to_object, ("robot", "object"), ("distance", "clearance")),
     "pick": (pick, ("robot", "object")),
     "place": (place, ("robot", "object", "coordinates")),
     "open": (open_object, ("robot", "object")),
@@ -97,11 +111,13 @@ def execute_action(supervisor, action, parameters):
     if not isinstance(parameters, dict):
         raise ValueError("parameters must be a dictionary")
 
-    function, required = _ACTIONS[action]
+    entry = _ACTIONS[action]
+    function, required = entry[:2]
+    optional = entry[2] if len(entry) == 3 else ()
     missing = [field for field in required if field not in parameters]
     if missing:
         raise ValueError(f"missing required fields: {', '.join(missing)}")
-    unexpected = [field for field in parameters if field not in required]
+    unexpected = [field for field in parameters if field not in required + optional]
     if unexpected:
         raise ValueError(f"unexpected fields: {', '.join(unexpected)}")
     return function(supervisor, **parameters)
