@@ -332,6 +332,7 @@ Robot {
 }
 Tiago++ {
   translation -2.69 -2.49 0.095
+  controller "tiago_idle"
   endEffectorRightSlot TiagoGripperConnector {
     name "right"
   }
