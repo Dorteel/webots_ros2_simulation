@@ -7,6 +7,7 @@ move()           - Teleports a robot to world coordinates.
 move_to_object() - Moves a robot to a clear pose near an object.
 pick()           - Connects an object to a robot's end effector.
 place()          - Teleports an object to world coordinates.
+place_to_object() - Places an object on top of another object.
 open_object()    - Opens a HingeJoint to 80 degrees.
 close_object()   - Closes a HingeJoint to 0 degrees.
 """
@@ -18,6 +19,7 @@ from world_utils import (
     get_object_connector,
     get_slot_connector,
     find_clear_pose,
+    get_stack_position,
     set_hinge_position,
     set_yaw,
     teleport_node,
@@ -82,6 +84,21 @@ def place(supervisor, robot, object, coordinates):
     teleport_node(item, coordinates)
 
 
+def place_to_object(supervisor, robot, object, target):
+    """Release and teleport an object onto a target object's top center."""
+    get_node(supervisor, robot, "robot")
+    item = get_node(supervisor, object, "object")
+    target_node = get_node(supervisor, target, "target object")
+    if item.getId() == target_node.getId():
+        raise ValueError("object and target must be different")
+    connection = _CONNECTIONS.get(robot)
+    if connection is not None and connection[2].getId() == item.getId():
+        release_pick(robot)
+    coordinates = get_stack_position(item, target_node)
+    teleport_node(item, coordinates)
+    return {"target": target, "position": coordinates}
+
+
 def open_object(supervisor, robot, object):
     """Set a HingeJoint to 80 degrees."""
     get_node(supervisor, robot, "robot")
@@ -99,6 +116,7 @@ _ACTIONS = {
     "move_to_object": (move_to_object, ("robot", "object"), ("distance", "clearance")),
     "pick": (pick, ("robot", "object")),
     "place": (place, ("robot", "object", "coordinates")),
+    "place_to_object": (place_to_object, ("robot", "object", "target")),
     "open": (open_object, ("robot", "object")),
     "close": (close_object, ("robot", "object")),
 }

@@ -35,7 +35,8 @@ New pickable object types need a local PROTO containing
 Connector's `model`. The gripper similarly exposes `connectorModel` and `connectorLocked`, allowing
 the Supervisor to control it without writing read-only internal PROTO fields.
 
-Implemented actions match `actions.md`: `move`, `move_to_object`, `pick`, `place`, `open`, and `close`. Coordinates
+Implemented actions match `actions.md`: `move`, `move_to_object`, `pick`, `place`, `place_to_object`,
+`open`, and `close`. Coordinates
 are `[x, y, z]` in world coordinates. Open and close target the unique name of a HingeJoint's
 endpoint object.
 
@@ -87,6 +88,16 @@ Disconnect `plate(9)` and teleport it to world coordinates `[-1, -1, 0.5]`:
 ```bash
 python3 controllers/fallback_action_supervisor/action_cli.py place 'TIAGo++' 'plate(9)' -1 -1 0.5
 ```
+
+### Place to object
+
+Disconnect `plate(9)` and place it on the top center of `table(1)`:
+
+```bash
+python3 controllers/fallback_action_supervisor/action_cli.py place_to_object 'TIAGo++' 'plate(9)' 'table(1)'
+```
+
+The target must expose a Webots `size` or `height` field so its top surface can be calculated.
 
 ### Open
 

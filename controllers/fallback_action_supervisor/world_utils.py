@@ -11,6 +11,7 @@ validate_coordinates() - Validates an x, y, z coordinate sequence.
 teleport_node()        - Moves a node directly to world coordinates.
 set_yaw()              - Rotates a node around the world vertical axis.
 find_clear_pose()      - Finds a collision-conscious pose near a target.
+get_stack_position()   - Computes a position on top of another object.
 set_hinge_position()   - Sets a HingeJoint position in radians.
 """
 
@@ -218,6 +219,43 @@ def find_clear_pose(supervisor, robot, target, distance, clearance, samples=24):
             return coordinates, yaw
 
     raise ValueError("no clear pose found within 1.2 m of requested distance")
+
+
+def _vertical_size(node):
+    size = node.getField("size")
+    if size is not None and size.getTypeName() == "SFVec3f":
+        centered = node.getField("connectorModel") is not None or node.getTypeName() == "SolidBox"
+        return size.getSFVec3f()[2], centered
+    height = _positive_number(node, "height")
+    if height is not None:
+        return height, False
+    return None, False
+
+
+def _top_surface_z(node):
+    candidates = []
+    for descendant in walk_nodes(node):
+        if descendant.getBaseTypeName() not in ("Solid", "Robot"):
+            continue
+        height, centered = _vertical_size(descendant)
+        if height is not None:
+            position = get_world_position(descendant)
+            candidates.append(position[2] + (height / 2.0 if centered else height))
+    if not candidates:
+        raise ValueError("target object has no exposed size or height")
+    return max(candidates)
+
+
+def get_stack_position(item, target):
+    """Return coordinates that place an item on a target's top center."""
+    target_position = get_world_position(target)
+    item_height, item_is_centered = _vertical_size(item)
+    item_offset = item_height / 2.0 if item_height is not None and item_is_centered else 0.0
+    return [
+        target_position[0],
+        target_position[1],
+        _top_surface_z(target) + item_offset + 0.052,
+    ]
 
 
 def set_hinge_position(node, position):
