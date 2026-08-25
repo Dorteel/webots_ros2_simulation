@@ -184,7 +184,7 @@ def _top_level_solids(supervisor):
 
 
 def find_clear_pose(supervisor, robot, target, distance, clearance, samples=24):
-    """Return the nearest sampled stand-off pose clear of top-level solids."""
+    """Return a clear pose, expanding outward from the requested distance."""
     distance = float(distance)
     clearance = float(clearance)
     if not isfinite(distance) or distance <= ROBOT_RADIUS:
@@ -201,21 +201,23 @@ def find_clear_pose(supervisor, robot, target, distance, clearance, samples=24):
             obstacles.append((get_world_position(node), _obstacle_shape(node)))
 
     start_angle = atan2(robot_position[1] - target_position[1], robot_position[0] - target_position[0])
-    candidates = []
-    for index in range(samples):
-        angle = start_angle + 2.0 * pi * index / samples
-        x = target_position[0] + distance * cos(angle)
-        y = target_position[1] + distance * sin(angle)
-        if all(_distance_to_shape(x, y, position, shape) >= ROBOT_RADIUS + clearance
-               for position, shape in obstacles):
-            travel = hypot(x - robot_position[0], y - robot_position[1])
-            yaw = atan2(target_position[1] - y, target_position[0] - x)
-            candidates.append((travel, [x, y, robot_position[2]], yaw))
+    for ring in range(13):
+        candidate_distance = distance + ring * 0.1
+        candidates = []
+        for index in range(samples):
+            angle = start_angle + 2.0 * pi * index / samples
+            x = target_position[0] + candidate_distance * cos(angle)
+            y = target_position[1] + candidate_distance * sin(angle)
+            if all(_distance_to_shape(x, y, position, shape) >= ROBOT_RADIUS + clearance
+                   for position, shape in obstacles):
+                travel = hypot(x - robot_position[0], y - robot_position[1])
+                yaw = atan2(target_position[1] - y, target_position[0] - x)
+                candidates.append((travel, [x, y, robot_position[2]], yaw))
+        if candidates:
+            _, coordinates, yaw = min(candidates, key=lambda candidate: candidate[0])
+            return coordinates, yaw
 
-    if not candidates:
-        raise ValueError("no clear pose found near object")
-    _, coordinates, yaw = min(candidates, key=lambda candidate: candidate[0])
-    return coordinates, yaw
+    raise ValueError("no clear pose found within 1.2 m of requested distance")
 
 
 def set_hinge_position(node, position):

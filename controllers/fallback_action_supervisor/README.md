@@ -63,7 +63,7 @@ python3 controllers/fallback_action_supervisor/action_cli.py pick 'TIAGo++' 'pla
 
 ### Move to object
 
-Move to the nearest sampled clear pose 0.8 m from `plate(9)` and face it:
+Move to the nearest sampled clear pose, starting 0.8 m from `plate(9)`, and face it:
 
 ```bash
 python3 controllers/fallback_action_supervisor/action_cli.py move_to_object 'TIAGo++' 'plate(9)'
@@ -76,7 +76,8 @@ python3 controllers/fallback_action_supervisor/action_cli.py move_to_object 'TIA
 ```
 
 This action checks sampled poses against conservative planar footprints of top-level Webots
-solids. It returns an error without moving when none are clear; it is a fallback placement check,
+solids. If the requested distance is blocked, it searches outward in 0.1 m steps up to 1.2 m
+farther. It returns an error without moving when none are clear; it is a fallback placement check,
 not a replacement for a navigation planner.
 
 ### Place
