@@ -79,7 +79,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/lights/protos/CeilingSpotLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/appearances/protos/VarnishedPine.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/humans/pedestrian/protos/Pedestrian.proto"
-EXTERNPROTO "../protos/TiagoDiagnostic.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/pal_robotics/tiagopp/protos/Tiago++.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto"
 EXTERNPROTO "../protos/TiagoGripperConnector.proto"
 EXTERNPROTO "../protos/AppleConnector.proto"
@@ -336,12 +336,11 @@ Robot {
   controller "<extern>"
   supervisor TRUE
 }
-TiagoDiagnostic {
+Tiago++ {
   translation -2.69 -2.49 0.095
   name "TIAGo"
   controller "<extern>"
   supervisor TRUE
-  casterSupportCollision TRUE
   lidarSlot [
     HokuyoUrg04lxug01 {
       name "hokuyo"

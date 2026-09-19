@@ -1,10 +1,10 @@
 """Run the apartment TIAGo++ with the installed Jazzy Webots ROS 2 driver."""
 
 from pathlib import Path
+import socket
 
-from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import ExecuteProcess
+from launch.actions import AppendEnvironmentVariable, ExecuteProcess
 from launch_ros.actions import Node
 from webots_ros2_driver.webots_controller import WebotsController
 from webots_ros2_driver.webots_launcher import Ros2SupervisorLauncher
@@ -13,13 +13,17 @@ from webots_ros2_driver.wait_for_controller_connection import WaitForControllerC
 
 def generate_launch_description():
     project = Path(__file__).resolve().parents[1]
-    tiago_resource = Path(get_package_share_directory('webots_ros2_tiago')) / 'resource'
+    robot_urdf = project / 'config' / 'tiago_webots_wheels.urdf'
+    # Give Webots and its external controllers the same free port, even if an older simulation is open.
+    with socket.socket() as probe:
+        probe.bind(('127.0.0.1', 0))
+        port = str(probe.getsockname()[1])
 
     webots = ExecuteProcess(
         cmd=[
             '/usr/local/webots/webots',
             '--batch',
-            '--port=1234',
+            f'--port={port}',
             '--mode=realtime',
             str(project / 'worlds' / 'complete_apartment_tiago_ros2.wbt'),
         ],
@@ -27,9 +31,10 @@ def generate_launch_description():
     )
     driver = WebotsController(
         robot_name='TIAGo',
+        port=port,
         parameters=[
             {
-                'robot_description': str(tiago_resource / 'tiago_webots.urdf'),
+                'robot_description': str(robot_urdf),
                 'use_sim_time': True,
                 'set_robot_state_publisher': True,
             },
@@ -52,12 +57,13 @@ def generate_launch_description():
         for name in ('diffdrive_controller', 'joint_state_broadcaster')
     ]
     return LaunchDescription([
+        AppendEnvironmentVariable('PYTHONPATH', str(project / 'config'), prepend=True),
         webots,
-        Ros2SupervisorLauncher(),
+        Ros2SupervisorLauncher(port=port),
         Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',
-            parameters=[{'robot_description': '<robot name=""><link name=""/></robot>'}],
+            parameters=[{'robot_description': robot_urdf.read_text()}],
             output='screen',
         ),
         Node(
