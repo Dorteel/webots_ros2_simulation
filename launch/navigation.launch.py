@@ -43,9 +43,14 @@ def generate_launch_description():
             'autostart': 'True',
         }.items(),
     )
+    position_action = Node(
+        package='navigate_to_position', executable='navigate_to_position_server',
+        parameters=[{'use_sim_time': True}], output='screen',
+    )
     rviz = Node(
         package='rviz2', executable='rviz2', output='screen',
         arguments=['-d', str(project / 'config' / 'navigation.rviz')],
         parameters=[{'use_sim_time': True}],
     )
-    return LaunchDescription([map_origin, apartment, map_server, map_lifecycle, navigation, rviz])
+    return LaunchDescription([map_origin, apartment, map_server, map_lifecycle,
+                              navigation, position_action, rviz])

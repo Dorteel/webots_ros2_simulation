@@ -20,6 +20,7 @@ diffdrive_controller:
     wheel_separation_multiplier: 1.089
 
     use_stamped_vel: false
+    cmd_vel_timeout: 1.0
     base_frame_id: "base_link"
     enable_odom_tf: false
 
