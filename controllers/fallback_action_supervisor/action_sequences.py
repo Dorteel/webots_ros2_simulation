@@ -14,7 +14,7 @@ import time
 from action_cli import send_action
 
 
-ROBOT = "TIAGo++"
+ROBOT = "TIAGo"
 ROUND_TABLE = "round table"
 SINK = "sink(1)"
 FRIDGE = "fridge(1)"
