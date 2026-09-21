@@ -13,6 +13,7 @@ from actions import execute_action
 from command_server import close_server, open_server, process_commands
 from ground_truth_odom import GroundTruthOdom
 from pick_action_server import PickActionServer
+from fallback_action_servers import FallbackActionServers
 
 
 def main():
@@ -23,6 +24,7 @@ def main():
     rclpy.init(args=[])
     ros_node = rclpy.create_node("fallback_ground_truth_odom")
     pick_server = PickActionServer(ros_node, supervisor)
+    fallback_servers = FallbackActionServers(ros_node, supervisor)
 
     try:
         pose_text = os.environ.get("TIAGO_INITIAL_MAP_POSE")
@@ -36,6 +38,7 @@ def main():
             odom.publish_if_due()
     finally:
         close_server(server)
+        fallback_servers.destroy()
         pick_server.destroy()
         ros_node.destroy_node()
         rclpy.shutdown()

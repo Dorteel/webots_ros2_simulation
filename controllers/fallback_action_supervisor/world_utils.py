@@ -260,16 +260,51 @@ def get_stack_position(item, target):
     ]
 
 
+def _cabinet_hinge(cabinet):
+    """Find the door hinge inside a Cabinet PROTO's generated Solid children."""
+    pending = [cabinet]
+    while pending:
+        node = pending.pop()
+        if node.getTypeName() == "HingeJoint":
+            return node
+        fields = [node.getFieldByIndex(i) for i in range(node.getNumberOfFields())]
+        if node.isProto():
+            fields += [node.getBaseNodeFieldByIndex(i)
+                       for i in range(node.getNumberOfBaseNodeFields())]
+        for field in fields:
+            if field.getTypeName() == "SFNode":
+                child = field.getSFNode()
+                if child is not None:
+                    pending.append(child)
+            elif field.getTypeName() == "MFNode":
+                pending.extend(field.getMFNode(i) for i in range(field.getCount()))
+    return None
+
+
 def set_hinge_position(node, position):
-    """Set a HingeJoint, accepting either the joint or its named endpoint."""
-    joint_parameters = node.getField("jointParameters")
+    """Set a direct hinge endpoint or a Cabinet's internal door hinge."""
+    hinge = node
+    joint_parameters = hinge.getField("jointParameters")
     if joint_parameters is None:
-        node = node.getParentNode()
-        joint_parameters = node and node.getField("jointParameters")
+        hinge = node.getParentNode()
+        joint_parameters = hinge and hinge.getField("jointParameters")
+    if joint_parameters is None and node.getTypeName() == "Cabinet":
+        hinge = _cabinet_hinge(node)
+        joint_parameters = hinge and hinge.getField("jointParameters")
     if joint_parameters is None:
         raise ValueError("object is not the endpoint of a HingeJoint")
     parameters_node = joint_parameters.getSFNode()
     position_field = parameters_node and parameters_node.getField("position")
     if position_field is None:
         raise ValueError("HingeJoint has no position field")
-    position_field.setSFFloat(float(position))
+    target = float(position)
+    if node.getTypeName() == "Cabinet" and target > 0:
+        min_stop = parameters_node.getField("minStop")
+        max_stop = parameters_node.getField("maxStop")
+        if (min_stop is not None and max_stop is not None
+                and target > max_stop.getSFFloat()
+                and min_stop.getSFFloat() <= -target <= max_stop.getSFFloat()):
+            target = -target  # Right-sided Cabinet doors open toward negative angles.
+    hinge.setJointPosition(target, 1)
+    if abs(position_field.getSFFloat() - target) > 1e-4:
+        raise ValueError("HingeJoint did not reach the requested position")

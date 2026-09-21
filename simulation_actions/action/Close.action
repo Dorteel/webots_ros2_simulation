@@ -1,0 +1,7 @@
+string robot
+string object
+---
+bool success
+string message
+---
+string status
