@@ -36,6 +36,18 @@ plate1:
     x: -1.02917
     y: -3.11378
     z: 0.765
+table_knife1:
+  placement_position:
+    frame_id: webots_world
+    x: -1.22917
+    y: -3.11378
+    z: 0.765
+tablefork1:
+  placement_position:
+    frame_id: webots_world
+    x: -0.82917
+    y: -3.11378
+    z: 0.765
 plate2:
   navigation_pose_source: manual
   navigation_pose: &id020
@@ -52,6 +64,18 @@ plate2:
     x: -1.86873
     y: -4.06664
     z: 0.765
+table_knife2:
+  placement_position:
+    frame_id: webots_world
+    x: -1.86873
+    y: -4.26664
+    z: 0.765
+tablefork2:
+  placement_position:
+    frame_id: webots_world
+    x: -1.86873
+    y: -3.86664
+    z: 0.765
 sink:
   navigation_pose_source: manual
   navigation_pose: &id024
@@ -63,28 +87,6 @@ sink:
     x: -2.73541522026062
     y: -1.5196892023086548
   preferred_navigation_pose: *id024
-table_knife1:
-  placement_position:
-    frame_id: webots_world
-    x: -2.2868613538858162
-    y: -3.751269756171808
-    z: 0.7591201381213647
-table_knife2:
-  placement_position:
-    frame_id: webots_world
-    x: -1.5752397545130221
-    y: -2.7672886490294655
-    z: 0.7591201381213647
-tablefork1:
-  placement_position:
-    frame_id: webots_world
-    x: -2.261048497803678
-    y: -3.511019999987495
-    z: 0.7611500972908961
-tablefork2:
-  placement_position:
-    frame_id: webots_world
-    x: -1.323259999994631
-    y: -2.7678415021963083
-    z: 0.7611500972908962
+
+
 

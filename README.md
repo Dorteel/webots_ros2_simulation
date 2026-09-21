@@ -23,6 +23,24 @@ ros2 action send_goal /navigate_to_position navigate_to_position/action/Navigate
 
 Navigation still needs tuning around local obstacle handling and DWB. Generated `build/`, `install/`, and `log/` directories should live only in `~/ros2_ws`, not inside `src/` or this repository.
 
+## Save and replay a Nav2 path
+
+With the navigation launch running, compute a route from the saved semantic poses for `cabinet(1)` and `plate1`:
+
+```bash
+python3 scripts/save_nav_path.py cabinet1_to_plate1 \
+  --semantic-map config/setting_the_table_map.yaml \
+  --from-object 'cabinet(1)' --to-object plate1
+```
+
+The result is `config/paths/cabinet1_to_plate1.yaml`. Replay it from near the saved start pose:
+
+```bash
+ros2 run navigate_to_position follow_saved_path config/paths/cabinet1_to_plate1.yaml
+```
+
+For Python code, `await FollowSavedPathClient(node).follow(path_file)` returns a boolean; import the class from `navigate_to_position.follow_saved_path_client`. Numeric poses are also accepted with `--start X Y YAW --goal X Y YAW`. Saved paths do not replan around changed obstacles.
+
 ## Call robot actions from ROS 2
 
 Build and source the action packages before launching the apartment:

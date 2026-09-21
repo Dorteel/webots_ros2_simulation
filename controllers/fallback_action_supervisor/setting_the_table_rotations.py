@@ -3,13 +3,13 @@ Contents
 --------
 execute_action() - Validates and dispatches a fallback action.
 release_pick()    - Unlocks a robot's current Connector attachment.
-move()           - Teleports a robot to world coordinates.
-move_to_object() - Moves a robot to a clear pose near an object.
-pick()           - Connects an object to a robot's end effector.
-place()          - Teleports an object to world coordinates.
+move()            - Teleports a robot to world coordinates and optional rotation.
+move_to_object()  - Moves a robot to a clear pose near an object.
+pick()            - Connects an object to a robot's end effector.
+place()           - Teleports an object to world coordinates.
 place_to_object() - Places an object on top of another object.
-open_object()    - Opens a HingeJoint to 80 degrees.
-close_object()   - Closes a HingeJoint to 0 degrees.
+open_object()     - Opens a HingeJoint to 80 degrees.
+close_object()    - Closes a HingeJoint to 0 degrees.
 """
 
 from math import radians
@@ -46,8 +46,14 @@ def release_pick(robot):
 def move(supervisor, robot, coordinates, rotation=None):
     """Teleport the robot to an exact world pose."""
     robot_node = get_node(supervisor, robot, "robot")
+
+    # Set orientation before teleport_node(), whose physics reset then settles
+    # both the requested translation and rotation together.
     if rotation is not None:
-        robot_node.getField("rotation").setSFRotation(rotation)
+        if not isinstance(rotation, (list, tuple)) or len(rotation) != 4:
+            raise ValueError("rotation must be [axis_x, axis_y, axis_z, angle]")
+        robot_node.getField("rotation").setSFRotation(list(rotation))
+
     teleport_node(robot_node, coordinates)
 
 

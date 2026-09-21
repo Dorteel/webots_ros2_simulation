@@ -144,25 +144,25 @@ def create_plan(semantic_map):
     # Fork 1
     nav("sink")
     pick("tablefork1")
-    nav("plate2")
+    nav("plate1")
     place_exact("tablefork1")
 
     # Knife 1
     nav("sink")
     pick("table_knife1")
-    nav("plate2")
+    nav("plate1")
     place_exact("table_knife1")
 
     # Fork 2
     nav("sink")
     pick("tablefork2")
-    nav("plate1")
+    nav("plate2")
     place_exact("tablefork2")
 
     # Knife 2
     nav("sink")
     pick("table_knife2")
-    nav("plate1")
+    nav("plate2")
     place_exact("table_knife2")
 
     return actions

@@ -10,9 +10,12 @@ install(PROGRAMS scripts/navigate_to_position_server.py
   DESTINATION lib/${PROJECT_NAME} RENAME navigate_to_position_server)
 install(PROGRAMS scripts/navigate_to_position_client.py
   DESTINATION lib/${PROJECT_NAME} RENAME navigate_to_position_client)
+install(PROGRAMS scripts/follow_saved_path_client.py
+  DESTINATION lib/${PROJECT_NAME} RENAME follow_saved_path)
 
 ament_get_python_install_dir(PYTHON_DIR)
-install(FILES scripts/client_api.py DESTINATION ${PYTHON_DIR}/${PROJECT_NAME})
+install(FILES scripts/client_api.py scripts/follow_saved_path_client.py
+  DESTINATION ${PYTHON_DIR}/${PROJECT_NAME})
 
 ament_export_dependencies(rosidl_default_runtime)
 ament_package()
