@@ -1,0 +1,3556 @@
+sink(1):
+  navigation_pose: &id001
+    frame_id: map
+    x: -3.1996238231658936
+    y: -1.4559632539749146
+    yaw: -1.6233703813126985
+  object_position:
+    x: -3.208725929260254
+    y: -1.6289329528808594
+  type: Sink
+  webots_name: sink(1)
+  webots_pose:
+    x: -3.419999
+    y: -1.519999
+    z: 0.87
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -3.359999
+    y: -1.289999
+    yaw: 0.0
+  navigation_pose_source: manual
+  preferred_navigation_pose: *id001
+fridge(1):
+  navigation_pose: &id002
+    frame_id: map
+    x: -0.6055161356925964
+    y: -1.1464388370513916
+    yaw: 1.0304507279814232
+  object_position:
+    x: -0.4416777789592743
+    y: -0.8733291625976562
+  type: Solid
+  webots_name: fridge(1)
+  webots_pose:
+    x: -0.519998
+    y: -0.500002
+    z: 0.0
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -0.459998
+    y: -0.270002
+    yaw: -1.570795
+  navigation_pose_source: manual
+  preferred_navigation_pose: *id002
+plate(10):
+  navigation_pose: &id003
+    frame_id: map
+    x: -1.7705894708633423
+    y: -2.794201374053955
+    yaw: -0.6156991359574582
+  object_position:
+    x: -1.3974018096923828
+    y: -3.0582077503204346
+  type: Plate
+  webots_name: plate(10)
+  webots_pose:
+    x: -1.44694
+    y: -2.75324
+    z: 0.759889
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -1.38694
+    y: -2.52324
+    yaw: 0.0
+  navigation_pose_source: manual
+  preferred_navigation_pose: *id003
+plate(9):
+  navigation_pose: &id004
+    frame_id: map
+    x: -2.1892874240875244
+    y: -3.1219329833984375
+    yaw: -1.0067881159066816
+  object_position:
+    x: -1.907121181488037
+    y: -3.568012237548828
+  type: Plate
+  webots_name: plate(9)
+  webots_pose:
+    x: -2.28227
+    y: -3.63168
+    z: 0.759889
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -2.22227
+    y: -3.40168
+    yaw: 0.0
+  navigation_pose_source: manual
+  preferred_navigation_pose: *id004
+floor:
+  type: Solid
+  webots_name: floor
+  webots_pose:
+    x: -4.96
+    y: -6.5
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -4.9
+    y: -6.27
+    yaw: 0.0
+cabinet_6:
+  type: Cabinet
+  webots_name: cabinet(6)
+  webots_pose:
+    x: -1.089998
+    y: -0.150001
+    z: 0.83
+    yaw: -1.5708
+  object_pose:
+    frame_id: map
+    x: -1.029998
+    y: 0.079999
+    yaw: -1.5708
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+cabinet_2:
+  type: Cabinet
+  webots_name: cabinet(2)
+  webots_pose:
+    x: -3.74
+    y: -2.409998
+    z: 0.15
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -3.68
+    y: -2.179998
+    yaw: 0.0
+  navigation_poses:
+  - &id005
+    frame_id: map
+    x: -3.488658
+    y: -1.718058
+    yaw: -1.963495
+  - frame_id: map
+    x: -3.68
+    y: -1.679998
+    yaw: -1.570796
+  - frame_id: map
+    x: -3.431256
+    y: -1.579476
+    yaw: -1.963495
+  - frame_id: map
+    x: -3.68
+    y: -1.529998
+    yaw: -1.570796
+  - frame_id: map
+    x: -3.373853
+    y: -1.440894
+    yaw: -1.963495
+  - frame_id: map
+    x: -3.68
+    y: -1.379998
+    yaw: -1.570796
+  preferred_navigation_pose: *id005
+  navigation_pose: *id005
+  navigation_pose_source: automatic
+cabinet_3:
+  type: Cabinet
+  webots_name: cabinet(3)
+  webots_pose:
+    x: -1.989998
+    y: -0.15
+    z: 1.4
+    yaw: -1.5708
+  object_pose:
+    frame_id: map
+    x: -1.929998
+    y: 0.08
+    yaw: -1.5708
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+cabinet_4:
+  type: Cabinet
+  webots_name: cabinet(4)
+  webots_pose:
+    x: -3.737
+    y: -1.929998
+    z: 1.4
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -3.677
+    y: -1.699998
+    yaw: 0.0
+  navigation_poses:
+  - &id006
+    frame_id: map
+    x: -3.485658
+    y: -1.238058
+    yaw: -1.963495
+  - frame_id: map
+    x: -3.677
+    y: -1.199998
+    yaw: -1.570796
+  - frame_id: map
+    x: -3.677
+    y: -2.199998
+    yaw: 1.570796
+  - frame_id: map
+    x: -3.485658
+    y: -2.161938
+    yaw: 1.963495
+  - frame_id: map
+    x: -3.428256
+    y: -1.099476
+    yaw: -1.963495
+  - frame_id: map
+    x: -3.677
+    y: -1.049998
+    yaw: -1.570796
+  - frame_id: map
+    x: -3.428256
+    y: -2.30052
+    yaw: 1.963495
+  preferred_navigation_pose: *id006
+  navigation_pose: *id006
+  navigation_pose_source: automatic
+cabinet_1:
+  type: Cabinet
+  webots_name: cabinet(1)
+  webots_pose:
+    x: -3.737001
+    y: -2.889998
+    z: 1.4
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -3.677001
+    y: -2.659998
+    yaw: 0.0
+  navigation_poses:
+  - &id007
+    frame_id: map
+    x: -3.485659
+    y: -2.198058
+    yaw: -1.963495
+  - frame_id: map
+    x: -3.677001
+    y: -2.159998
+    yaw: -1.570796
+  - frame_id: map
+    x: -3.428257
+    y: -2.059476
+    yaw: -1.963495
+  - frame_id: map
+    x: -3.677001
+    y: -2.009998
+    yaw: -1.570796
+  - frame_id: map
+    x: -3.370854
+    y: -1.920894
+    yaw: -1.963495
+  - frame_id: map
+    x: -3.677001
+    y: -1.859998
+    yaw: -1.570796
+  - frame_id: map
+    x: -3.370854
+    y: -3.399102
+    yaw: 1.963495
+  preferred_navigation_pose: *id007
+  navigation_pose: *id007
+  navigation_pose_source: automatic
+cabinet_5:
+  type: Cabinet
+  webots_name: cabinet(5)
+  webots_pose:
+    x: -3.569999
+    y: -1.509998
+    z: 0.15
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -3.509999
+    y: -1.279998
+    yaw: 0.0
+  navigation_poses:
+  - &id008
+    frame_id: map
+    x: -3.701341
+    y: -1.741938
+    yaw: 1.178097
+  - frame_id: map
+    x: -3.509999
+    y: -1.779998
+    yaw: 1.570796
+  - frame_id: map
+    x: -3.509999
+    y: -1.929998
+    yaw: 1.570796
+  - frame_id: map
+    x: -2.709999
+    y: -1.279998
+    yaw: 3.141593
+  - frame_id: map
+    x: -3.509999
+    y: -2.079998
+    yaw: 1.570796
+  preferred_navigation_pose: *id008
+  navigation_pose: *id008
+  navigation_pose_source: automatic
+cabinet_7:
+  type: Cabinet
+  webots_name: cabinet(7)
+  webots_pose:
+    x: -1.969998
+    y: -0.15
+    z: 0.15
+    yaw: -1.5708
+  object_pose:
+    frame_id: map
+    x: -1.909998
+    y: 0.08
+    yaw: -1.5708
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+box_1:
+  type: SolidBox
+  webots_name: box(1)
+  webots_pose:
+    x: -1.969998
+    y: -0.75
+    z: 0.07
+    yaw: 1.570795
+  object_pose:
+    frame_id: map
+    x: -1.909998
+    y: -0.52
+    yaw: 1.570795
+box_2:
+  type: SolidBox
+  webots_name: box(2)
+  webots_pose:
+    x: -3.169999
+    y: -1.649999
+    z: 0.07
+    yaw: -3.14159
+  object_pose:
+    frame_id: map
+    x: -3.109999
+    y: -1.419999
+    yaw: -3.14159
+solid_1:
+  type: Solid
+  webots_name: solid(1)
+  webots_pose:
+    x: -3.569998
+    y: -0.289998
+    z: 2.09
+    yaw: 2.356193
+  object_pose:
+    frame_id: map
+    x: -3.509998
+    y: -0.059998
+    yaw: 2.356193
+box_3:
+  type: SolidBox
+  webots_name: box(3)
+  webots_pose:
+    x: -0.969998
+    y: -0.400001
+    z: 0.07
+    yaw: 3.141591
+  object_pose:
+    frame_id: map
+    x: -0.909998
+    y: -0.170001
+    yaw: 3.141591
+box_4:
+  type: SolidBox
+  webots_name: box(4)
+  webots_pose:
+    x: -3.505
+    y: -2.549999
+    z: 0.07
+    yaw: 1.570801
+  object_pose:
+    frame_id: map
+    x: -3.445
+    y: -2.319999
+    yaw: 1.570801
+solid_2:
+  type: Solid
+  webots_name: solid(2)
+  webots_pose:
+    x: -3.389998
+    y: -0.499999
+    z: 1.742
+    yaw: 1.963491
+  object_pose:
+    frame_id: map
+    x: -3.329998
+    y: -0.269999
+    yaw: 1.963491
+solid_5:
+  type: Solid
+  webots_name: null
+  webots_pose:
+    x: -3.389998
+    y: -0.499999
+    z: 1.692
+    yaw: 1.832594
+  object_pose:
+    frame_id: map
+    x: -3.329998
+    y: -0.269999
+    yaw: 1.832594
+oven_1:
+  type: Oven
+  webots_name: oven(1)
+  webots_pose:
+    x: -3.33
+    y: -2.409999
+    z: 0.17
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -3.27
+    y: -2.179999
+    yaw: 0.0
+  navigation_poses:
+  - &id009
+    frame_id: map
+    x: -3.461342
+    y: -1.718059
+    yaw: -1.178097
+  - frame_id: map
+    x: -3.623553
+    y: -1.826446
+    yaw: -0.785398
+  - frame_id: map
+    x: -3.73194
+    y: -1.988657
+    yaw: -0.392699
+  - frame_id: map
+    x: -2.62
+    y: -2.179999
+    yaw: 3.141593
+  - frame_id: map
+    x: -2.669478
+    y: -1.931255
+    yaw: -2.748894
+  - frame_id: map
+    x: -3.518744
+    y: -1.579477
+    yaw: -1.178097
+  - frame_id: map
+    x: -3.729619
+    y: -1.72038
+    yaw: -0.785398
+  - frame_id: map
+    x: -2.669478
+    y: -2.428743
+    yaw: 2.748894
+  - frame_id: map
+    x: -2.47
+    y: -2.179999
+    yaw: 3.141593
+  - frame_id: map
+    x: -2.530896
+    y: -1.873852
+    yaw: -2.748894
+  - frame_id: map
+    x: -2.704315
+    y: -1.614314
+    yaw: -2.356194
+  - frame_id: map
+    x: -3.576147
+    y: -1.440895
+    yaw: -1.178097
+  - frame_id: map
+    x: -2.704315
+    y: -2.745684
+    yaw: 2.356194
+  - frame_id: map
+    x: -2.530896
+    y: -2.486146
+    yaw: 2.748894
+  preferred_navigation_pose: *id009
+  navigation_pose: *id009
+  navigation_pose_source: automatic
+oven_2:
+  type: Oven
+  webots_name: oven(2)
+  webots_pose:
+    x: -1.629998
+    y: -0.49
+    z: 0.89
+    yaw: -1.570765
+  object_pose:
+    frame_id: map
+    x: -1.569998
+    y: -0.26
+    yaw: -1.570765
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+hot_plate_1:
+  type: HotPlate
+  webots_name: hot plate(1)
+  webots_pose:
+    x: -3.239708
+    y: -0.670879
+    z: 0.86
+    yaw: 2.356191
+  object_pose:
+    frame_id: map
+    x: -3.179708
+    y: -0.440879
+    yaw: 2.356191
+worktop_1:
+  type: Worktop
+  webots_name: worktop(1)
+  webots_pose:
+    x: -3.4
+    y: -1.954999
+    z: 0.86
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -3.34
+    y: -1.724999
+    yaw: 0.0
+  navigation_poses:
+  - &id010
+    frame_id: map
+    x: -3.531342
+    y: -1.263059
+    yaw: -1.178097
+  - frame_id: map
+    x: -3.693553
+    y: -1.371446
+    yaw: -0.785398
+  - frame_id: map
+    x: -3.693553
+    y: -2.078552
+    yaw: 0.785398
+  - frame_id: map
+    x: -3.531342
+    y: -2.186939
+    yaw: 1.178097
+  - frame_id: map
+    x: -2.69
+    y: -1.724999
+    yaw: 3.141593
+  - frame_id: map
+    x: -2.739478
+    y: -1.476255
+    yaw: -2.748894
+  - frame_id: map
+    x: -3.588744
+    y: -1.124477
+    yaw: -1.178097
+  - frame_id: map
+    x: -3.588744
+    y: -2.325521
+    yaw: 1.178097
+  - frame_id: map
+    x: -2.739478
+    y: -1.973743
+    yaw: 2.748894
+  - frame_id: map
+    x: -2.54
+    y: -1.724999
+    yaw: 3.141593
+  - frame_id: map
+    x: -2.600896
+    y: -1.418852
+    yaw: -2.748894
+  - frame_id: map
+    x: -2.600896
+    y: -2.031146
+    yaw: 2.748894
+  preferred_navigation_pose: *id010
+  navigation_pose: *id010
+  navigation_pose_source: automatic
+worktop_2:
+  type: Worktop
+  webots_name: worktop(2)
+  webots_pose:
+    x: -3.620999
+    y: -1.519998
+    z: 0.86
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -3.560999
+    y: -1.289998
+    yaw: 0.0
+  navigation_poses:
+  - &id011
+    frame_id: map
+    x: -3.752341
+    y: -1.751938
+    yaw: 1.178097
+  - frame_id: map
+    x: -3.560999
+    y: -1.789998
+    yaw: 1.570796
+  - frame_id: map
+    x: -3.369657
+    y: -1.751938
+    yaw: 1.963495
+  - frame_id: map
+    x: -3.560999
+    y: -1.939998
+    yaw: 1.570796
+  - frame_id: map
+    x: -3.560999
+    y: -2.089998
+    yaw: 1.570796
+  preferred_navigation_pose: *id011
+  navigation_pose: *id011
+  navigation_pose_source: automatic
+worktop_3:
+  type: Worktop
+  webots_name: worktop(3)
+  webots_pose:
+    x: -3.092999
+    y: -1.519998
+    z: 0.86
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -3.032999
+    y: -1.289998
+    yaw: 0.0
+  navigation_poses:
+  - &id012
+    frame_id: map
+    x: -2.532999
+    y: -1.289998
+    yaw: 3.141593
+  - frame_id: map
+    x: -2.571059
+    y: -1.098656
+    yaw: -2.748894
+  - frame_id: map
+    x: -3.494939
+    y: -1.098656
+    yaw: -0.392699
+  - frame_id: map
+    x: -3.532999
+    y: -1.289998
+    yaw: 0.0
+  - frame_id: map
+    x: -3.494939
+    y: -1.48134
+    yaw: 0.392699
+  - frame_id: map
+    x: -3.386552
+    y: -1.643551
+    yaw: 0.785398
+  - frame_id: map
+    x: -2.679446
+    y: -1.643551
+    yaw: 2.356194
+  - frame_id: map
+    x: -2.571059
+    y: -1.48134
+    yaw: 2.748894
+  - frame_id: map
+    x: -2.382999
+    y: -1.289998
+    yaw: 3.141593
+  - frame_id: map
+    x: -3.633521
+    y: -1.041254
+    yaw: -0.392699
+  - frame_id: map
+    x: -3.682999
+    y: -1.289998
+    yaw: 0.0
+  - frame_id: map
+    x: -3.633521
+    y: -1.538742
+    yaw: 0.392699
+  - frame_id: map
+    x: -3.492618
+    y: -1.749617
+    yaw: 0.785398
+  - frame_id: map
+    x: -2.57338
+    y: -1.749617
+    yaw: 2.356194
+  - frame_id: map
+    x: -2.432477
+    y: -1.538742
+    yaw: 2.748894
+  - frame_id: map
+    x: -2.232999
+    y: -1.289998
+    yaw: 3.141593
+  - frame_id: map
+    x: -3.598684
+    y: -1.855683
+    yaw: 0.785398
+  - frame_id: map
+    x: -2.726852
+    y: -2.029102
+    yaw: 1.963495
+  - frame_id: map
+    x: -2.467314
+    y: -1.855683
+    yaw: 2.356194
+  - frame_id: map
+    x: -2.293895
+    y: -1.596145
+    yaw: 2.748894
+  preferred_navigation_pose: *id012
+  navigation_pose: *id012
+  navigation_pose_source: automatic
+worktop_4:
+  type: Worktop
+  webots_name: worktop(4)
+  webots_pose:
+    x: -3.395999
+    y: -1.079999
+    z: 0.86
+    yaw: -5.0e-06
+  object_pose:
+    frame_id: map
+    x: -3.335999
+    y: -0.849999
+    yaw: -5.0e-06
+  navigation_poses:
+  - &id013
+    frame_id: map
+    x: -3.689552
+    y: -1.203552
+    yaw: 0.785398
+  - frame_id: map
+    x: -3.527341
+    y: -1.311939
+    yaw: 1.178097
+  - frame_id: map
+    x: -3.584743
+    y: -1.450521
+    yaw: 1.178097
+  - frame_id: map
+    x: -2.735477
+    y: -1.098743
+    yaw: 2.748894
+  - frame_id: map
+    x: -3.642146
+    y: -1.589103
+    yaw: 1.178097
+  - frame_id: map
+    x: -2.596895
+    y: -1.156146
+    yaw: 2.748894
+  preferred_navigation_pose: *id013
+  navigation_pose: *id013
+  navigation_pose_source: automatic
+worktop_5:
+  type: Worktop
+  webots_name: null
+  webots_pose:
+    x: -2.524998
+    y: -0.51
+    z: 0.86
+    yaw: 1.570795
+  object_pose:
+    frame_id: map
+    x: -2.464998
+    y: -0.28
+    yaw: 1.570795
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+straightstairs_1:
+  type: StraightStairs
+  webots_name: null
+  webots_pose:
+    x: -4.32594
+    y: -5.824913
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -4.26594
+    y: -5.594913
+    yaw: 0.0
+straightstairsrail_1:
+  type: StraightStairsRail
+  webots_name: null
+  webots_pose:
+    x: -4.32594
+    y: -5.824913
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -4.26594
+    y: -5.594913
+    yaw: 0.0
+biscuitbox_1:
+  type: BiscuitBox
+  webots_name: null
+  webots_pose:
+    x: -3.6496
+    y: -1.06782
+    z: 0.889703
+    yaw: -0.261805
+  object_pose:
+    frame_id: map
+    x: -3.5896
+    y: -0.83782
+    yaw: -0.261805
+biscuit_box_1:
+  type: BiscuitBox
+  webots_name: biscuit box(1)
+  webots_pose:
+    x: -6.12057
+    y: -2.46595
+    z: 0.549703
+    yaw: -0.261805
+  object_pose:
+    frame_id: map
+    x: -6.06057
+    y: -2.23595
+    yaw: -0.261805
+cerealbox_1:
+  type: CerealBox
+  webots_name: null
+  webots_pose:
+    x: -1.31224
+    y: -3.1174
+    z: 0.759257
+    yaw: 2.35619
+  object_pose:
+    frame_id: map
+    x: -1.25224
+    y: -2.8874
+    yaw: 2.35619
+cereal_box_1:
+  type: CerealBox
+  webots_name: cereal box(1)
+  webots_pose:
+    x: -2.16698
+    y: -0.283733
+    z: 0.889257
+    yaw: -3.141585
+  object_pose:
+    frame_id: map
+    x: -2.10698
+    y: -0.053733
+    yaw: -3.141585
+cereal_box_2:
+  type: CerealBox
+  webots_name: cereal box(2)
+  webots_pose:
+    x: -2.26473
+    y: -0.288104
+    z: 0.889257
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -2.20473
+    y: -0.058104
+    yaw: 0.0
+cereal_box_3:
+  type: CerealBox
+  webots_name: cereal box(3)
+  webots_pose:
+    x: -2.39953
+    y: -0.270551
+    z: 0.889257
+    yaw: 2.618
+  object_pose:
+    frame_id: map
+    x: -2.33953
+    y: -0.040551
+    yaw: 2.618
+honeyjar_1:
+  type: HoneyJar
+  webots_name: null
+  webots_pose:
+    x: -2.10201
+    y: -3.51496
+    z: 0.759314
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -2.04201
+    y: -3.28496
+    yaw: 0.0
+jamjar_1:
+  type: JamJar
+  webots_name: null
+  webots_pose:
+    x: -1.64286
+    y: -2.98499
+    z: 0.759314
+    yaw: 2.0944
+  object_pose:
+    frame_id: map
+    x: -1.58286
+    y: -2.75499
+    yaw: 2.0944
+wallplug_1:
+  type: WallPlug
+  webots_name: null
+  webots_pose:
+    x: -9.98
+    y: -0.15
+    z: 0.13
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -9.92
+    y: 0.08
+    yaw: -1.570795
+wall_plug_1:
+  type: WallPlug
+  webots_name: wall plug(1)
+  webots_pose:
+    x: -7.73
+    y: -0.15
+    z: 0.13
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -7.67
+    y: 0.08
+    yaw: -1.570795
+wall_plug_2:
+  type: WallPlug
+  webots_name: wall plug(2)
+  webots_pose:
+    x: -6.82
+    y: -8.01
+    z: 0.13
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -6.76
+    y: -7.78
+    yaw: 0.0
+wall_plug_3:
+  type: WallPlug
+  webots_name: wall plug(3)
+  webots_pose:
+    x: -3.73915
+    y: -3.21929
+    z: 0.13
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -3.67915
+    y: -2.98929
+    yaw: 0.0
+wall_plug_4:
+  type: WallPlug
+  webots_name: wall plug(4)
+  webots_pose:
+    x: -0.149129
+    y: -6.88575
+    z: 0.13
+    yaw: -3.141585
+  object_pose:
+    frame_id: map
+    x: -0.089129
+    y: -6.65575
+    yaw: -3.141585
+laptop_1:
+  type: Laptop
+  webots_name: null
+  webots_pose:
+    x: -6.046814
+    y: -3.009982
+    z: 0.54785
+    yaw: -1.832597
+  object_pose:
+    frame_id: map
+    x: -5.986814
+    y: -2.779982
+    yaw: -1.832597
+cardboardbox_1:
+  type: CardboardBox
+  webots_name: null
+  webots_pose:
+    x: -0.52547
+    y: -5.50157
+    z: 0.3
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -0.46547
+    y: -5.27157
+    yaw: 3.14159
+squaremanhole_1:
+  type: SquareManhole
+  webots_name: null
+  webots_pose:
+    x: -0.959202
+    y: -5.85302
+    z: 0.0
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -0.899202
+    y: -5.62302
+    yaw: 3.14159
+pipesection_1:
+  type: PipeSection
+  webots_name: null
+  webots_pose:
+    x: -3.58714
+    y: -12.8957
+    z: 1.2
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -3.52714
+    y: -12.6657
+    yaw: 1.5708
+cardboard_box_1:
+  type: CardboardBox
+  webots_name: cardboard box(1)
+  webots_pose:
+    x: -0.52547
+    y: -5.50157
+    z: 0.77
+    yaw: 2.0944
+  object_pose:
+    frame_id: map
+    x: -0.46547
+    y: -5.27157
+    yaw: 2.0944
+barbecue_1:
+  type: Barbecue
+  webots_name: null
+  webots_pose:
+    x: -11.7017
+    y: -5.08633
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -11.6417
+    y: -4.85633
+    yaw: 0.0
+wall_plug_5:
+  type: WallPlug
+  webots_name: wall plug(5)
+  webots_pose:
+    x: -4.03587
+    y: -4.80291
+    z: 0.13
+    yaw: -3.141585
+  object_pose:
+    frame_id: map
+    x: -3.97587
+    y: -4.57291
+    yaw: -3.141585
+cabinet_4_3:
+  type: Cabinet
+  webots_name: cabinet 4(3)
+  webots_pose:
+    x: -3.52837
+    y: -9.4958
+    z: 0.0
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -3.46837
+    y: -9.2658
+    yaw: 3.14159
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+cabinet_4_6:
+  type: Cabinet
+  webots_name: cabinet 4(6)
+  webots_pose:
+    x: -3.52837
+    y: -10.4358
+    z: 0.0
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -3.46837
+    y: -10.2058
+    yaw: 3.14159
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+rubberduck_1:
+  type: RubberDuck
+  webots_name: null
+  webots_pose:
+    x: -5.38744
+    y: -11.0827
+    z: 0.510383
+    yaw: 0.785397
+  object_pose:
+    frame_id: map
+    x: -5.32744
+    y: -10.8527
+    yaw: 0.785397
+rubber_duck_1:
+  type: RubberDuck
+  webots_name: rubber duck(1)
+  webots_pose:
+    x: -3.84199
+    y: -10.7519
+    z: 0.860383
+    yaw: 2.3562
+  object_pose:
+    frame_id: map
+    x: -3.78199
+    y: -10.5219
+    yaw: 2.3562
+cabinet_4_4:
+  type: Cabinet
+  webots_name: cabinet 4(4)
+  webots_pose:
+    x: -7.2624
+    y: -6.39914
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -7.2024
+    y: -6.16914
+    yaw: 1.5708
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+cabinet_4_2:
+  type: Cabinet
+  webots_name: cabinet 4(2)
+  webots_pose:
+    x: -0.180166
+    y: -4.63275
+    z: 0.0
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -0.120166
+    y: -4.40275
+    yaw: 3.14159
+  navigation_poses:
+  - &id014
+    frame_id: map
+    x: -0.473719
+    y: -4.049197
+    yaw: -0.785398
+  preferred_navigation_pose: *id014
+  navigation_pose: *id014
+  navigation_pose_source: automatic
+cabinet_4_5:
+  type: Cabinet
+  webots_name: cabinet 4(5)
+  webots_pose:
+    x: -8.2024
+    y: -6.39914
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -8.1424
+    y: -6.16914
+    yaw: 1.5708
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+book_2:
+  type: Book
+  webots_name: book(2)
+  webots_pose:
+    x: -8.23284
+    y: -6.12584
+    z: 0.029777
+    yaw: -1.107149
+  object_pose:
+    frame_id: map
+    x: -8.17284
+    y: -5.89584
+    yaw: -1.107149
+book_3:
+  type: Book
+  webots_name: book(3)
+  webots_pose:
+    x: -5.8222
+    y: -2.49435
+    z: 0.009777
+    yaw: -2.976444
+  object_pose:
+    frame_id: map
+    x: -5.7622
+    y: -2.26435
+    yaw: -2.976444
+book_5:
+  type: Book
+  webots_name: book(5)
+  webots_pose:
+    x: -7.38095
+    y: -6.15887
+    z: 0.029777
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -7.32095
+    y: -5.92887
+    yaw: 0.0
+book_4:
+  type: Book
+  webots_name: book(4)
+  webots_pose:
+    x: -9.6466
+    y: -6.23148
+    z: 0.119777
+    yaw: 0.523597
+  object_pose:
+    frame_id: map
+    x: -9.5866
+    y: -6.00148
+    yaw: 0.523597
+cabinet_4_1:
+  type: Cabinet
+  webots_name: cabinet 4(1)
+  webots_pose:
+    x: -9.22241
+    y: -6.39914
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -9.16241
+    y: -6.16914
+    yaw: 1.5708
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+cabinet_14:
+  type: Cabinet
+  webots_name: null
+  webots_pose:
+    x: -0.17
+    y: -9.12
+    z: 0.0
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -0.11
+    y: -8.89
+    yaw: 3.14159
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+bed_1:
+  type: Bed
+  webots_name: bed(1)
+  webots_pose:
+    x: -1.657084
+    y: -11.861072
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -1.597084
+    y: -11.631072
+    yaw: 1.5708
+cabinet_9:
+  type: Cabinet
+  webots_name: cabinet(9)
+  webots_pose:
+    x: -5.445295
+    y: -9.996606
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -5.385295
+    y: -9.766606
+    yaw: 0.0
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+cabinet_8:
+  type: Cabinet
+  webots_name: cabinet(8)
+  webots_pose:
+    x: -5.80579
+    y: -10.1734
+    z: 0.0
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -5.74579
+    y: -9.9434
+    yaw: 3.14159
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+wooden_chair_4:
+  type: WoodenChair
+  webots_name: wooden chair(4)
+  webots_pose:
+    x: -3.40405
+    y: -2.90904
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -3.34405
+    y: -2.67904
+    yaw: 0.0
+wooden_chair_6:
+  type: WoodenChair
+  webots_name: wooden chair(6)
+  webots_pose:
+    x: -2.355698
+    y: -3.611985
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -2.295698
+    y: -3.381985
+    yaw: 0.0
+wooden_chair_1:
+  type: WoodenChair
+  webots_name: wooden chair(1)
+  webots_pose:
+    x: -0.595698
+    y: -3.611985
+    z: 0.0
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -0.535698
+    y: -3.381985
+    yaw: 3.14159
+wooden_chair_3:
+  type: WoodenChair
+  webots_name: wooden chair(3)
+  webots_pose:
+    x: -1.468096
+    y: -2.749503
+    z: 0.0
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -1.408096
+    y: -2.519503
+    yaw: -1.570795
+wooden_chair_5:
+  type: WoodenChair
+  webots_name: wooden chair(5)
+  webots_pose:
+    x: -1.468096
+    y: -4.449503
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -1.408096
+    y: -4.219503
+    yaw: 1.5708
+roundtable_1:
+  type: RoundTable
+  webots_name: null
+  webots_pose:
+    x: -1.430469
+    y: -3.615372
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -1.370469
+    y: -3.385372
+    yaw: 0.0
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+cookware_1:
+  type: Cookware
+  webots_name: null
+  webots_pose:
+    x: -1.571078
+    y: -0.45843
+    z: 1.159662
+    yaw: 0.523344
+  object_pose:
+    frame_id: map
+    x: -1.511078
+    y: -0.22843
+    yaw: 0.523344
+cookware_1_2:
+  type: Cookware
+  webots_name: cookware(1)
+  webots_pose:
+    x: -3.200899
+    y: -0.589493
+    z: 0.890002
+    yaw: 3.141331
+  object_pose:
+    frame_id: map
+    x: -3.140899
+    y: -0.359493
+    yaw: 3.141331
+lid_1:
+  type: Lid
+  webots_name: null
+  webots_pose:
+    x: -2.80078
+    y: -0.58945
+    z: 0.886929
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -2.74078
+    y: -0.35945
+    yaw: 0.0
+woodenspoon_1:
+  type: WoodenSpoon
+  webots_name: null
+  webots_pose:
+    x: -2.97078
+    y: -0.78945
+    z: 0.889193
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -2.91078
+    y: -0.55945
+    yaw: 3.14159
+wooden_chair_2:
+  type: WoodenChair
+  webots_name: wooden chair(2)
+  webots_pose:
+    x: -6.88
+    y: -12.06
+    z: 0.0
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -6.82
+    y: -11.83
+    yaw: -1.570795
+bed_2:
+  type: Bed
+  webots_name: null
+  webots_pose:
+    x: -8.67447
+    y: -10.2627
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -8.61447
+    y: -10.0327
+    yaw: 0.0
+desk_2:
+  type: Desk
+  webots_name: desk(2)
+  webots_pose:
+    x: -6.905085
+    y: -12.493314
+    z: 0.0
+    yaw: -1.570796
+  object_pose:
+    frame_id: map
+    x: -6.845085
+    y: -12.263314
+    yaw: -1.570796
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+wall_1:
+  type: Wall
+  webots_name: wall 1
+  webots_pose:
+    x: 0.0
+    y: -0.65
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: 0.06
+    y: -0.42
+    yaw: 0.0
+window_1:
+  type: Window
+  webots_name: window 1
+  webots_pose:
+    x: 0.0
+    y: -1.65
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: 0.06
+    y: -1.42
+    yaw: 0.0
+window_1_3:
+  type: Window
+  webots_name: window 1(3)
+  webots_pose:
+    x: -9.9
+    y: -7.46
+    z: 0.0
+    yaw: -3.141592
+  object_pose:
+    frame_id: map
+    x: -9.84
+    y: -7.23
+    yaw: -3.141592
+window_1_7:
+  type: Window
+  webots_name: window 1(7)
+  webots_pose:
+    x: -4.4
+    y: -13.12
+    z: 0.0
+    yaw: 1.570797
+  object_pose:
+    frame_id: map
+    x: -4.34
+    y: -12.89
+    yaw: 1.570797
+window_1_1:
+  type: Window
+  webots_name: window 1(1)
+  webots_pose:
+    x: -7.95
+    y: -13.12
+    z: 0.0
+    yaw: -1.570796
+  object_pose:
+    frame_id: map
+    x: -7.89
+    y: -12.89
+    yaw: -1.570796
+window_1_4:
+  type: Window
+  webots_name: window 1(4)
+  webots_pose:
+    x: 0.0
+    y: -10.87
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: 0.06
+    y: -10.64
+    yaw: 0.0
+window_1_2:
+  type: Window
+  webots_name: window 1(2)
+  webots_pose:
+    x: -11.15
+    y: -3.48
+    z: 0.0
+    yaw: 1.570797
+  object_pose:
+    frame_id: map
+    x: -11.09
+    y: -3.25
+    yaw: 1.570797
+window_1_6:
+  type: Window
+  webots_name: window 1(6)
+  webots_pose:
+    x: -9.9
+    y: -4.73
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -9.84
+    y: -4.5
+    yaw: 0.0
+window_1_5:
+  type: Window
+  webots_name: window 1(5)
+  webots_pose:
+    x: -8.25
+    y: 0.0
+    z: 0.0
+    yaw: 1.570797
+  object_pose:
+    frame_id: map
+    x: -8.19
+    y: 0.23
+    yaw: 1.570797
+radiator_1:
+  type: Radiator
+  webots_name: null
+  webots_pose:
+    x: -4.24028
+    y: -8.71399
+    z: 0.36
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -4.18028
+    y: -8.48399
+    yaw: -1.570795
+radiator_5:
+  type: Radiator
+  webots_name: radiator(5)
+  webots_pose:
+    x: -0.284658
+    y: -10.58667
+    z: 0.36
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -0.224658
+    y: -10.35667
+    yaw: 3.14159
+radiator_4:
+  type: Radiator
+  webots_name: radiator(4)
+  webots_pose:
+    x: -3.23759
+    y: -6.88139
+    z: 0.36
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -3.17759
+    y: -6.65139
+    yaw: -1.570795
+radiator_3:
+  type: Radiator
+  webots_name: radiator(3)
+  webots_pose:
+    x: -7.731898
+    y: -12.834878
+    z: 0.36
+    yaw: 1.570795
+  object_pose:
+    frame_id: map
+    x: -7.671898
+    y: -12.604878
+    yaw: 1.570795
+radiator_2:
+  type: Radiator
+  webots_name: radiator(2)
+  webots_pose:
+    x: -8.531595
+    y: -0.282246
+    z: 0.36
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -8.471595
+    y: -0.052246
+    yaw: -1.570795
+desktopcomputer_1:
+  type: DesktopComputer
+  webots_name: null
+  webots_pose:
+    x: -7.25806
+    y: -12.3974
+    z: 0.0
+    yaw: 1.570796
+  object_pose:
+    frame_id: map
+    x: -7.19806
+    y: -12.1674
+    yaw: 1.570796
+keyboard_1:
+  type: Keyboard
+  webots_name: null
+  webots_pose:
+    x: -6.961739
+    y: -12.493036
+    z: 0.71
+    yaw: 1.308996
+  object_pose:
+    frame_id: map
+    x: -6.901739
+    y: -12.263036
+    yaw: 1.308996
+monitor_1:
+  type: Monitor
+  webots_name: null
+  webots_pose:
+    x: -6.969058
+    y: -12.713729
+    z: 0.71
+    yaw: 1.570796
+  object_pose:
+    frame_id: map
+    x: -6.909058
+    y: -12.483729
+    yaw: 1.570796
+computermouse_1:
+  type: ComputerMouse
+  webots_name: null
+  webots_pose:
+    x: -7.18179
+    y: -12.288087
+    z: 0.709926
+    yaw: -1.832497
+  object_pose:
+    frame_id: map
+    x: -7.12179
+    y: -12.058087
+    yaw: -1.832497
+radiator_1_2:
+  type: Radiator
+  webots_name: radiator(1)
+  webots_pose:
+    x: -0.28
+    y: -1.53
+    z: 0.36
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -0.22
+    y: -1.3
+    yaw: 3.14159
+wall_2:
+  type: Wall
+  webots_name: wall 2
+  webots_pose:
+    x: 0.0
+    y: -4.57
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: 0.06
+    y: -4.34
+    yaw: 0.0
+wall_2_1:
+  type: Wall
+  webots_name: wall 2(1)
+  webots_pose:
+    x: 0.0
+    y: -12.32
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: 0.06
+    y: -12.09
+    yaw: 0.0
+wall_2_2:
+  type: Wall
+  webots_name: wall 2(2)
+  webots_pose:
+    x: 0.0
+    y: -9.18
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: 0.06
+    y: -8.95
+    yaw: 0.0
+wall_3_3:
+  type: Wall
+  webots_name: wall 3(3)
+  webots_pose:
+    x: -9.9
+    y: -3.48
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -9.84
+    y: -3.25
+    yaw: 0.0
+wall_3_1:
+  type: Wall
+  webots_name: wall 3(1)
+  webots_pose:
+    x: -9.9
+    y: -10.41
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -9.84
+    y: -10.18
+    yaw: 0.0
+wall_3_4:
+  type: Wall
+  webots_name: wall 3(4)
+  webots_pose:
+    x: -9.9
+    y: -6.47
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -9.84
+    y: -6.24
+    yaw: 0.0
+wall_5:
+  type: Wall
+  webots_name: wall 5
+  webots_pose:
+    x: -3.8
+    y: 0.0
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -3.74
+    y: 0.23
+    yaw: 1.5708
+wall_6:
+  type: Wall
+  webots_name: wall 6
+  webots_pose:
+    x: -10.65
+    y: 0.0
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -10.59
+    y: 0.23
+    yaw: 1.5708
+wall_3_2:
+  type: Wall
+  webots_name: wall 3(2)
+  webots_pose:
+    x: -12.4
+    y: -1.88
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -12.34
+    y: -1.65
+    yaw: 0.0
+wall_7:
+  type: Wall
+  webots_name: wall 7
+  webots_pose:
+    x: -6.96999
+    y: -8.14
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -6.90999
+    y: -7.91
+    yaw: 0.0
+wall_7_2:
+  type: Wall
+  webots_name: wall 7(2)
+  webots_pose:
+    x: -8.42
+    y: -6.6
+    z: 0.0
+    yaw: -1.570793
+  object_pose:
+    frame_id: map
+    x: -8.36
+    y: -6.37
+    yaw: -1.570793
+wall_7_6:
+  type: Wall
+  webots_name: wall 7(6)
+  webots_pose:
+    x: -3.369987
+    y: -10.679991
+    z: 0.0
+    yaw: -3.141589
+  object_pose:
+    frame_id: map
+    x: -3.309987
+    y: -10.449991
+    yaw: -3.141589
+wall_7_9:
+  type: Wall
+  webots_name: wall 7(9)
+  webots_pose:
+    x: -5.58999
+    y: -10.73
+    z: 0.0
+    yaw: -3.141589
+  object_pose:
+    frame_id: map
+    x: -5.52999
+    y: -10.5
+    yaw: -3.141589
+wall_7_7:
+  type: Wall
+  webots_name: wall 7(7)
+  webots_pose:
+    x: -9.25
+    y: -13.12
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -9.19
+    y: -12.89
+    yaw: 1.5708
+wall_7_12:
+  type: Wall
+  webots_name: wall 7(12)
+  webots_pose:
+    x: -6.1
+    y: -13.12
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -6.04
+    y: -12.89
+    yaw: 1.5708
+wall_7_13:
+  type: Wall
+  webots_name: wall 7(13)
+  webots_pose:
+    x: -2.1
+    y: -13.12
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -2.04
+    y: -12.89
+    yaw: 1.5708
+wall_7_3:
+  type: Wall
+  webots_name: wall 7(3)
+  webots_pose:
+    x: -8.42
+    y: -8.43
+    z: 0.0
+    yaw: -1.570793
+  object_pose:
+    frame_id: map
+    x: -8.36
+    y: -8.2
+    yaw: -1.570793
+door_1:
+  type: Door
+  webots_name: null
+  webots_pose:
+    x: -6.24
+    y: -8.43
+    z: 0.0
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -6.18
+    y: -8.2
+    yaw: -1.570795
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+door_6:
+  type: Door
+  webots_name: door(6)
+  webots_pose:
+    x: -3.89
+    y: -3.95
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -3.83
+    y: -3.72
+    yaw: 0.0
+  navigation_poses:
+  - &id015
+    frame_id: map
+    x: -3.33
+    y: -3.72
+    yaw: 3.141593
+  - frame_id: map
+    x: -3.36806
+    y: -3.528658
+    yaw: -2.748894
+  - frame_id: map
+    x: -3.36806
+    y: -3.911342
+    yaw: 2.748894
+  - frame_id: map
+    x: -3.18
+    y: -3.72
+    yaw: 3.141593
+  - frame_id: map
+    x: -3.229478
+    y: -3.471256
+    yaw: -2.748894
+  - frame_id: map
+    x: -3.370381
+    y: -4.179619
+    yaw: 2.356194
+  - frame_id: map
+    x: -3.229478
+    y: -3.968744
+    yaw: 2.748894
+  - frame_id: map
+    x: -3.03
+    y: -3.72
+    yaw: 3.141593
+  - frame_id: map
+    x: -3.090896
+    y: -3.413853
+    yaw: -2.748894
+  - frame_id: map
+    x: -3.264315
+    y: -4.285685
+    yaw: 2.356194
+  - frame_id: map
+    x: -3.090896
+    y: -4.026147
+    yaw: 2.748894
+  preferred_navigation_pose: *id015
+  navigation_pose: *id015
+  navigation_pose_source: automatic
+door_5:
+  type: Door
+  webots_name: door(5)
+  webots_pose:
+    x: -4.94
+    y: -8.43
+    z: 0.0
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -4.88
+    y: -8.2
+    yaw: -1.570795
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+door_3:
+  type: Door
+  webots_name: door(3)
+  webots_pose:
+    x: -6.97
+    y: -7.24
+    z: 0.0
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -6.91
+    y: -7.01
+    yaw: 3.14159
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+door_4:
+  type: Door
+  webots_name: door(4)
+  webots_pose:
+    x: -0.91
+    y: -6.6
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -0.85
+    y: -6.37
+    yaw: 1.5708
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+door_1_2:
+  type: Door
+  webots_name: door(1)
+  webots_pose:
+    x: 0.0
+    y: -7.49
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: 0.06
+    y: -7.26
+    yaw: 0.0
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+door_2:
+  type: Door
+  webots_name: door(2)
+  webots_pose:
+    x: -2.14977
+    y: -8.43
+    z: 0.0
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -2.08977
+    y: -8.2
+    yaw: -1.570795
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+wall_7_1:
+  type: Wall
+  webots_name: wall 7(1)
+  webots_pose:
+    x: -2.93
+    y: -6.6
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -2.87
+    y: -6.37
+    yaw: 1.5708
+wall_7_14:
+  type: Wall
+  webots_name: wall 7(14)
+  webots_pose:
+    x: -0.29
+    y: -6.6
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -0.23
+    y: -6.37
+    yaw: 1.5708
+wall_7_8:
+  type: Wall
+  webots_name: wall 7(8)
+  webots_pose:
+    x: -1.94
+    y: -5.02
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -1.88
+    y: -4.79
+    yaw: 1.5708
+wall_7_10:
+  type: Wall
+  webots_name: wall 7(10)
+  webots_pose:
+    x: -3.837798
+    y: -5.2702
+    z: 0.26218
+    yaw: -3.141593
+  object_pose:
+    frame_id: map
+    x: -3.777798
+    y: -5.0402
+    yaw: 3.141592
+wall_7_4:
+  type: Wall
+  webots_name: wall 7(4)
+  webots_pose:
+    x: -0.8
+    y: -8.43
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -0.74
+    y: -8.2
+    yaw: 1.5708
+wall_7_5:
+  type: Wall
+  webots_name: wall 7(5)
+  webots_pose:
+    x: -3.55
+    y: -8.43
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -3.49
+    y: -8.2
+    yaw: 1.5708
+wall_7_11:
+  type: Wall
+  webots_name: wall 7(11)
+  webots_pose:
+    x: -6.78
+    y: -8.43
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -6.72
+    y: -8.2
+    yaw: 1.5708
+wall_9:
+  type: Wall
+  webots_name: wall 9
+  webots_pose:
+    x: -3.89
+    y: -1.8
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -3.83
+    y: -1.57
+    yaw: 0.0
+wall_9_1:
+  type: Wall
+  webots_name: wall 9(1)
+  webots_pose:
+    x: -3.89
+    y: -4.81
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -3.83
+    y: -4.58
+    yaw: 0.0
+ceiling_light_1:
+  type: CeilingLight
+  webots_name: ceiling light 1
+  webots_pose:
+    x: -1.3341
+    y: -2.47061
+    z: 2.4
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -1.2741
+    y: -2.24061
+    yaw: 0.0
+ceiling_light_2:
+  type: CeilingLight
+  webots_name: ceiling light 2
+  webots_pose:
+    x: -10.1237
+    y: -1.47922
+    z: 2.4
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -10.0637
+    y: -1.24922
+    yaw: 0.0
+ceiling_light_2_5:
+  type: CeilingLight
+  webots_name: ceiling light 2(5)
+  webots_pose:
+    x: -7.411517
+    y: -4.344069
+    z: 2.4
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -7.351517
+    y: -4.114069
+    yaw: 0.0
+ceiling_light_2_1:
+  type: CeilingLight
+  webots_name: ceiling light 2(1)
+  webots_pose:
+    x: -1.794183
+    y: -7.551592
+    z: 2.4
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -1.734183
+    y: -7.321592
+    yaw: 0.0
+ceiling_light_2_2:
+  type: CeilingLight
+  webots_name: ceiling light 2(2)
+  webots_pose:
+    x: -5.364183
+    y: -7.551592
+    z: 2.4
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -5.304183
+    y: -7.321592
+    yaw: 0.0
+ceiling_light_2_3:
+  type: CeilingLight
+  webots_name: ceiling light 2(3)
+  webots_pose:
+    x: -7.622198
+    y: -10.602906
+    z: 2.4
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -7.562198
+    y: -10.372906
+    yaw: 0.0
+ceiling_light_2_4:
+  type: CeilingLight
+  webots_name: ceiling light 2(4)
+  webots_pose:
+    x: -1.945004
+    y: -10.56734
+    z: 2.4
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -1.885004
+    y: -10.33734
+    yaw: 0.0
+floorlight_1:
+  type: FloorLight
+  webots_name: null
+  webots_pose:
+    x: -4.770031
+    y: -0.496157
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -4.710031
+    y: -0.266157
+    yaw: 0.0
+floor_light_1:
+  type: FloorLight
+  webots_name: floor light(1)
+  webots_pose:
+    x: -0.590395
+    y: -12.404583
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -0.530395
+    y: -12.174583
+    yaw: 0.0
+table_1:
+  type: Table
+  webots_name: table(1)
+  webots_pose:
+    x: -10.415072
+    y: -1.632191
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -10.355072
+    y: -1.402191
+    yaw: 1.5708
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+carafe_1:
+  type: Carafe
+  webots_name: null
+  webots_pose:
+    x: -11.138368
+    y: -1.594386
+    z: 0.738707
+    yaw: -1.832597
+  object_pose:
+    frame_id: map
+    x: -11.078368
+    y: -1.364386
+    yaw: -1.832597
+plate_1:
+  type: Plate
+  webots_name: null
+  webots_pose:
+    x: -11.5061
+    y: -1.63786
+    z: 0.739889
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -11.4461
+    y: -1.40786
+    yaw: 0.0
+knife_1:
+  type: Knife
+  webots_name: null
+  webots_pose:
+    x: -2.286861
+    y: -3.75127
+    z: 0.75908
+    yaw: 3.0e-06
+  object_pose:
+    frame_id: map
+    x: -2.226861
+    y: -3.52127
+    yaw: 3.0e-06
+glass_1:
+  type: Glass
+  webots_name: null
+  webots_pose:
+    x: -1.51333
+    y: -2.90459
+    z: 0.758937
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -1.45333
+    y: -2.67459
+    yaw: 0.0
+waterbottle_1:
+  type: WaterBottle
+  webots_name: null
+  webots_pose:
+    x: -1.70218
+    y: -3.2776
+    z: 0.757628
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -1.64218
+    y: -3.0476
+    yaw: 0.0
+glass_8:
+  type: Glass
+  webots_name: glass(8)
+  webots_pose:
+    x: -2.13663
+    y: -3.69948
+    z: 0.758937
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -2.07663
+    y: -3.46948
+    yaw: 0.0
+knife_1_2:
+  type: Knife
+  webots_name: knife(1)
+  webots_pose:
+    x: -1.57524
+    y: -2.767289
+    z: 0.75908
+    yaw: -1.570791
+  object_pose:
+    frame_id: map
+    x: -1.51524
+    y: -2.537289
+    yaw: -1.570791
+fork_1:
+  type: Fork
+  webots_name: null
+  webots_pose:
+    x: -2.261048
+    y: -3.51102
+    z: 0.761115
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -2.201048
+    y: -3.28102
+    yaw: 0.0
+fork_1_2:
+  type: Fork
+  webots_name: fork(1)
+  webots_pose:
+    x: -1.32326
+    y: -2.767842
+    z: 0.761115
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -1.26326
+    y: -2.537842
+    yaw: -1.570795
+plate_8:
+  type: Plate
+  webots_name: plate(8)
+  webots_pose:
+    x: -9.3661
+    y: -1.63786
+    z: 0.739889
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -9.3061
+    y: -1.40786
+    yaw: 0.0
+plate_2:
+  type: Plate
+  webots_name: plate(2)
+  webots_pose:
+    x: -11.1892
+    y: -1.29784
+    z: 0.739889
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -11.1292
+    y: -1.06784
+    yaw: 0.0
+plate_3:
+  type: Plate
+  webots_name: plate(3)
+  webots_pose:
+    x: -11.1892
+    y: -1.92784
+    z: 0.739889
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -11.1292
+    y: -1.69784
+    yaw: 0.0
+plate_4:
+  type: Plate
+  webots_name: plate(4)
+  webots_pose:
+    x: -10.4792
+    y: -1.92784
+    z: 0.739889
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -10.4192
+    y: -1.69784
+    yaw: 0.0
+plate_5:
+  type: Plate
+  webots_name: plate(5)
+  webots_pose:
+    x: -10.4792
+    y: -1.30784
+    z: 0.739889
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -10.4192
+    y: -1.07784
+    yaw: 0.0
+plate_6:
+  type: Plate
+  webots_name: plate(6)
+  webots_pose:
+    x: -9.7692
+    y: -1.30784
+    z: 0.739889
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -9.7092
+    y: -1.07784
+    yaw: 0.0
+plate_7:
+  type: Plate
+  webots_name: plate(7)
+  webots_pose:
+    x: -9.7692
+    y: -1.94784
+    z: 0.739889
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -9.7092
+    y: -1.71784
+    yaw: 0.0
+wineglass_1:
+  type: Wineglass
+  webots_name: null
+  webots_pose:
+    x: -9.6817
+    y: -1.819648
+    z: 0.739568
+    yaw: -1.0e-06
+  object_pose:
+    frame_id: map
+    x: -9.6217
+    y: -1.589648
+    yaw: -1.0e-06
+wine_glass_7:
+  type: Wineglass
+  webots_name: wine glass(7)
+  webots_pose:
+    x: -9.493504
+    y: -1.550496
+    z: 0.739565
+    yaw: 1.0e-06
+  object_pose:
+    frame_id: map
+    x: -9.433504
+    y: -1.320496
+    yaw: 1.0e-06
+wine_glass_1:
+  type: Wineglass
+  webots_name: wine glass(1)
+  webots_pose:
+    x: -10.3817
+    y: -1.819692
+    z: 0.739567
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -10.3217
+    y: -1.589692
+    yaw: 0.0
+wine_glass_2:
+  type: Wineglass
+  webots_name: wine glass(2)
+  webots_pose:
+    x: -11.0617
+    y: -1.819692
+    z: 0.739567
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -11.0017
+    y: -1.589692
+    yaw: 0.0
+wine_glass_3:
+  type: Wineglass
+  webots_name: wine glass(3)
+  webots_pose:
+    x: -11.405
+    y: -1.755688
+    z: 0.739568
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -11.345
+    y: -1.525688
+    yaw: 0.0
+wine_glass_6:
+  type: Wineglass
+  webots_name: wine glass(6)
+  webots_pose:
+    x: -11.301678
+    y: -1.41967
+    z: 0.739567
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -11.241678
+    y: -1.18967
+    yaw: 0.0
+wine_glass_4:
+  type: Wineglass
+  webots_name: wine glass(4)
+  webots_pose:
+    x: -10.6317
+    y: -1.419692
+    z: 0.739567
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -10.5717
+    y: -1.189692
+    yaw: 0.0
+wine_glass_5:
+  type: Wineglass
+  webots_name: wine glass(5)
+  webots_pose:
+    x: -9.8817
+    y: -1.419692
+    z: 0.739567
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -9.8217
+    y: -1.189692
+    yaw: 0.0
+carafe_1_2:
+  type: Carafe
+  webots_name: carafe(1)
+  webots_pose:
+    x: -9.780522
+    y: -1.641352
+    z: 0.738726
+    yaw: 0.785396
+  object_pose:
+    frame_id: map
+    x: -9.720522
+    y: -1.411352
+    yaw: 0.785396
+table_2:
+  type: Table
+  webots_name: table(2)
+  webots_pose:
+    x: -9.55609
+    y: -9.09224
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -9.49609
+    y: -8.86224
+    yaw: 0.0
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+table_3:
+  type: Table
+  webots_name: table(3)
+  webots_pose:
+    x: -9.56036
+    y: -11.3804
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -9.50036
+    y: -11.1504
+    yaw: 0.0
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+table_4:
+  type: Table
+  webots_name: table(4)
+  webots_pose:
+    x: -2.74109
+    y: -12.7454
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -2.68109
+    y: -12.5154
+    yaw: 0.0
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+book_5_2:
+  type: Book
+  webots_name: null
+  webots_pose:
+    x: -2.73375
+    y: -12.639298
+    z: 0.409762
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -2.67375
+    y: -12.409298
+    yaw: -1.570795
+chair_1_1:
+  type: Chair
+  webots_name: chair 1(1)
+  webots_pose:
+    x: -11.745298
+    y: -1.636645
+    z: -0.008927
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -11.685298
+    y: -1.406645
+    yaw: 0.0
+chair_1_2:
+  type: Chair
+  webots_name: chair 1(2)
+  webots_pose:
+    x: -11.172214
+    y: -1.29268
+    z: -0.008927
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -11.112214
+    y: -1.06268
+    yaw: -1.570795
+chair_1_5:
+  type: Chair
+  webots_name: chair 1(5)
+  webots_pose:
+    x: -11.160617
+    y: -1.997738
+    z: -0.008927
+    yaw: 1.570705
+  object_pose:
+    frame_id: map
+    x: -11.100617
+    y: -1.767738
+    yaw: 1.570705
+chair_1_6:
+  type: Chair
+  webots_name: chair 1(6)
+  webots_pose:
+    x: -10.450617
+    y: -1.997809
+    z: -0.008927
+    yaw: 1.570705
+  object_pose:
+    frame_id: map
+    x: -10.390617
+    y: -1.767809
+    yaw: 1.570705
+chair_1_7:
+  type: Chair
+  webots_name: chair 1(7)
+  webots_pose:
+    x: -9.750617
+    y: -1.997879
+    z: -0.008927
+    yaw: 1.570705
+  object_pose:
+    frame_id: map
+    x: -9.690617
+    y: -1.767879
+    yaw: 1.570705
+chair_1_3:
+  type: Chair
+  webots_name: chair 1(3)
+  webots_pose:
+    x: -9.774799
+    y: -1.262682
+    z: -0.008927
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -9.714799
+    y: -1.032682
+    yaw: -1.570795
+chair_1_4:
+  type: Chair
+  webots_name: chair 1(4)
+  webots_pose:
+    x: -10.485493
+    y: -1.28584
+    z: -0.008927
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -10.425493
+    y: -1.05584
+    yaw: -1.570795
+chair_4_1:
+  type: Chair
+  webots_name: chair 4(1)
+  webots_pose:
+    x: -9.203731
+    y: -1.595154
+    z: -0.008927
+    yaw: 3.1415
+  object_pose:
+    frame_id: map
+    x: -9.143731
+    y: -1.365154
+    yaw: 3.1415
+fruitbowl_1:
+  type: FruitBowl
+  webots_name: null
+  webots_pose:
+    x: -10.127323
+    y: -1.641748
+    z: 0.739406
+    yaw: -0.944858
+  object_pose:
+    frame_id: map
+    x: -10.067323
+    y: -1.411748
+    yaw: -0.944858
+apple_1:
+  type: Apple
+  webots_name: null
+  webots_pose:
+    x: -10.195567
+    y: -1.620469
+    z: 0.798894
+    yaw: 0.097125
+  object_pose:
+    frame_id: map
+    x: -10.135567
+    y: -1.390469
+    yaw: 0.097125
+orange_1:
+  type: Orange
+  webots_name: null
+  webots_pose:
+    x: -1.436123
+    y: -3.507713
+    z: 0.818837
+    yaw: 1.557941
+  object_pose:
+    frame_id: map
+    x: -1.376123
+    y: -3.277713
+    yaw: 1.557941
+orange_2:
+  type: Orange
+  webots_name: orange(2)
+  webots_pose:
+    x: -1.458544
+    y: -3.647341
+    z: 0.818837
+    yaw: -1.42677
+  object_pose:
+    frame_id: map
+    x: -1.398544
+    y: -3.417341
+    yaw: -1.42677
+orange_3:
+  type: Orange
+  webots_name: orange(3)
+  webots_pose:
+    x: -1.377518
+    y: -3.588738
+    z: 0.81876
+    yaw: 0.336836
+  object_pose:
+    frame_id: map
+    x: -1.317518
+    y: -3.358738
+    yaw: 0.336836
+orange_1_2:
+  type: Orange
+  webots_name: orange(1)
+  webots_pose:
+    x: -10.114526
+    y: -1.561883
+    z: 0.798878
+    yaw: -0.144671
+  object_pose:
+    frame_id: map
+    x: -10.054526
+    y: -1.331883
+    yaw: -0.144671
+fruit_bowl_1:
+  type: FruitBowl
+  webots_name: fruit bowl(1)
+  webots_pose:
+    x: -1.457395
+    y: -3.575901
+    z: 0.759294
+    yaw: -0.944615
+  object_pose:
+    frame_id: map
+    x: -1.397395
+    y: -3.345901
+    yaw: -0.944615
+table_5:
+  type: Table
+  webots_name: null
+  webots_pose:
+    x: -11.0871
+    y: -6.84245
+    z: 0.02
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -11.0271
+    y: -6.61245
+    yaw: -1.570795
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+table_5_2:
+  type: Solid
+  webots_name: table(5)
+  webots_pose:
+    x: -6.014093
+    y: -2.658387
+    z: 0.02
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -5.954093
+    y: -2.428387
+    yaw: 0.0
+main_frame:
+  type: SolidBox
+  webots_name: main frame
+  webots_pose:
+    x: -6.014093
+    y: -2.658387
+    z: 0.525
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -5.954093
+    y: -2.428387
+    yaw: 0.0
+foot_1:
+  type: SolidBox
+  webots_name: foot 1
+  webots_pose:
+    x: -5.664093
+    y: -2.108387
+    z: 0.26
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -5.604093
+    y: -1.878387
+    yaw: 0.0
+foot_2:
+  type: SolidBox
+  webots_name: foot 2
+  webots_pose:
+    x: -6.364093
+    y: -2.108387
+    z: 0.26
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -6.304093
+    y: -1.878387
+    yaw: 0.0
+foot_3:
+  type: SolidBox
+  webots_name: foot 3
+  webots_pose:
+    x: -5.664093
+    y: -3.208387
+    z: 0.26
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -5.604093
+    y: -2.978387
+    yaw: 0.0
+foot_4:
+  type: SolidBox
+  webots_name: foot 4
+  webots_pose:
+    x: -6.364093
+    y: -3.208387
+    z: 0.26
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -6.304093
+    y: -2.978387
+    yaw: 0.0
+solid_3:
+  type: Solid
+  webots_name: solid(3)
+  webots_pose:
+    x: -6.17
+    y: -3.24
+    z: 0.5
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -6.11
+    y: -3.01
+    yaw: 0.0
+beerbottle_1:
+  type: BeerBottle
+  webots_name: null
+  webots_pose:
+    x: -6.25675
+    y: -2.276757
+    z: 0.550433
+    yaw: 1.570797
+  object_pose:
+    frame_id: map
+    x: -6.19675
+    y: -2.046757
+    yaw: 1.570797
+can_1:
+  type: Can
+  webots_name: null
+  webots_pose:
+    x: -6.286763
+    y: -2.554763
+    z: 0.611043
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -6.226763
+    y: -2.324763
+    yaw: 0.0
+beer_bottle_1:
+  type: BeerBottle
+  webots_name: beer bottle(1)
+  webots_pose:
+    x: -5.83644
+    y: -2.197176
+    z: 0.550434
+    yaw: -2.879796
+  object_pose:
+    frame_id: map
+    x: -5.77644
+    y: -1.967176
+    yaw: -2.879796
+beer_bottle_2:
+  type: BeerBottle
+  webots_name: beer bottle(2)
+  webots_pose:
+    x: -6.31966
+    y: -2.887795
+    z: 0.550434
+    yaw: 0.261796
+  object_pose:
+    frame_id: map
+    x: -6.25966
+    y: -2.657795
+    yaw: 0.261796
+armchair_1:
+  type: Armchair
+  webots_name: armchair(1)
+  webots_pose:
+    x: -2.57082
+    y: -9.80788
+    z: 0.0
+    yaw: -0.211515
+  object_pose:
+    frame_id: map
+    x: -2.51082
+    y: -9.57788
+    yaw: -0.211515
+armchair_4:
+  type: Armchair
+  webots_name: armchair(4)
+  webots_pose:
+    x: -6.495947
+    y: -4.354154
+    z: 0.0
+    yaw: 1.359285
+  object_pose:
+    frame_id: map
+    x: -6.435947
+    y: -4.124154
+    yaw: 1.359285
+armchair_3:
+  type: Armchair
+  webots_name: armchair(3)
+  webots_pose:
+    x: -9.0281
+    y: -12.1858
+    z: 0.0
+    yaw: 0.573885
+  object_pose:
+    frame_id: map
+    x: -8.9681
+    y: -11.9558
+    yaw: 0.573885
+sofa_1:
+  type: Sofa
+  webots_name: null
+  webots_pose:
+    x: -5.920734
+    y: -0.688706
+    z: 0.0
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -5.860734
+    y: -0.458706
+    yaw: -1.570795
+sofa_2:
+  type: Solid
+  webots_name: sofa 2
+  webots_pose:
+    x: -7.308742
+    y: -2.513508
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -7.248742
+    y: -2.283508
+    yaw: 0.0
+sofa_2_1:
+  type: Sofa
+  webots_name: sofa 2(1)
+  webots_pose:
+    x: -11.1117
+    y: -8.1052
+    z: 0.0
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -11.0517
+    y: -7.8752
+    yaw: 1.5708
+carpet:
+  type: Solid
+  webots_name: carpet
+  webots_pose:
+    x: -5.803488
+    y: -2.55795
+    z: -0.015
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -5.743488
+    y: -2.32795
+    yaw: -1.570795
+bunchofsunflowers_1:
+  type: BunchOfSunFlowers
+  webots_name: null
+  webots_pose:
+    x: -7.069851
+    y: -0.484029
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -7.009851
+    y: -0.254029
+    yaw: 0.0
+cabinet_4_7:
+  type: Cabinet
+  webots_name: cabinet 4
+  webots_pose:
+    x: -4.073264
+    y: -0.6771
+    z: 0.0
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -4.013264
+    y: -0.4471
+    yaw: 3.14159
+  navigation_poses:
+  - &id016
+    frame_id: map
+    x: -3.707117
+    y: -1.186204
+    yaw: 1.963495
+  preferred_navigation_pose: *id016
+  navigation_pose: *id016
+  navigation_pose_source: automatic
+pottedtree_1:
+  type: PottedTree
+  webots_name: null
+  webots_pose:
+    x: -11.870924
+    y: -0.53674
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -11.810924
+    y: -0.30674
+    yaw: 0.0
+potted_tree_1:
+  type: PottedTree
+  webots_name: potted tree(1)
+  webots_pose:
+    x: -6.025363
+    y: -12.409485
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -5.965363
+    y: -12.179485
+    yaw: 0.0
+portraitpainting_1:
+  type: PortraitPainting
+  webots_name: null
+  webots_pose:
+    x: -12.21
+    y: -1.8
+    z: 1.6
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -12.15
+    y: -1.57
+    yaw: 0.0
+portrait_painting_1:
+  type: PortraitPainting
+  webots_name: portrait painting(1)
+  webots_pose:
+    x: -3.28921
+    y: -6.76837
+    z: 1.6
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -3.22921
+    y: -6.53837
+    yaw: -1.570795
+landscapepainting_1:
+  type: LandscapePainting
+  webots_name: null
+  webots_pose:
+    x: -10.3223
+    y: -0.178447
+    z: 1.62868
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -10.2623
+    y: 0.051553
+    yaw: -1.570795
+landscape_painting_1:
+  type: LandscapePainting
+  webots_name: landscape painting(1)
+  webots_pose:
+    x: -2.295442
+    y: -4.850145
+    z: 1.62868
+    yaw: 1.5708
+  object_pose:
+    frame_id: map
+    x: -2.235442
+    y: -4.620145
+    yaw: 1.5708
+television_1:
+  type: Television
+  webots_name: null
+  webots_pose:
+    x: -4.04287
+    y: -2.45471
+    z: 1.5596
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -3.98287
+    y: -2.22471
+    yaw: 3.14159
+fireextinguisher_1:
+  type: FireExtinguisher
+  webots_name: null
+  webots_pose:
+    x: -0.442367
+    y: -8.158932
+    z: -0.009384
+    yaw: 2.095778
+  object_pose:
+    frame_id: map
+    x: -0.382367
+    y: -7.928932
+    yaw: 2.095778
+clock_1:
+  type: Clock
+  webots_name: null
+  webots_pose:
+    x: -6.165
+    y: -0.155075
+    z: 1.72
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -6.105
+    y: 0.074925
+    yaw: -1.570795
+officetelephone_1:
+  type: OfficeTelephone
+  webots_name: null
+  webots_pose:
+    x: -4.496782
+    y: -6.58
+    z: 1.061128
+    yaw: 3.14159
+  object_pose:
+    frame_id: map
+    x: -4.436782
+    y: -6.35
+    yaw: 3.14159
+washingmachine_1:
+  type: WashingMachine
+  webots_name: null
+  webots_pose:
+    x: -2.00701
+    y: -5.63126
+    z: 0.51
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -1.94701
+    y: -5.40126
+    yaw: 0.0
+sink_2:
+  type: BathroomSink
+  webots_name: sink(2)
+  webots_pose:
+    x: -5.443874
+    y: -9.989589
+    z: 1.07
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -5.383874
+    y: -9.759589
+    yaw: 0.0
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+bathtube_1:
+  type: Bathtube
+  webots_name: null
+  webots_pose:
+    x: -4.96001
+    y: -11.9954
+    z: 0.0
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -4.90001
+    y: -11.7654
+    yaw: 0.0
+bathroomsink_2:
+  type: BathroomSink
+  webots_name: null
+  webots_pose:
+    x: -8.35
+    y: -6.75
+    z: 1.07
+    yaw: -1.570795
+  object_pose:
+    frame_id: map
+    x: -8.29
+    y: -6.52
+    yaw: -1.570795
+  navigation_poses: []
+  preferred_navigation_pose: null
+  navigation_pose: null
+  navigation_pose_source: needs_manual
+ceilingspotlight_1:
+  type: CeilingSpotLight
+  webots_name: null
+  webots_pose:
+    x: -7.72
+    y: -7.51
+    z: 2.36
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -7.66
+    y: -7.28
+    yaw: 0.0
+ceiling_light_5:
+  type: CeilingSpotLight
+  webots_name: ceiling light(5)
+  webots_pose:
+    x: -4.28
+    y: -6.46
+    z: 0.23
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -4.22
+    y: -6.23
+    yaw: 0.0
+ceiling_light_6:
+  type: CeilingSpotLight
+  webots_name: ceiling light(6)
+  webots_pose:
+    x: -3.78
+    y: -6.46
+    z: 0.61
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -3.72
+    y: -6.23
+    yaw: 0.0
+ceiling_light_7:
+  type: CeilingSpotLight
+  webots_name: ceiling light(7)
+  webots_pose:
+    x: -3.02
+    y: -6.46
+    z: 1.14
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -2.96
+    y: -6.23
+    yaw: 0.0
+ceiling_light_8:
+  type: CeilingSpotLight
+  webots_name: ceiling light(8)
+  webots_pose:
+    x: -2.29
+    y: -6.46
+    z: 1.69
+    yaw: -0.0
+  object_pose:
+    frame_id: map
+    x: -2.23
+    y: -6.23
+    yaw: 0.0
+ceiling_light_2_6:
+  type: CeilingSpotLight
+  webots_name: ceiling light(2)
+  webots_pose:
+    x: -4.52
+    y: -9.1
+    z: 2.36
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -4.46
+    y: -8.87
+    yaw: 0.0
+ceiling_light_3:
+  type: CeilingSpotLight
+  webots_name: ceiling light(3)
+  webots_pose:
+    x: -4.52
+    y: -10.4
+    z: 2.36
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -4.46
+    y: -10.17
+    yaw: 0.0
+ceiling_light_4:
+  type: CeilingSpotLight
+  webots_name: ceiling light(4)
+  webots_pose:
+    x: -4.52
+    y: -11.68
+    z: 2.36
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -4.46
+    y: -11.45
+    yaw: 0.0
+ceiling_light_1_2:
+  type: CeilingSpotLight
+  webots_name: ceiling light(1)
+  webots_pose:
+    x: -8.7
+    y: -7.51
+    z: 2.36
+    yaw: 0.0
+  object_pose:
+    frame_id: map
+    x: -8.64
+    y: -7.28
+    yaw: 0.0

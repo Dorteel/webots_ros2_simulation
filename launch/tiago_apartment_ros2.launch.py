@@ -4,16 +4,18 @@ from pathlib import Path
 import socket
 
 from launch import LaunchDescription
-from launch.actions import AppendEnvironmentVariable, ExecuteProcess
+from launch.actions import AppendEnvironmentVariable, DeclareLaunchArgument, ExecuteProcess, OpaqueFunction
 from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration
 from webots_ros2_driver.webots_controller import WebotsController
 from webots_ros2_driver.webots_launcher import Ros2SupervisorLauncher
 from webots_ros2_driver.wait_for_controller_connection import WaitForControllerConnection
 
 
-def generate_launch_description():
+def _start_apartment(context):
     project = Path(__file__).resolve().parents[1]
-    robot_urdf = project / 'config' / 'tiago_webots_wheels.urdf'
+    robot_urdf = Path(LaunchConfiguration('robot_urdf').perform(context))
+    world = Path(LaunchConfiguration('world').perform(context))
     # Give Webots and its external controllers the same free port, even if an older simulation is open.
     with socket.socket() as probe:
         probe.bind(('127.0.0.1', 0))
@@ -25,7 +27,7 @@ def generate_launch_description():
             '--batch',
             f'--port={port}',
             '--mode=realtime',
-            str(project / 'worlds' / 'complete_apartment_tiago_ros2.wbt'),
+            str(world),
         ],
         output='screen',
     )
@@ -56,7 +58,7 @@ def generate_launch_description():
         )
         for name in ('diffdrive_controller', 'joint_state_broadcaster')
     ]
-    return LaunchDescription([
+    return [
         AppendEnvironmentVariable('PYTHONPATH', str(project / 'config'), prepend=True),
         webots,
         Ros2SupervisorLauncher(port=port),
@@ -74,4 +76,13 @@ def generate_launch_description():
         ),
         driver,
         WaitForControllerConnection(target_driver=driver, nodes_to_start=spawners),
+    ]
+
+
+def generate_launch_description():
+    project = Path(__file__).resolve().parents[1]
+    return LaunchDescription([
+        DeclareLaunchArgument('world', default_value=str(project / 'worlds/complete_apartment_tiago_ros2.wbt')),
+        DeclareLaunchArgument('robot_urdf', default_value=str(project / 'config/tiago_webots_wheels.urdf')),
+        OpaqueFunction(function=_start_apartment),
     ])

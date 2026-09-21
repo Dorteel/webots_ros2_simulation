@@ -16,6 +16,36 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /map
       Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Name: TIAGo Base
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot_description
+      Links:
+        All Links Enabled: true
+      Visual Enabled: true
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: true
+      Frames:
+        All Enabled: true
+      Show Axes: true
+      Show Names: true
+      Marker Scale: 0.3
+      Value: true
+    - Class: rviz_default_plugins/Axes
+      Name: Base axes
+      Enabled: true
+      Reference Frame: base_link
+      Length: 0.5
+      Radius: 0.03
+      Value: true
     - Class: rviz_default_plugins/LaserScan
       Name: LaserScan
       Enabled: true
@@ -42,5 +72,7 @@ Visualization Manager:
     Current:
       Class: rviz_default_plugins/TopDownOrtho
       Name: Current View
-      Scale: 50
+      Scale: 75
+      X: -2.0
+      Y: -3.0
       Target Frame: <Fixed Frame>

@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<robot name="Tiago Webots">
+    <link name="base_link"><visual><geometry><cylinder radius="0.28" length="0.20"/></geometry><material name="blue"><color rgba="0.2 0.5 0.9 0.8"/></material></visual></link>
+    <webots>
+        <device reference="hokuyo" type="Lidar">
+            <ros>
+                <enabled>true</enabled>
+                <updateRate>10</updateRate>
+                <topicName>/scan</topicName>
+                <alwaysOn>true</alwaysOn>
+                <frameName>hokuyo</frameName>
+            </ros>
+        </device>
+        <plugin type="webots_ros2_control::Ros2Control" />
+    </webots>
+    <ros2_control name="WebotsControl" type="system">
+        <hardware>
+            <plugin>webots_ros2_control::Ros2ControlSystem</plugin>
+        </hardware>
+        <joint name="wheel_right_joint">
+            <state_interface name="position"/>
+            <command_interface name="velocity"/>
+        </joint>
+        <joint name="wheel_left_joint">
+            <state_interface name="position"/>
+            <command_interface name="velocity"/>
+        </joint>
+    </ros2_control>
+</robot>

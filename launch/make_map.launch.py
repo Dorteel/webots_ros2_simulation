@@ -14,9 +14,13 @@ def generate_launch_description():
     tiago_share = Path(get_package_share_directory('webots_ros2_tiago'))
     slam_share = Path(get_package_share_directory('slam_toolbox'))
 
-    # The robot launch provides Webots, /scan, /odom, and /clock.
+    # Mapping uses the same apartment and controls, with the base-only robot.
     apartment = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(str(project / 'launch' / 'tiago_apartment_ros2.launch.py'))
+        PythonLaunchDescriptionSource(str(project / 'launch' / 'tiago_apartment_ros2.launch.py')),
+        launch_arguments={
+            'world': str(project / 'worlds' / 'complete_apartment_tiago_mapping.wbt'),
+            'robot_urdf': str(project / 'config' / 'tiago_webots_mapping.urdf'),
+        }.items(),
     )
     mapping = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(str(slam_share / 'launch' / 'online_async_launch.py')),

@@ -1,0 +1,130 @@
+#VRML_SIM R2023b utf8
+
+PROTO Bread [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFString   name        "bread"
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+
+    children [
+
+      # --------------------------------------------------
+      # MAIN LOAF
+      # 20 cm long, ~10 cm wide, ~7.5 cm high
+      # --------------------------------------------------
+      Transform {
+        translation 0 0 0.0375
+        rotation 0 0 1 -1.5708
+        scale 1 1 0.75
+
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.62 0.30 0.10
+              roughness 0.9
+              metalness 0
+            }
+
+            geometry Capsule {
+              radius 0.05
+              height 0.10
+              subdivision 24
+            }
+          }
+        ]
+      }
+
+
+      # --------------------------------------------------
+      # BREAD SCORE / CUT 1
+      # --------------------------------------------------
+      Transform {
+        translation -0.05 0 0.074
+        rotation 0 0 1 -0.5
+
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.90 0.64 0.32
+              roughness 1
+              metalness 0
+            }
+
+            geometry Box {
+              size 0.010 0.035 0.0025
+            }
+          }
+        ]
+      }
+
+
+      # --------------------------------------------------
+      # BREAD SCORE / CUT 2
+      # --------------------------------------------------
+      Transform {
+        translation 0 0 0.074
+        rotation 0 0 1 -0.5
+
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.90 0.64 0.32
+              roughness 1
+              metalness 0
+            }
+
+            geometry Box {
+              size 0.010 0.035 0.0025
+            }
+          }
+        ]
+      }
+
+
+      # --------------------------------------------------
+      # BREAD SCORE / CUT 3
+      # --------------------------------------------------
+      Transform {
+        translation 0.05 0 0.074
+        rotation 0 0 1 -0.5
+
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.90 0.64 0.32
+              roughness 1
+              metalness 0
+            }
+
+            geometry Box {
+              size 0.010 0.035 0.0025
+            }
+          }
+        ]
+      }
+    ]
+
+
+    # Simple, stable collision geometry.
+    # Deliberately not identical to the visual mesh.
+    boundingObject Transform {
+      translation 0 0 0.035
+
+      children [
+        Box {
+          size 0.19 0.09 0.07
+        }
+      ]
+    }
+
+
+    physics Physics {
+      mass 0.35
+    }
+  }
+}
