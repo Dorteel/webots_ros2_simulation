@@ -1,7 +1,7 @@
 """ROS adapters for existing Supervisor place/open/close actions."""
 
 from rclpy.action import ActionServer
-from simulation_actions.action import Close, Open, Place, PlaceToObject
+from simulation_actions.action import Close, Open, Place, PlaceToObject, PlaceInContainer, PlaceNextTo
 
 from actions import execute_action
 
@@ -9,6 +9,8 @@ from actions import execute_action
 ACTION_TYPES = {
     'place': Place,
     'place_to_object': PlaceToObject,
+    'place_next_to': PlaceNextTo,
+    'place_in_container': PlaceInContainer,
     'open': Open,
     'close': Close,
 }
@@ -31,7 +33,7 @@ class FallbackActionServers:
         parameters = {'robot': request.robot, 'object': request.object}
         if name == 'place':
             parameters['coordinates'] = [request.x, request.y, request.z]
-        elif name == 'place_to_object':
+        elif name in ('place_to_object', 'place_next_to', 'place_in_container'):
             parameters['target'] = request.target
 
         feedback = action_type.Feedback()

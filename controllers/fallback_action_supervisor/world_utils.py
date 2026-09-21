@@ -232,7 +232,101 @@ def _vertical_size(node):
     return None, False
 
 
+def _collision_bounds(node):
+    """Return the root Solid's boundingObject extents relative to its origin."""
+    field = node.getField("boundingObject") or node.getBaseNodeField("boundingObject")
+    root = field and field.getSFNode()
+    if root is None:
+        return None
+    orientation = node.getOrientation()
+    rotation = [orientation[i:i + 3] for i in (0, 3, 6)]
+    bounds = []
+
+    def visit(part, matrix, offset):
+        kind = part.getTypeName()
+        if kind in ("Box", "Cylinder", "Sphere", "Capsule"):
+            if kind == "Box":
+                half = [value / 2 for value in part.getField("size").getSFVec3f()]
+            elif kind in ("Cylinder", "Capsule"):
+                radius = part.getField("radius").getSFFloat()
+                half = [radius, radius, part.getField("height").getSFFloat() / 2
+                        + (radius if kind == "Capsule" else 0.0)]
+            else:
+                half = [part.getField("radius").getSFFloat()] * 3
+            extent = [sum(abs(matrix[i][j]) * half[j] for j in range(3)) for i in range(3)]
+            bounds.append(([offset[i] - extent[i] for i in range(3)],
+                           [offset[i] + extent[i] for i in range(3)]))
+            return
+
+        translation = part.getField("translation")
+        if translation is not None:
+            local = translation.getSFVec3f()
+            offset = [offset[i] + sum(matrix[i][j] * local[j] for j in range(3))
+                      for i in range(3)]
+        rotation_field = part.getField("rotation")
+        if rotation_field is not None:
+            x, y, z, angle = rotation_field.getSFRotation()
+            c, s = cos(angle), sin(angle)
+            axis = (x, y, z)
+            local_rotation = [[(c if i == j else 0) + (1 - c) * axis[i] * axis[j]
+                               + s * ((0, -z, y), (z, 0, -x), (-y, x, 0))[i][j]
+                               for j in range(3)] for i in range(3)]
+            matrix = [[sum(matrix[i][k] * local_rotation[k][j] for k in range(3))
+                       for j in range(3)] for i in range(3)]
+        for name in ("children", "geometry"):
+            children = part.getField(name)
+            if children is None:
+                continue
+            if children.getTypeName() == "MFNode":
+                for index in range(children.getCount()):
+                    visit(children.getMFNode(index), matrix, offset)
+            elif children.getTypeName() == "SFNode":
+                child = children.getSFNode()
+                if child is not None:
+                    visit(child, matrix, offset)
+
+    visit(root, rotation, [0.0, 0.0, 0.0])
+    if not bounds:
+        return None
+    return ([min(pair[0][i] for pair in bounds) for i in range(3)],
+            [max(pair[1][i] for pair in bounds) for i in range(3)])
+
+
+def _collision_bottom(node):
+    bounds = _collision_bounds(node)
+    if bounds is not None:
+        return bounds[0][2]
+    height, centered = _vertical_size(node)
+    return -height / 2 if height is not None and centered else 0.0
+
+
+def safe_exact_position(supervisor, item, coordinates):
+    """Raise an exact placement only if it overlaps a nearby support surface."""
+    x, y, z = validate_coordinates(coordinates)
+    for other in _top_level_solids(supervisor):
+        if other.getId() == item.getId():
+            continue
+        position = get_world_position(other)
+        bounds = _collision_bounds(other)
+        if bounds is not None:
+            inside = all(position[i] + bounds[0][i] <= value <= position[i] + bounds[1][i]
+                         for i, value in enumerate((x, y)))
+            surface = position[2] + bounds[1][2]
+        else:
+            inside = _distance_to_shape(x, y, position, _obstacle_shape(other)) <= 0
+            try:
+                surface = _top_surface_z(other)
+            except ValueError:
+                continue
+        if inside and z - 0.1 <= surface <= z + 0.02:
+            z = max(z, surface - _collision_bottom(item) + 0.005)
+    return [x, y, z]
+
+
 def _top_surface_z(node):
+    bounds = _collision_bounds(node)
+    if bounds is not None:
+        return get_world_position(node)[2] + bounds[1][2]
     candidates = []
     for descendant in walk_nodes(node):
         if descendant.getBaseTypeName() not in ("Solid", "Robot"):
@@ -251,13 +345,97 @@ def _top_surface_z(node):
 def get_stack_position(item, target):
     """Return coordinates that place an item on a target's top center."""
     target_position = get_world_position(target)
-    item_height, item_is_centered = _vertical_size(item)
-    item_offset = item_height / 2.0 if item_height is not None and item_is_centered else 0.0
+    item_offset = -_collision_bottom(item)
     return [
         target_position[0],
         target_position[1],
-        _top_surface_z(target) + item_offset + 0.052,
+        _top_surface_z(target) + item_offset + 0.008,
     ]
+
+
+def get_next_to_position(supervisor, item, target):
+    """Find a clear side position at the target's support height."""
+    target_position = get_world_position(target)
+    target_shape = _obstacle_shape(target)
+    item_shape = _obstacle_shape(item)
+    item_radius = (max(item_shape[1:3]) if item_shape[0] == "box" else item_shape[1])
+    side_radius = target_shape[2] if target_shape[0] == "box" else target_shape[1]
+    target_height, target_centered = _vertical_size(target)
+    item_height, item_centered = _vertical_size(item)
+    support_z = target_position[2] - (target_height / 2 if target_centered else 0.0) if target_height else target_position[2]
+    z = support_z + (item_height / 2 if item_centered else 0.0) + 0.01 if item_height else support_z + 0.01
+    orientation = target.getOrientation()
+    side_x, side_y = orientation[1], orientation[4]  # World direction of local +y.
+    ignored = {item.getId(), target.getId()}
+    obstacles = []
+    for other in walk_nodes(supervisor.getRoot()):
+        if other.getBaseTypeName() not in ("Solid", "Robot") or other.getId() in ignored:
+            continue
+        try:
+            position = get_world_position(other)
+        except ValueError:
+            continue
+        height, centered = _vertical_size(other)
+        if height is not None:
+            lower = position[2] - (height / 2 if centered else 0.0)
+            upper = lower + height
+            if z < lower - 0.1 or z > upper + 0.1:
+                continue
+        elif abs(position[2] - z) > 0.2:
+            continue
+        shape = _obstacle_shape(other)
+        if shape[0] == "box":
+            rotation = other.getOrientation()
+            shape = (*shape[:3], atan2(rotation[3], rotation[0]))
+        obstacles.append((position, shape))
+
+    for extra in (0.05, 0.15, 0.25):
+        for side in (1, -1):
+            offset = side * (side_radius + item_radius + extra)
+            x = target_position[0] + side_x * offset
+            y = target_position[1] + side_y * offset
+            if all(_distance_to_shape(x, y, pos, shape) >= item_radius + 0.02
+                   for pos, shape in obstacles):
+                return [x, y, z]
+    raise ValueError("no clear lateral position found beside target")
+
+
+def get_container_position(item, container):
+    """Return a world pose on the floor of a Cabinet's lowest compartment."""
+    if container.getTypeName() != "Cabinet":
+        raise ValueError("target is not a supported container (Cabinet)")
+
+    # The local JamJarConnector bounding cylinder is 0.115 m tall, radius 0.045 m.
+    if item.getTypeName() == "JamJarConnector":
+        radius, height, centered = 0.045, 0.115, False
+    else:
+        size = item.getField("size")
+        if size is None or size.getTypeName() != "SFVec3f":
+            raise ValueError("object size is unknown; cannot place safely inside Cabinet")
+        width, length, height = size.getSFVec3f()
+        radius, centered = max(width, length) / 2.0, True
+
+    depth = container.getField("depth").getSFFloat()
+    outer = container.getField("outerThickness").getSFFloat()
+    inner = container.getField("innerThickness").getSFFloat()
+    rows = container.getField("rowsHeights")
+    columns = container.getField("columnsWidths")
+    if rows.getCount() == 0 or columns.getCount() == 0:
+        raise ValueError("Cabinet has no usable compartment")
+    width = sum(columns.getMFFloat(i) for i in range(columns.getCount()))
+    floor_z = outer + 0.01
+    item_origin_z = floor_z + (height / 2.0 if centered else 0.0)
+    ceiling_z = outer + rows.getMFFloat(0) - inner / 2.0 - 0.01
+    if (radius + 0.01 > min((depth - outer - inner) / 2.0, width / 2.0)
+            or floor_z + height > ceiling_z):
+        raise ValueError("object does not fit in Cabinet's lowest compartment")
+
+    # Cabinet local x runs from back (0) to front (depth); rotate into world.
+    local = (depth / 2.0, 0.0, item_origin_z)
+    origin = get_world_position(container)
+    rotation = container.getOrientation()
+    return [origin[i] + sum(rotation[3 * i + j] * local[j] for j in range(3))
+            for i in range(3)]
 
 
 def _cabinet_hinge(cabinet):
@@ -281,8 +459,22 @@ def _cabinet_hinge(cabinet):
     return None
 
 
+def _fridge_hinge(fridge):
+    """Select the lower door hinge from the expanded Fridge Solid."""
+    children = fridge.getField("children")
+    for index in range(children.getCount()):
+        joint = children.getMFNode(index)
+        if joint.getTypeName() != "HingeJoint":
+            continue
+        endpoint = joint.getField("endPoint").getSFNode()
+        name = endpoint and endpoint.getField("name")
+        if name is not None and name.getSFString() == "lower fridge door":
+            return joint
+    return None
+
+
 def set_hinge_position(node, position):
-    """Set a direct hinge endpoint or a Cabinet's internal door hinge."""
+    """Set a direct endpoint, Cabinet door, or Fridge lower door hinge."""
     hinge = node
     joint_parameters = hinge.getField("jointParameters")
     if joint_parameters is None:
@@ -291,6 +483,11 @@ def set_hinge_position(node, position):
     if joint_parameters is None and node.getTypeName() == "Cabinet":
         hinge = _cabinet_hinge(node)
         joint_parameters = hinge and hinge.getField("jointParameters")
+    model = node.getField("model")
+    is_fridge = model is not None and model.getSFString() == "fridge"
+    if joint_parameters is None and is_fridge:
+        hinge = _fridge_hinge(node)
+        joint_parameters = hinge and hinge.getField("jointParameters")
     if joint_parameters is None:
         raise ValueError("object is not the endpoint of a HingeJoint")
     parameters_node = joint_parameters.getSFNode()
@@ -298,6 +495,11 @@ def set_hinge_position(node, position):
     if position_field is None:
         raise ValueError("HingeJoint has no position field")
     target = float(position)
+    if is_fridge:
+        minimum = parameters_node.getField("minStop").getSFFloat()
+        maximum = parameters_node.getField("maxStop").getSFFloat()
+        if not minimum <= target <= maximum:
+            raise ValueError(f"fridge door angle {target} outside [{minimum}, {maximum}]")
     if node.getTypeName() == "Cabinet" and target > 0:
         min_stop = parameters_node.getField("minStop")
         max_stop = parameters_node.getField("maxStop")

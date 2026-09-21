@@ -1,0 +1,90 @@
+fridge:
+  navigation_pose_source: manual
+  navigation_pose: &id017
+    frame_id: map
+    x: -0.8421715497970581
+    y: -1.383134126663208
+    yaw: 0.7551885171293172
+  object_position:
+    x: -0.5326992869377136
+    y: -1.091817021369934
+  preferred_navigation_pose: *id017
+cabinet(1):
+  navigation_pose_source: manual
+  navigation_pose: &id023
+    frame_id: map
+    x: -1.2693597078323364
+    y: -1.342957854270935
+    yaw: 1.5404694664986258
+  object_position:
+    x: -1.2602503299713135
+    y: -1.0426766872406006
+  preferred_navigation_pose: *id023
+plate1:
+  navigation_pose_source: manual
+  navigation_pose: &id019
+    frame_id: map
+    x: -1.979938268661499
+    y: -2.5757133960723877
+    yaw: -0.5639450105655381
+  object_position:
+    x: -1.3609931468963623
+    y: -2.9671707153320312
+  preferred_navigation_pose: *id019
+  placement_position:
+    frame_id: webots_world
+    x: -1.02917
+    y: -3.11378
+    z: 0.765
+plate2:
+  navigation_pose_source: manual
+  navigation_pose: &id020
+    frame_id: map
+    x: -2.334921360015869
+    y: -2.939859628677368
+    yaw: -1.1194090902956835
+  object_position:
+    x: -2.0436530113220215
+    y: -3.540701389312744
+  preferred_navigation_pose: *id020
+  placement_position:
+    frame_id: webots_world
+    x: -1.86873
+    y: -4.06664
+    z: 0.765
+sink:
+  navigation_pose_source: manual
+  navigation_pose: &id024
+    frame_id: map
+    x: -2.4714534282684326
+    y: -1.5925183296203613
+    yaw: 2.8723826290846306
+  object_position:
+    x: -2.73541522026062
+    y: -1.5196892023086548
+  preferred_navigation_pose: *id024
+table_knife1:
+  placement_position:
+    frame_id: webots_world
+    x: -2.2868613538858162
+    y: -3.751269756171808
+    z: 0.7591201381213647
+table_knife2:
+  placement_position:
+    frame_id: webots_world
+    x: -1.5752397545130221
+    y: -2.7672886490294655
+    z: 0.7591201381213647
+tablefork1:
+  placement_position:
+    frame_id: webots_world
+    x: -2.261048497803678
+    y: -3.511019999987495
+    z: 0.7611500972908961
+tablefork2:
+  placement_position:
+    frame_id: webots_world
+    x: -1.323259999994631
+    y: -2.7678415021963083
+    z: 0.7611500972908962
+

@@ -82,7 +82,8 @@ def _start_apartment(context):
 def generate_launch_description():
     project = Path(__file__).resolve().parents[1]
     return LaunchDescription([
-        DeclareLaunchArgument('world', default_value=str(project / 'worlds/complete_apartment_tiago_ros2.wbt')),
+        #DeclareLaunchArgument('world', default_value=str(project / 'worlds/complete_apartment_tiago_ros2.wbt')),
+        DeclareLaunchArgument('world', default_value=str(project / 'worlds/setting_the_table_complete_apartment_tiago_ros2.wbt')),
         DeclareLaunchArgument('robot_urdf', default_value=str(project / 'config/tiago_webots_wheels.urdf')),
         OpaqueFunction(function=_start_apartment),
     ])

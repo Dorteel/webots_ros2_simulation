@@ -20,6 +20,9 @@ from world_utils import (
     get_slot_connector,
     find_clear_pose,
     get_stack_position,
+    safe_exact_position,
+    get_next_to_position,
+    get_container_position,
     set_hinge_position,
     set_yaw,
     teleport_node,
@@ -78,6 +81,7 @@ def place(supervisor, robot, object, coordinates):
     """Teleport an object to world coordinates."""
     get_node(supervisor, robot, "robot")
     item = get_node(supervisor, object, "object")
+    coordinates = safe_exact_position(supervisor, item, coordinates)
     connection = _CONNECTIONS.get(robot)
     if connection is not None and connection[2].getId() == item.getId():
         release_pick(robot)
@@ -100,6 +104,36 @@ def place_to_object(supervisor, robot, object, target):
     return {"target": target, "position": coordinates}
 
 
+def place_next_to(supervisor, robot, object, target):
+    """Release and place an object at a clear lateral pose beside a target."""
+    get_node(supervisor, robot, "robot")
+    item = get_node(supervisor, object, "object")
+    target_node = get_node(supervisor, target, "target object")
+    if item.getId() == target_node.getId():
+        raise ValueError("object and target must be different")
+    coordinates = get_next_to_position(supervisor, item, target_node)
+    connection = _CONNECTIONS.get(robot)
+    if connection is not None and connection[2].getId() == item.getId():
+        release_pick(robot)
+    teleport_node(item, coordinates)
+    return {"target": target, "position": coordinates}
+
+
+def place_in_container(supervisor, robot, object, target):
+    """Release and teleport an object onto a Cabinet's interior floor."""
+    get_node(supervisor, robot, "robot")
+    item = get_node(supervisor, object, "object")
+    container = get_node(supervisor, target, "target container")
+    if item.getId() == container.getId():
+        raise ValueError("object and target must be different")
+    coordinates = get_container_position(item, container)
+    connection = _CONNECTIONS.get(robot)
+    if connection is not None and connection[2].getId() == item.getId():
+        release_pick(robot)
+    teleport_node(item, coordinates)
+    return {"target": target, "position": coordinates}
+
+
 def open_object(supervisor, robot, object):
     """Set a HingeJoint to 80 degrees."""
     get_node(supervisor, robot, "robot")
@@ -118,6 +152,8 @@ _ACTIONS = {
     "pick": (pick, ("robot", "object")),
     "place": (place, ("robot", "object", "coordinates")),
     "place_to_object": (place_to_object, ("robot", "object", "target")),
+    "place_next_to": (place_next_to, ("robot", "object", "target")),
+    "place_in_container": (place_in_container, ("robot", "object", "target")),
     "open": (open_object, ("robot", "object")),
     "close": (close_object, ("robot", "object")),
 }

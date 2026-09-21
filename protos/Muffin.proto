@@ -1,17 +1,17 @@
 #VRML_SIM R2023b utf8
 
-PROTO Bread [
+PROTO Muffin [
   field SFString   connectorModel "fallback disabled"
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
-  field SFString   name        "bread"
+  field SFString   name        "muffin"
 ]
 {
   Solid {
     translation IS translation
     rotation IS rotation
     name IS name
-    model "bread"
+    model "chocolate-chip muffin"
 
     children [
       DEF FALLBACK_OBJECT_CONNECTOR Connector {
@@ -26,25 +26,25 @@ PROTO Bread [
       }
       CadShape {
         url [
-          "bread.obj"
+          "muffin.obj"
         ]
       }
     ]
 
-    # Stable, inexpensive collision geometry; the visible mesh remains detailed.
+    # A simple collision body is stable and inexpensive for manipulation.
     boundingObject Transform {
-      translation 0 0 0.038
+      translation 0 0 0.041
       children [
         Box {
-          size 0.19 0.09 0.068
+          size 0.082 0.082 0.082
         }
       ]
     }
 
     physics Physics {
-      mass 0.35
+      mass 0.12
       centerOfMass [
-        0 0 0.035
+        0 0 0.038
       ]
     }
   }

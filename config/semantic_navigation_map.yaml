@@ -3554,3 +3554,91 @@ ceiling_light_1_2:
     x: -8.64
     y: -7.28
     yaw: 0.0
+fridge:
+  navigation_pose_source: manual
+  navigation_pose: &id017
+    frame_id: map
+    x: -0.8421715497970581
+    y: -1.383134126663208
+    yaw: 0.7551885171293172
+  object_position:
+    x: -0.5326992869377136
+    y: -1.091817021369934
+  preferred_navigation_pose: *id017
+cabinet1:
+  navigation_pose_source: manual
+  navigation_pose: &id018
+    frame_id: map
+    x: -2.881049394607544
+    y: -2.921652317047119
+    yaw: 3.0839543588256837
+  object_position:
+    x: -3.354360342025757
+    y: -2.894341230392456
+  preferred_navigation_pose: *id018
+plate1:
+  navigation_pose_source: manual
+  navigation_pose: &id019
+    frame_id: map
+    x: -1.979938268661499
+    y: -2.5757133960723877
+    yaw: -0.5639450105655381
+  object_position:
+    x: -1.3609931468963623
+    y: -2.9671707153320312
+  preferred_navigation_pose: *id019
+plate2:
+  navigation_pose_source: manual
+  navigation_pose: &id020
+    frame_id: map
+    x: -2.334921360015869
+    y: -2.939859628677368
+    yaw: -1.1194090902956835
+  object_position:
+    x: -2.0436530113220215
+    y: -3.540701389312744
+  preferred_navigation_pose: *id020
+sink:
+  navigation_pose_source: manual
+  navigation_pose: &id021
+    frame_id: map
+    x: -2.6717002391815186
+    y: -1.756384015083313
+    yaw: -2.869403063638987
+  object_position:
+    x: -3.0630922317504883
+    y: -1.8656281232833862
+  preferred_navigation_pose: *id021
+cabinet(1):
+  navigation_pose_source: manual
+  navigation_pose: &id022
+    frame_id: map
+    x: -2.6443936824798584
+    y: -2.6758534908294678
+    yaw: 2.856817593042285
+  object_position:
+    x: -3.017580986022949
+    y: -2.5666098594665527
+  preferred_navigation_pose: *id022
+cabinet_final:
+  navigation_pose_source: manual
+  navigation_pose: &id023
+    frame_id: map
+    x: -1.2693597078323364
+    y: -1.342957854270935
+    yaw: 1.5404694664986258
+  object_position:
+    x: -1.2602503299713135
+    y: -1.0426766872406006
+  preferred_navigation_pose: *id023
+sink_final:
+  navigation_pose_source: manual
+  navigation_pose: &id024
+    frame_id: map
+    x: -2.4714534282684326
+    y: -1.5925183296203613
+    yaw: 2.8723826290846306
+  object_position:
+    x: -2.73541522026062
+    y: -1.5196892023086548
+  preferred_navigation_pose: *id024
