@@ -2,6 +2,35 @@
 <robot name="Tiago Webots">
     <link name="base_link"/>
     <webots>
+        <!-- TIAGo's head-mounted Astra supplies the Webots "Astra rgb" Camera.
+             The native Ros2Camera plugin copies wb_camera_get_image() directly
+             to sensor_msgs/Image as bgra8 (no color conversion), using Webots'
+             width/height, step = width * 4, and the ROS simulation timestamp.
+             Omitting updateRate enables sampling at the simulation timestep. -->
+        <device reference="Astra rgb" type="Camera">
+            <ros>
+                <enabled>true</enabled>
+                <topicName>/tiago/camera/color</topicName>
+                <imageSuffix>/image_raw</imageSuffix>
+                <alwaysOn>true</alwaysOn>
+                <frameName>Astra_rgb</frameName>
+            </ros>
+        </device>
+        <!-- Read depth from the existing Webots "Astra depth" RangeFinder.
+             Ros2RangeFinder copies its float buffer into sensor_msgs/Image as
+             32FC1 in meters, with Webots dimensions and simulation timestamps.
+             The native plugin also publishes CameraInfo intrinsics from the
+             sensor's field of view. No updateRate means one simulation timestep. -->
+        <device reference="Astra depth" type="RangeFinder">
+            <ros>
+                <enabled>true</enabled>
+                <topicName>/tiago/camera/depth</topicName>
+                <imageSuffix>/image_raw</imageSuffix>
+                <cameraInfoSuffix>/camera_info</cameraInfoSuffix>
+                <alwaysOn>true</alwaysOn>
+                <frameName>Astra_depth</frameName>
+            </ros>
+        </device>
         <device reference="hokuyo" type="Lidar">
             <ros>
                 <enabled>true</enabled>
