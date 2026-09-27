@@ -12,7 +12,7 @@ coordinate_convention:
   up_axis: z
   odom_source: fallback_ground_truth_odom
   scene_to_odom: identity_xy_yaw_about_z
-  world_path: /home/kai/ros2_ws/src/webots_ros2_simulation/worlds/complete_apartment_tiago_mapping.wbt
+  world_path: /webots_ros2_simulation/worlds/complete_apartment_tiago_mapping.wbt
   robot: TIAGo
   supported: true
 transform:
@@ -30,7 +30,7 @@ matrix:
 - - 0.0
   - 0.0
   - 1.0
-world: /home/kai/ros2_ws/src/webots_ros2_simulation/worlds/complete_apartment_tiago_mapping.wbt
+world: /webots_ros2_simulation/worlds/complete_apartment_tiago_mapping.wbt
 derivation: T_map_scene = T_map_base * inverse(T_scene_base); synchronized ROS timestamps
 robot_scene_pose:
 - -5.103181031812474
@@ -85,7 +85,7 @@ validation:
     yaw_error_rad: 2.220446049250313e-16
 room_bounds:
   status: checked
-  scene_graph: /home/kai/ros2_ws/src/webots_ros2_simulation/scene_graph.json
+  scene_graph: /webots_ros2_simulation/scene_graph.json
   rooms:
   - id: LIVING_ROOM_1
     raw_scene_position:
