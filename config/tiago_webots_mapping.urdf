@@ -1,6 +1,18 @@
 <?xml version="1.0" ?>
 <robot name="Tiago Webots">
     <link name="base_link"><visual><geometry><cylinder radius="0.28" length="0.20"/></geometry><material name="blue"><color rgba="0.2 0.5 0.9 0.8"/></material></visual></link>
+    <!-- A valid initial description is required by Jazzy ros2_control before
+         Webots replaces it with the complete generated robot description. -->
+    <link name="wheel_right_link"/>
+    <joint name="wheel_right_joint" type="continuous">
+        <parent link="base_link"/><child link="wheel_right_link"/>
+        <origin xyz="0 -0.2022 0"/><axis xyz="0 1 0"/>
+    </joint>
+    <link name="wheel_left_link"/>
+    <joint name="wheel_left_joint" type="continuous">
+        <parent link="base_link"/><child link="wheel_left_link"/>
+        <origin xyz="0 0.2022 0"/><axis xyz="0 1 0"/>
+    </joint>
     <webots>
         <device reference="hokuyo" type="Lidar">
             <ros>

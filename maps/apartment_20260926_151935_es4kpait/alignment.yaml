@@ -1,0 +1,90 @@
+source_frame: scene_graph
+target_frame: map
+generated_at: '2026-09-26T15:19:36.071268+00:00'
+coordinate_convention:
+  webots_coordinate_system: ENU
+  scene_ground_axes:
+  - x
+  - y
+  ros_ground_axes:
+  - x
+  - y
+  up_axis: z
+  odom_source: fallback_ground_truth_odom
+  scene_to_odom: identity_xy_yaw_about_z
+  world_path: /home/kai/ros2_ws/src/webots_ros2_simulation/worlds/complete_apartment_tiago_mapping.wbt
+  robot: TIAGo
+  supported: true
+transform:
+  translation:
+    x: -1.7763568394002505e-15
+    y: 1.7763568394002505e-15
+  yaw: 0.0
+matrix:
+- - 1.0
+  - -0.0
+  - -1.7763568394002505e-15
+- - 0.0
+  - 1.0
+  - 1.7763568394002505e-15
+- - 0.0
+  - 0.0
+  - 1.0
+world: /home/kai/ros2_ws/src/webots_ros2_simulation/worlds/complete_apartment_tiago_mapping.wbt
+derivation: T_map_scene = T_map_base * inverse(T_scene_base); synchronized ROS timestamps
+robot_scene_pose:
+- -4.263263857916801
+- -11.343365455799248
+- -2.316698100760596
+robot_map_pose:
+- -4.263263857916803
+- -11.343365455799246
+- -2.316698100760596
+calibration_stamp: 1636.06
+validation:
+  position_error_m: 0.0
+  yaw_error_rad: 4.440892098500626e-16
+  position_tolerance_m: 0.05
+  yaw_tolerance_rad: 0.03
+  samples:
+  - stamp: 1636.26
+    scene:
+    - -4.263255185659428
+    - -11.343365737508012
+    - -2.3167026923170804
+    map:
+    - -4.26325518565943
+    - -11.34336573750801
+    - -2.3167026923170804
+    stationary: true
+    position_error_m: 0.0
+    yaw_error_rad: 0.0
+  - stamp: 1636.46
+    scene:
+    - -4.2632465130784505
+    - -11.343365999003925
+    - -2.3167071085091817
+    map:
+    - -4.263246513078452
+    - -11.343365999003924
+    - -2.3167071085091813
+    stationary: true
+    position_error_m: 0.0
+    yaw_error_rad: 4.440892098500626e-16
+  - stamp: 1636.66
+    scene:
+    - -4.263237840874881
+    - -11.343366241450006
+    - -2.316711358156271
+    map:
+    - -4.263237840874883
+    - -11.343366241450004
+    - -2.316711358156271
+    stationary: true
+    position_error_m: 0.0
+    yaw_error_rad: 0.0
+room_bounds:
+  status: not_requested
+  reason: No scene_graph argument supplied
+map_yaml: map.yaml
+completion: no useful eligible frontiers; not a full-coverage guarantee

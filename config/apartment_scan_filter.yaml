@@ -1,0 +1,15 @@
+scan_to_scan_filter_chain:
+  ros__parameters:
+    use_sim_time: true
+    filter1:
+      name: tiago_body
+      type: laser_filters/LaserScanBoxFilter
+      params:
+        box_frame: base_link
+        min_x: -0.32
+        max_x: 0.32
+        min_y: -0.32
+        max_y: 0.32
+        min_z: -0.2
+        max_z: 0.3
+        invert: false

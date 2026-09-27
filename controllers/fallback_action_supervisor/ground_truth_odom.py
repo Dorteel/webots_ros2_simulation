@@ -1,22 +1,43 @@
 """Publish TIAGo's Webots world pose as planar ROS odometry."""
 
+import json
 from math import atan2, cos, sin
 
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import TransformStamped
 from rclpy.time import Time
+from rclpy.qos import QoSProfile, DurabilityPolicy
+from std_msgs.msg import String
 from tf2_ros import StaticTransformBroadcaster, TransformBroadcaster
 
 from world_utils import get_node
 
 
 class GroundTruthOdom:
-    def __init__(self, supervisor, ros_node, robot_name="TIAGo", initial_map_pose=None):
+    def __init__(self, supervisor, ros_node, robot_name="TIAGo", initial_map_pose=None, mapping_metadata=False):
         self.supervisor = supervisor
         self.robot = get_node(supervisor, robot_name, "robot")
         self.publisher = ros_node.create_publisher(Odometry, "/odom", 10)
         self.broadcaster = TransformBroadcaster(ros_node)
         self.next_publish = 0.0
+        if mapping_metadata:
+            # Report the actual world convention from the same Supervisor that
+            # produces odometry. Never infer the ground plane from a filename.
+            children = supervisor.getRoot().getField('children')
+            info = next(children.getMFNode(i) for i in range(children.getCount())
+                        if children.getMFNode(i).getTypeName() == 'WorldInfo')
+            convention = info.getField('coordinateSystem').getSFString()
+            qos = QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL)
+            self.convention_publisher = ros_node.create_publisher(
+                String, '/mapping/coordinate_convention', qos)
+            metadata = dict(webots_coordinate_system=convention,
+                            scene_ground_axes=[axis for axis, direction in zip('xyz', convention) if direction != 'U'],
+                            ros_ground_axes=['x', 'y'],
+                            up_axis='xyz'[convention.index('U')], odom_source=ros_node.get_name(),
+                            scene_to_odom='identity_xy_yaw_about_z',
+                            world_path=supervisor.getWorldPath(), robot=robot_name,
+                            supported=convention == 'ENU')
+            self.convention_publisher.publish(String(data=json.dumps(metadata)))
         if initial_map_pose is not None:
             self.publish_map_origin(ros_node, initial_map_pose)
 

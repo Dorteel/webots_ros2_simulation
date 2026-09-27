@@ -1,0 +1,164 @@
+source_frame: scene_graph
+target_frame: map
+generated_at: '2026-09-26T13:22:05.592297+00:00'
+coordinate_convention:
+  webots_coordinate_system: ENU
+  scene_ground_axes:
+  - x
+  - y
+  ros_ground_axes:
+  - x
+  - y
+  up_axis: z
+  odom_source: fallback_ground_truth_odom
+  scene_to_odom: identity_xy_yaw_about_z
+  world_path: /home/kai/ros2_ws/src/webots_ros2_simulation/worlds/complete_apartment_tiago_mapping.wbt
+  robot: TIAGo
+  supported: true
+transform:
+  translation:
+    x: 0.0
+    y: 0.0
+  yaw: 0.0
+matrix:
+- - 1.0
+  - -0.0
+  - 0.0
+- - 0.0
+  - 1.0
+  - 0.0
+- - 0.0
+  - 0.0
+  - 1.0
+world: /home/kai/ros2_ws/src/webots_ros2_simulation/worlds/complete_apartment_tiago_mapping.wbt
+derivation: T_map_scene = T_map_base * inverse(T_scene_base); synchronized ROS timestamps
+robot_scene_pose:
+- -6.5414522639844375
+- -2.604964163167661
+- 3.1406094920209537
+robot_map_pose:
+- -6.5414522639844375
+- -2.604964163167661
+- 3.1406094920209537
+calibration_stamp: 1274.06
+validation:
+  position_error_m: 0.0
+  yaw_error_rad: 0.0
+  position_tolerance_m: 0.05
+  yaw_tolerance_rad: 0.03
+  samples:
+  - stamp: 1274.26
+    scene:
+    - -6.5414311621360115
+    - -2.6049648058092463
+    - 3.1405975780745745
+    map:
+    - -6.5414311621360115
+    - -2.6049648058092463
+    - 3.1405975780745745
+    stationary: true
+    position_error_m: 0.0
+    yaw_error_rad: 0.0
+  - stamp: 1274.46
+    scene:
+    - -6.541410172002138
+    - -2.604965455241915
+    - 3.140585682618514
+    map:
+    - -6.541410172002138
+    - -2.604965455241915
+    - 3.140585682618514
+    stationary: true
+    position_error_m: 0.0
+    yaw_error_rad: 0.0
+  - stamp: 1274.66
+    scene:
+    - -6.541389292530923
+    - -2.6049661113247167
+    - 3.140573805902588
+    map:
+    - -6.541389292530923
+    - -2.6049661113247167
+    - 3.140573805902588
+    stationary: true
+    position_error_m: 0.0
+    yaw_error_rad: 0.0
+room_bounds:
+  status: checked
+  scene_graph: /tmp/apartment_mapping_rooms.scene_graph.json
+  rooms:
+  - id: LIVING_ROOM_1
+    raw_scene_position:
+    - -6.87
+    - -3.3
+    - 0.0
+    map_position:
+    - -6.87
+    - -3.3
+    inside_bounds: true
+  - id: LIVING_ROOM_2
+    raw_scene_position:
+    - -11.2
+    - -1.6600000000000001
+    - 0.0
+    map_position:
+    - -11.2
+    - -1.6600000000000001
+    inside_bounds: true
+  - id: GARDEN
+    raw_scene_position:
+    - -11.25
+    - -8.370000000000001
+    - 0.0
+    map_position:
+    - -11.25
+    - -8.370000000000001
+    inside_bounds: true
+  - id: KITCHEN
+    raw_scene_position:
+    - -1.94
+    - -3.3
+    - 0.0
+    map_position:
+    - -1.94
+    - -3.3
+    inside_bounds: true
+  - id: CORRIDOR
+    raw_scene_position:
+    - -4.81
+    - -7.514
+    - 0.0
+    map_position:
+    - -4.81
+    - -7.514
+    inside_bounds: true
+  - id: BATHROOM_1
+    raw_scene_position:
+    - -4.48
+    - -10.891
+    - 0.0
+    map_position:
+    - -4.48
+    - -10.891
+    inside_bounds: false
+  - id: ROOM_1
+    raw_scene_position:
+    - -7.7
+    - -10.891
+    - 0.0
+    map_position:
+    - -7.7
+    - -10.891
+    inside_bounds: false
+  - id: ROOM_2
+    raw_scene_position:
+    - -1.6600000000000001
+    - -10.891
+    - 0.0
+    map_position:
+    - -1.6600000000000001
+    - -10.891
+    inside_bounds: false
+  note: Bounds only; no free-cell or full-coverage assertion
+map_yaml: map.yaml
+completion: no useful eligible frontiers; not a full-coverage guarantee
