@@ -21,7 +21,14 @@ def _launch(context):
     params_file = Path(LaunchConfiguration('params_file').perform(context))
     map_file = Path(LaunchConfiguration('map').perform(context))
     nav2_launch = Path(get_package_share_directory('nav2_bringup')) / 'launch' / 'navigation_launch.py'
-    initial = yaml.safe_load(params_file.read_text())['amcl']['ros__parameters']['initial_pose']
+    params = yaml.safe_load(params_file.read_text())
+    controller = params['controller_server']['ros__parameters']
+    drive = yaml.safe_load((project / 'config/ros2_control_wheel_odom.yml').read_text())['diffdrive_controller']['ros__parameters']
+    print(f"Max linear speed: {controller['FollowPath']['max_vel_x']} m/s", flush=True)
+    print(f"Max angular speed: {controller['FollowPath']['max_vel_theta']} rad/s", flush=True)
+    print(f"Command timeout: {drive['cmd_vel_timeout']} s", flush=True)
+    print(f"Progress timeout: {controller['progress_checker']['movement_time_allowance']} s", flush=True)
+    initial = params['amcl']['ros__parameters']['initial_pose']
     initial_pose = ','.join(str(initial.get(axis, 0.0)) for axis in ('x', 'y', 'z', 'yaw'))
 
     # The Supervisor anchors map -> odom to this pose and owns odom -> base_link.
