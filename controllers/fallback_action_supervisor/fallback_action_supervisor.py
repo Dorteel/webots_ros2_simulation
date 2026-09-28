@@ -5,6 +5,7 @@ main() - Starts the single Webots Supervisor loop.
 """
 
 import os
+import sys
 
 from controller import Supervisor
 import rclpy
@@ -21,7 +22,11 @@ def main():
     """Keep the shared Supervisor alive for callers of execute_action()."""
     supervisor = Supervisor()
     timestep = int(supervisor.getBasicTimeStep())
-    server = open_server()
+    try:
+        server = open_server()
+    except RuntimeError as error:
+        print(str(error), file=sys.stderr, flush=True)
+        return 1
     rclpy.init(args=[])
     ros_node = rclpy.create_node("fallback_ground_truth_odom")
     pick_server = PickActionServer(ros_node, supervisor)
@@ -53,4 +58,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
