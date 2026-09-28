@@ -47,6 +47,14 @@ def _launch(context):
         str(project / 'launch' / 'tiago_apartment_ros2.launch.py')
     ), launch_arguments={'mapping_doors_config': doors,
                          'mapping_doors_status_topic': status_topic}.items())
+    print('Laser scan filtering: /scan -> /scan_filtered', flush=True)
+    scan_filter = Node(
+        package='laser_filters', executable='scan_to_scan_filter_chain',
+        name='scan_to_scan_filter_chain',
+        parameters=[str(project / 'config/apartment_scan_filter.yaml')],
+        remappings=[('scan', '/scan'), ('scan_filtered', '/scan_filtered')],
+        output='screen',
+    )
     # Ground-truth TF replaces AMCL; the static map server has its own lifecycle.
     map_server = Node(
         package='nav2_map_server', executable='map_server', name='map_server',
@@ -89,7 +97,7 @@ def _launch(context):
 
         nodes = [RegisterEventHandler(OnProcessExit(target_action=waiter,
                                                     on_exit=doors_finished)), waiter]
-    return [map_origin, *extra, apartment, *nodes]
+    return [map_origin, *extra, apartment, scan_filter, *nodes]
 
 
 def generate_launch_description():

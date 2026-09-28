@@ -35,6 +35,11 @@ def generate_launch_description():
         source_file=str(project / 'nav2_params_jazzy.yaml'),
         param_rewrites={
             'robot_radius': '0.28',
+            # Mapping already filters /scan_raw -> /scan; preserve that pipeline.
+            'amcl.ros__parameters.scan_topic': '/scan',
+            'local_costmap.local_costmap.ros__parameters.voxel_layer.scan.topic': '/scan',
+            'global_costmap.global_costmap.ros__parameters.obstacle_layer.scan.topic': '/scan',
+            'collision_monitor.ros__parameters.scan.topic': '/scan',
             # Static first; otherwise it erases inflated costs used by DWB.
             'local_costmap.local_costmap.ros__parameters.plugins':
                 '["static_layer", "voxel_layer", "inflation_layer"]',
