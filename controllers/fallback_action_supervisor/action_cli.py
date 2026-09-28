@@ -11,7 +11,10 @@ import argparse
 import json
 import socket
 
-from command_server import HOST, PORT
+if __package__:
+    from .command_server import HOST, PORT
+else:  # Preserve direct CLI execution from the controller directory.
+    from command_server import HOST, PORT
 
 
 def parse_arguments():
