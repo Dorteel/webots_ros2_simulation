@@ -13,9 +13,15 @@ close_object()   - Closes a HingeJoint to 0 degrees.
 """
 
 from math import radians
+if __package__:
+    from .head_gaze import gaze
+else:
+    from head_gaze import gaze
 
 from world_utils import (
     get_node,
+    get_object_pose,
+    resolve_execution_instance,
     get_object_connector,
     get_slot_connector,
     find_clear_pose,
@@ -151,6 +157,9 @@ def close_object(supervisor, robot, object):
 
 
 _ACTIONS = {
+    "gaze": (gaze, ("action",), ("optical_target",)),
+    "resolve_execution_instance": (resolve_execution_instance, ("perceived_id", "perceived_type"), ("concept", "qualities", "compatible_types", "use_camera", "camera_context")),
+    "get_object_pose": (get_object_pose, ("target",)),
     "move": (move, ("robot", "coordinates"), ("rotation",)),
     "move_to_object": (move_to_object, ("robot", "object"), ("distance", "clearance")),
     "pick": (pick, ("robot", "object")),

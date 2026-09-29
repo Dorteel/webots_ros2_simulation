@@ -15,6 +15,8 @@ get_stack_position()   - Computes a position on top of another object.
 set_hinge_position()   - Sets a HingeJoint position in radians.
 """
 
+import re
+
 from math import atan2, cos, hypot, isfinite, pi, sin
 
 
@@ -65,6 +67,119 @@ def get_descendant(root, name, kind="node"):
     if len(matches) > 1:
         raise ValueError(f"{kind} name is not unique: {name}")
     return matches[0]
+
+
+def get_object_pose(supervisor, target):
+    """Resolve exact DEF/name first, then a unique normalized execution identifier."""
+    if not isinstance(target, str) or not target.strip():
+        raise ValueError("execution target must be a non-empty string")
+    # Execution-only spelling tolerance; do not rewrite planning/evidence IDs.
+    def normalized(value):
+        return re.sub(r"[\W_]+", "_", value.lower()).strip("_")
+
+    matches, alternatives = [], []
+    key = normalized(target)
+    for node in walk_nodes(supervisor.getRoot()):
+        name = node.getField("name")
+        identifiers = (node.getDef(), name.getSFString() if name is not None else "")
+        if target in identifiers:
+            matches.append(node)
+        elif key and any(normalized(value) == key for value in identifiers if value):
+            alternatives.append(node)
+    if not matches:
+        matches = alternatives
+    if not matches:
+        raise ValueError(f"execution target not found: {target}")
+    if len(matches) != 1:
+        raise ValueError(f"execution target is ambiguous: {target}")
+    return {"position": validate_coordinates(get_world_position(matches[0]))}
+
+
+def resolve_execution_instance(supervisor, perceived_id, perceived_type, concept=None, qualities=None, compatible_types=None, use_camera=False, camera_context=None):
+    """Demo Oracle: inspect compatible instances internally, return one correspondence.
+
+    No world inventory or spatial relations leave this execution-only boundary.
+    Uncalibrated colors and symbolic relations cannot establish correspondence.
+    """
+    if not isinstance(perceived_type, str) or not perceived_type.strip():
+        raise ValueError("unknown semantic concept/type")
+    qualities = qualities or {}
+    if not isinstance(qualities, dict):
+        raise ValueError("qualities must be a dictionary")
+
+    def kind(value):
+        value = value.split(".n.")[0]
+        value = re.sub(r"Connector$", "", value, flags=re.IGNORECASE)
+        value = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", value)
+        return re.sub(r"[\W_]+", " ", value.lower()).strip()
+
+    types = {kind(perceived_type)}
+    if isinstance(concept, str) and concept:
+        types.add(kind(concept))
+    # These type labels come from RoboKGNet concept/superclass entries, not
+    # aliases from perceived IDs to physical instances.
+    if compatible_types is not None:
+        if not isinstance(compatible_types, list) or not all(isinstance(t, str) for t in compatible_types):
+            raise ValueError("compatible_types must be a list of concept labels")
+        types.update(kind(t) for t in compatible_types)
+    matches = []
+    diagnostics = []
+    for node in walk_nodes(supervisor.getRoot()):
+        if kind(node.getTypeName()) not in types:
+            continue
+        name = node.getField("name")
+        identifier = node.getDef() or (name.getSFString() if name is not None else "")
+        if identifier:
+            try:
+                validate_coordinates(get_world_position(node))
+            except ValueError as error:
+                diagnostics.append(f"excluded non-executable candidate {identifier}: {error}")
+                continue
+            matches.append((identifier, node))
+    candidates = [identifier for identifier, _ in matches]
+    diagnostics.append(f"compatible simulator candidates: {len(candidates)} {candidates!r}")
+    if not matches:
+        raise ValueError(f"no compatible Webots instances for {perceived_type!r}; " + "; ".join(diagnostics))
+
+    # A VLM name is not simulator identity. Current anchors always use camera
+    # grounding; retain explicit-name compatibility only for older non-camera calls.
+    # Never use a generic color word or choose the first/nearest semantic match.
+    explicit_name = qualities.get("name")
+    if not use_camera and isinstance(explicit_name, str) and explicit_name.strip():
+        matches = [(identifier, node) for identifier, node in matches
+                   if kind(identifier) == kind(explicit_name)
+                   or (node.getField("name") is not None
+                       and kind(node.getField("name").getSFString()) == kind(explicit_name))]
+    position = qualities.get("location")
+    if position is not None:
+        position = validate_coordinates(position)
+        matches = [(identifier, node) for identifier, node in matches
+                   if sum((a - b) ** 2 for a, b in zip(get_world_position(node), position)) <= 0.25 ** 2]
+    if use_camera:
+        if __package__:
+            from .camera_grounding import optical_position, select_camera_candidate
+        else:
+            from camera_grounding import optical_position, select_camera_candidate
+        diagnostics.append("attempting camera-relative disambiguation")
+        if not isinstance(camera_context, dict) or not all(k in camera_context for k in ('camera', 'scene_to_map')):
+            raise ValueError('Camera TF geometry unavailable: camera_context required')
+        geometry = camera_context['camera']
+        diagnostics.append("camera pose acquired: yes")
+        try:
+            matches, details = select_camera_candidate(matches, geometry, camera_context["scene_to_map"])
+        except (ValueError, AttributeError, TypeError, RuntimeError) as error:
+            raise ValueError("ambiguous: " + "; ".join(diagnostics) + "; " + str(error)) from error
+        diagnostics.extend(details)
+        diagnostics.append(f"camera-grounded execution instance={matches[0][0]}")
+    elif len(matches) > 1:
+        diagnostics.append("camera grounding skipped: anchor not currently observed")
+    if len(matches) != 1:
+        reason = "ambiguous" if matches else "no instance agrees with observed evidence"
+        raise ValueError(f"{reason}: {perceived_id}, semantic type {perceived_type!r}; "
+                         f"simulator candidates={candidates!r}; " + "; ".join(diagnostics))
+    return {"target": matches[0][0], "candidates": candidates,
+            **({"optical_target": optical_position(matches[0][1].getPosition(), geometry, camera_context["scene_to_map"])} if use_camera else {}),
+            **({"camera_diagnostics": diagnostics} if diagnostics else {})}
 
 
 def get_world_position(node):

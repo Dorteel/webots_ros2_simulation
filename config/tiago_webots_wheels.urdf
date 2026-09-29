@@ -55,5 +55,12 @@
             <state_interface name="position"/>
             <command_interface name="velocity"/>
         </joint>
+        <!-- Camera TF must follow actual head motion; state only, no commands. -->
+        <joint name="head_1_joint">
+            <state_interface name="position"/>
+        </joint>
+        <joint name="head_2_joint">
+            <state_interface name="position"/>
+        </joint>
     </ros2_control>
 </robot>

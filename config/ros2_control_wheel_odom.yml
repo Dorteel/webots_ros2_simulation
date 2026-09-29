@@ -36,6 +36,4 @@ joint_state_broadcaster:
       - SMALL_WHEEL_JOINT_0
       - SMALL_WHEEL_JOINT_1
       - SMALL_WHEEL_JOINT_2
-      - head_1_joint
-      - head_2_joint
       - torso_lift_joint
