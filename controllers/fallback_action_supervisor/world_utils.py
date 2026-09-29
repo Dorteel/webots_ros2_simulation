@@ -98,7 +98,7 @@ def get_object_pose(supervisor, target):
 def resolve_execution_instance(supervisor, perceived_id, perceived_type, concept=None, qualities=None, compatible_types=None, use_camera=False, camera_context=None):
     """Demo Oracle: inspect compatible instances internally, return one correspondence.
 
-    No world inventory or spatial relations leave this execution-only boundary.
+    World geometry is returned only as execution diagnostics, never perception.
     Uncalibrated colors and symbolic relations cannot establish correspondence.
     """
     if not isinstance(perceived_type, str) or not perceived_type.strip():
@@ -116,7 +116,7 @@ def resolve_execution_instance(supervisor, perceived_id, perceived_type, concept
     types = {kind(perceived_type)}
     if isinstance(concept, str) and concept:
         types.add(kind(concept))
-    # These type labels come from RoboKGNet concept/superclass entries, not
+    # These type labels come from RoboKGNet taxonomy/lexical entries, not
     # aliases from perceived IDs to physical instances.
     if compatible_types is not None:
         if not isinstance(compatible_types, list) or not all(isinstance(t, str) for t in compatible_types):
@@ -124,26 +124,59 @@ def resolve_execution_instance(supervisor, perceived_id, perceived_type, concept
         types.update(kind(t) for t in compatible_types)
     matches = []
     diagnostics = []
+    visible_diagnostics, semantic_diagnostics = [], []
+    if use_camera:
+        if __package__:
+            from .camera_grounding import object_camera_measurement, measurement_diagnostic
+        else:
+            from camera_grounding import object_camera_measurement, measurement_diagnostic
+        if not isinstance(camera_context, dict) or not all(k in camera_context for k in ('camera', 'scene_to_map')):
+            raise ValueError('Camera TF geometry unavailable: camera_context required')
     for node in walk_nodes(supervisor.getRoot()):
-        if kind(node.getTypeName()) not in types:
-            continue
         name = node.getField("name")
         identifier = node.getDef() or (name.getSFString() if name is not None else "")
-        if identifier:
-            try:
-                validate_coordinates(get_world_position(node))
-            except ValueError as error:
+        if not identifier:
+            continue
+        node_type = node.getTypeName()
+        model_field = node.getField('model')
+        model = model_field.getSFString() if model_field is not None else ''
+        labels = [node_type, *([model] if isinstance(model, str) and model.strip() else [])]
+        # Verified Webots RoundTable PROTO: model "round table", a tabletop
+        # cylinder and table support boxes. Execution-only subtype, not identity.
+        if node_type == 'RoundTable':
+            labels.append('table')
+        accepted = next((label for label in labels if kind(label) in types), None)
+        try:
+            position = validate_coordinates(get_world_position(node))
+        except ValueError as error:
+            if accepted:
                 diagnostics.append(f"excluded non-executable candidate {identifier}: {error}")
-                continue
+            continue
+        if use_camera:
+            measurement = object_camera_measurement(node, camera_context['camera'], camera_context['scene_to_map'])
+            if measurement['visible']:
+                visible_diagnostics.append('[GROUNDING]   ' + measurement_diagnostic(identifier, measurement)
+                                           + f" type={node_type} name={name.getSFString() if name is not None else ''}"
+                                           + f" model={model if isinstance(model, str) else ''}")
+                reason = (f"declared type/model {accepted!r} matches perceived or RoboKG-compatible label"
+                          if accepted else "no declared type/model matches perceived or RoboKG-compatible label")
+                if node_type == 'RoundTable' and accepted == 'table':
+                    reason = 'verified Webots RoundTable subtype of table'
+                semantic_diagnostics.append(f"[GROUNDING]   {perceived_type} <-> {identifier} ({node_type}): "
+                                            f"{'accepted' if accepted else 'rejected'}; reason={reason}")
+        if accepted:
             matches.append((identifier, node))
+    if use_camera:
+        diagnostics.extend(['[GROUNDING] Visible simulator objects (collision bounds intersect FOV; occlusion not tested):',
+                            *visible_diagnostics, '[GROUNDING] Semantic compatibility:', *semantic_diagnostics])
     candidates = [identifier for identifier, _ in matches]
     diagnostics.append(f"compatible simulator candidates: {len(candidates)} {candidates!r}")
     if not matches:
-        raise ValueError(f"no compatible Webots instances for {perceived_type!r}; " + "; ".join(diagnostics))
+        raise ValueError(f"no compatible Webots instances for {perceived_type!r}; no visible compatible candidate; " + "; ".join(diagnostics))
 
     # A VLM name is not simulator identity. Current anchors always use camera
     # grounding; retain explicit-name compatibility only for older non-camera calls.
-    # Never use a generic color word or choose the first/nearest semantic match.
+    # Never use a generic color word or choose a globally nearest semantic match.
     explicit_name = qualities.get("name")
     if not use_camera and isinstance(explicit_name, str) and explicit_name.strip():
         matches = [(identifier, node) for identifier, node in matches
@@ -157,9 +190,9 @@ def resolve_execution_instance(supervisor, perceived_id, perceived_type, concept
                    if sum((a - b) ** 2 for a, b in zip(get_world_position(node), position)) <= 0.25 ** 2]
     if use_camera:
         if __package__:
-            from .camera_grounding import optical_position, select_camera_candidate
+            from .camera_grounding import object_camera_measurement, select_camera_candidate
         else:
-            from camera_grounding import optical_position, select_camera_candidate
+            from camera_grounding import object_camera_measurement, select_camera_candidate
         diagnostics.append("attempting camera-relative disambiguation")
         if not isinstance(camera_context, dict) or not all(k in camera_context for k in ('camera', 'scene_to_map')):
             raise ValueError('Camera TF geometry unavailable: camera_context required')
@@ -168,7 +201,7 @@ def resolve_execution_instance(supervisor, perceived_id, perceived_type, concept
         try:
             matches, details = select_camera_candidate(matches, geometry, camera_context["scene_to_map"])
         except (ValueError, AttributeError, TypeError, RuntimeError) as error:
-            raise ValueError("ambiguous: " + "; ".join(diagnostics) + "; " + str(error)) from error
+            raise ValueError("camera grounding failed: " + "; ".join(diagnostics) + "; " + str(error)) from error
         diagnostics.extend(details)
         diagnostics.append(f"camera-grounded execution instance={matches[0][0]}")
     elif len(matches) > 1:
@@ -178,7 +211,7 @@ def resolve_execution_instance(supervisor, perceived_id, perceived_type, concept
         raise ValueError(f"{reason}: {perceived_id}, semantic type {perceived_type!r}; "
                          f"simulator candidates={candidates!r}; " + "; ".join(diagnostics))
     return {"target": matches[0][0], "candidates": candidates,
-            **({"optical_target": optical_position(matches[0][1].getPosition(), geometry, camera_context["scene_to_map"])} if use_camera else {}),
+            **({"optical_target": object_camera_measurement(matches[0][1], geometry, camera_context["scene_to_map"])["nearest_visible_point"]} if use_camera else {}),
             **({"camera_diagnostics": diagnostics} if diagnostics else {})}
 
 

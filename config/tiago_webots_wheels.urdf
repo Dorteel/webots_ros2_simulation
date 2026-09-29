@@ -13,7 +13,8 @@
                 <topicName>/tiago/camera/color</topicName>
                 <imageSuffix>/image_raw</imageSuffix>
                 <alwaysOn>true</alwaysOn>
-                <frameName>Astra_rgb</frameName>
+                <!-- Match Webots' generated optical TF link (spaces are preserved). -->
+                <frameName>Astra rgb</frameName>
             </ros>
         </device>
         <!-- Read depth from the existing Webots "Astra depth" RangeFinder.
