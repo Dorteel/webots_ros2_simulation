@@ -2,6 +2,7 @@
 
 from pathlib import Path
 import socket
+import importlib.util
 
 from launch import LaunchDescription
 from launch.actions import AppendEnvironmentVariable, DeclareLaunchArgument, ExecuteProcess, OpaqueFunction
@@ -14,6 +15,10 @@ from webots_ros2_driver.wait_for_controller_connection import WaitForControllerC
 
 def _start_apartment(context):
     project = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location('tiago_webots_path', project / 'scripts/webots_path.py')
+    paths = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(paths)
+    webots_executable, _ = paths.resolve_webots()
     robot_urdf = Path(LaunchConfiguration('robot_urdf').perform(context))
     world = Path(LaunchConfiguration('world').perform(context))
     # Give Webots and its external controllers the same free port, even if an older simulation is open.
@@ -27,7 +32,7 @@ def _start_apartment(context):
             'TIAGO_MAPPING_DOORS_STATUS_TOPIC': LaunchConfiguration('mapping_doors_status_topic').perform(context),
         },
         cmd=[
-            '/usr/local/webots/webots',
+            str(webots_executable),
             '--batch',
             f'--port={port}',
             '--mode=realtime',

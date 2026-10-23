@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>tiago_mapping_bringup</name>
+  <version>0.1.0</version>
+  <description>Dependency profile for repository mapping launch files and tools.</description>
+  <maintainer email="maintainer@example.com">Project Maintainer</maintainer>
+  <license>Apache-2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>tiago_navigation_bringup</exec_depend>
+  <exec_depend>explore_lite</exec_depend>
+  <exec_depend>slam_toolbox</exec_depend>
+  <exec_depend>webots_ros2_tiago</exec_depend>
+  <exec_depend>lifecycle_msgs</exec_depend>
+  <exec_depend>ros2lifecycle</exec_depend>
+  <test_depend>tf2_msgs</test_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>
