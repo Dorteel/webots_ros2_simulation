@@ -169,3 +169,76 @@ nonzero. Logs are in `log/` (or `$SIM_WORKSPACE/log/`), including
 - **Port 8765 occupied:** stop the other apartment launch; scripts do not kill
   unrelated processes. Missing configuration files and map images are reported
   by preflight before the build.
+
+## Look and turn actions
+
+The common Supervisor serves `/look_left`, `/look_right` (`Look`),
+`/look_ahead` (`LookAhead`), and `/turn_left`, `/turn_right` (`Turn`) from
+`simulation_actions/action/`. Use the full robot in basic simulation:
+
+```bash
+./run_simulation.sh
+# Another terminal, same ROS_DOMAIN_ID:
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 action list -t
+ros2 action send_goal /look_left simulation_actions/action/Look '{}' --feedback
+ros2 action send_goal /look_right simulation_actions/action/Look '{}' --feedback
+ros2 action send_goal /look_ahead simulation_actions/action/LookAhead '{}' --feedback
+ros2 action send_goal /turn_left simulation_actions/action/Turn '{}' --feedback
+ros2 action send_goal /turn_right simulation_actions/action/Turn '{}' --feedback
+ros2 action send_goal /look_left simulation_actions/action/Look '{angle: 0.8}' --feedback
+ros2 action send_goal /turn_right simulation_actions/action/Turn '{angle: 1.2}' --feedback
+```
+
+Angles are nonnegative radians. **Zero selects the configured default**, rather
+than zero movement; negative/nonfinite goals are rejected. Left is positive pan
+or yaw, right is negative. Look actions move only the head, clamping relative pan
+to mechanical limits. Look-ahead resets both pan and tilt. Results report the
+absolute achieved displacement; feedback reports absolute remaining angle.
+The head uses the existing Supervisor joint positioning mechanism, with readback
+on subsequent simulation steps, rather than an arm/head trajectory controller.
+Cancellation cannot undo an already applied head movement.
+
+`config/look_turn.yaml` sets look default (30 degrees), neutral pan/tilt,
+look tolerance/timeout, turn default (90 degrees), maximum angular velocity
+(0.4 rad/s), turn tolerance (0.03 rad), timeout, odometry freshness timeout and
+stall timeout. Timeouts use wall time and are evaluated each Supervisor step.
+An entirely paused/stuck Webots process cannot process goals or cancellation
+until stepping resumes. Restart the simulation after configuration edits, or use
+`./run_simulation.sh look_turn_config:=/absolute/path/to/look_turn.yaml`.
+`TIAGO_LOOK_TURN_CONFIG` also selects the file when running the Supervisor directly.
+
+Turns command the real simulated wheel controller through its discovered
+`Twist`/`TwistStamped` subscription and integrate `/odom` yaw across wraparound.
+Stamped commands use simulation odometry timestamps. They slow down near the
+requested angle and explicitly send zero on completion, cancellation, failure,
+and orderly shutdown. Loss of the controller/odom, lack of progress, or a
+competing velocity publisher aborts the turn. Stop teleop before turning.
+
+Coordination is deliberately conservative: **turns reject while Nav2 or explorer
+nodes are present, even if idle**. Stop the navigation/mapping launch and use the
+basic launch for turns. If navigation appears during a turn, the action aborts
+and sends zero. This is graph-based exclusion, not an atomic command arbiter;
+do not launch another velocity controller during a turn. All five actions share
+one reservation; conflicting goals and legacy mutating TCP/interaction requests
+are rejected while it is held. Existing TCP `gaze` semantics are unchanged.
+Base-only mapping robots have no head joints and return a head-action failure.
+
+Minimal awaitable Python helper (keep the caller's ROS executor spinning):
+
+```python
+from simulation_actions.look_turn_client import LookTurnClient
+robot = LookTurnClient(node)
+await robot.look_left()             # configured default
+await robot.look_right(angle=0.8)
+await robot.look_ahead()
+await robot.turn_left()
+await robot.turn_right(angle=1.2)
+robot.destroy()
+```
+
+Run `./test.sh` or `./test.sh --all`. Both include the look/turn regressions and,
+after the basic sensor smoke check, `scripts/check_look_turn.py` for live action,
+direction, isolation, cancellation/stop and legacy-discovery checks. Deterministic
+ROS tests simulate head hardware and odometry; they do not prove Webots physics.

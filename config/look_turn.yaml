@@ -1,0 +1,15 @@
+# Radians and wall-clock seconds. Turns are supported in basic simulation only:
+# stop Nav2/exploration before using them. Zero goal angles select these defaults.
+look:
+  default_angle: 0.5235987755982988
+  neutral_pan: 0.0
+  neutral_tilt: 0.0
+  tolerance: 0.005
+  timeout: 5.0
+turn:
+  default_angle: 1.5707963267948966
+  angular_velocity: 0.4
+  tolerance: 0.03
+  timeout: 60.0
+  odom_timeout: 1.0
+  stall_timeout: 5.0

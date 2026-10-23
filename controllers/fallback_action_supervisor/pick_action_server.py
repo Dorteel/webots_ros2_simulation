@@ -1,15 +1,16 @@
 """Thin ROS action adapter for the Supervisor's existing pick implementation."""
 
-from rclpy.action import ActionServer
+from rclpy.action import ActionServer, GoalResponse
 from simulation_actions.action import Pick
 
 from actions import execute_action
 
 
 class PickActionServer:
-    def __init__(self, ros_node, supervisor):
+    def __init__(self, ros_node, supervisor, busy=lambda: False):
         self.server = ActionServer(
             ros_node, Pick, '/pick',
+            goal_callback=lambda _: GoalResponse.REJECT if busy() else GoalResponse.ACCEPT,
             execute_callback=lambda goal: self.execute(supervisor, goal),
         )
 

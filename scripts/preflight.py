@@ -64,6 +64,7 @@ def check(profile, arguments):
     urdf = 'tiago_webots_mapping.urdf' if profile == 'mapping' else 'tiago_webots_wheels.urdf'
     files = [Path(overrides.get('world', root / 'worlds' / world)),
              Path(overrides.get('robot_urdf', root / 'config' / urdf)),
+             Path(overrides.get('look_turn_config', root / 'config/look_turn.yaml')),
              root / 'config/ros2_control_wheel_odom.yml', root / 'config/tiago_arm_tuck.py',
              root / 'controllers/fallback_action_supervisor/fallback_action_supervisor.py']
     if profile != 'basic':

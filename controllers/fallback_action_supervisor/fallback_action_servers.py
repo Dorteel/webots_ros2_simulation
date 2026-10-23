@@ -1,6 +1,6 @@
 """ROS adapters for existing Supervisor place/open/close actions."""
 
-from rclpy.action import ActionServer
+from rclpy.action import ActionServer, GoalResponse
 from simulation_actions.action import Close, Open, Place, PlaceToObject, PlaceInContainer, PlaceNextTo
 
 from actions import execute_action
@@ -17,10 +17,11 @@ ACTION_TYPES = {
 
 
 class FallbackActionServers:
-    def __init__(self, ros_node, supervisor):
+    def __init__(self, ros_node, supervisor, busy=lambda: False):
         self.servers = [
             ActionServer(
                 ros_node, action_type, f'/{name}',
+                goal_callback=lambda _: GoalResponse.REJECT if busy() else GoalResponse.ACCEPT,
                 execute_callback=lambda goal, name=name, action_type=action_type:
                     self.execute(supervisor, goal, name, action_type),
             )

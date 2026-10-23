@@ -45,7 +45,7 @@ if [[ $PROFILE == mapping ]]; then
     timeout --signal=INT --kill-after=10s 300s python3 -m unittest discover -s "$ROOT/tests" -p 'test_*.py' -v || exit 4
 else
     # Basic mode never imports or builds Nav2/exploration tests.
-    for module in test_environment.py test_map_alignment.py test_mapping_doors.py; do
+    for module in test_environment.py test_map_alignment.py test_mapping_doors.py test_look_turn.py; do
         timeout --signal=INT --kill-after=10s 60s python3 -m unittest discover -s "$ROOT/tests" -p "$module" -v || exit 4
     done
 fi
@@ -71,6 +71,7 @@ trap 'exit 143' TERM
 "$ROOT/run_simulation.sh" > "$SIM_WORKSPACE/log/simulation-test.log" 2>&1 &
 child=$!
 timeout --signal=INT --kill-after=10s 150s python3 "$ROOT/scripts/check_simulation.py" || exit 5
+timeout --signal=INT --kill-after=10s 150s python3 "$ROOT/scripts/check_look_turn.py" || exit 5
 kill -0 "$child" || exit 5
 cleanup || exit 5
 trap - EXIT

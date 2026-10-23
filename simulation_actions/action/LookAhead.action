@@ -1,0 +1,6 @@
+# Empty goal: reset head pan and tilt to configured neutral positions.
+---
+bool success
+string message
+---
+float64 remaining_angle

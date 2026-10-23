@@ -65,6 +65,10 @@ def main():
             stamp = received[key].header.stamp
             seconds = stamp.sec + stamp.nanosec * 1e-9
             assert abs(node.get_clock().now().nanoseconds * 1e-9 - seconds) < 1, key + ' timestamp mismatch'
+        # Sensors can arrive before the controller spawners finish activating.
+        # Wait for the velocity endpoint instead of failing this startup race.
+        spin_until(lambda: bool(dict(node.get_topic_names_and_types()).get('/cmd_vel')),
+                   30, 'wheel controller command topic')
         topics = dict(node.get_topic_names_and_types())
         types = topics.get('/cmd_vel', [])
         assert len(types) == 1 and types[0] in (

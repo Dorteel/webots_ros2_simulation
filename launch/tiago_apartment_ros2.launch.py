@@ -28,6 +28,7 @@ def _start_apartment(context):
 
     webots = ExecuteProcess(
         additional_env={
+            'TIAGO_LOOK_TURN_CONFIG': LaunchConfiguration('look_turn_config').perform(context),
             'TIAGO_MAPPING_DOORS_CONFIG': LaunchConfiguration('mapping_doors_config').perform(context),
             'TIAGO_MAPPING_DOORS_STATUS_TOPIC': LaunchConfiguration('mapping_doors_status_topic').perform(context),
         },
@@ -94,6 +95,7 @@ def generate_launch_description():
     return LaunchDescription([
         #DeclareLaunchArgument('world', default_value=str(project / 'worlds/complete_apartment_tiago_ros2.wbt')),
         DeclareLaunchArgument('world', default_value=str(project / 'worlds/setting_the_table_complete_apartment_tiago_ros2.wbt')),
+        DeclareLaunchArgument('look_turn_config', default_value=str(project / 'config/look_turn.yaml')),
         DeclareLaunchArgument('mapping_doors_config', default_value=''),
         DeclareLaunchArgument('mapping_doors_status_topic', default_value=''),
         DeclareLaunchArgument('scan_topic', default_value='/scan'),

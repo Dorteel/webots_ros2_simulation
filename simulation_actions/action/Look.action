@@ -1,0 +1,8 @@
+# Nonnegative radians; zero selects the configured default (not zero motion).
+float64 angle
+---
+bool success
+string message
+float64 achieved_angle
+---
+float64 remaining_angle
