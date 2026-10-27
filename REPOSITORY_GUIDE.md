@@ -1,5 +1,8 @@
 # Returning to the TIAGo apartment simulation
 
+This guide describes the legacy `run_tiago_simulation.sh` workflow.
+For robot-agnostic worlds use `run_simulation.sh`; see the generic sections in README.md.
+
 This is a Webots R2025a apartment with a ROS 2 Jazzy bridge, optional Nav2
 navigation, SLAM/frontier exploration, and simulated object interactions.
 The root is **not a ROS package**: launch files are invoked by filename. Three
@@ -10,7 +13,7 @@ Older README status reports describe previous machines/runs, not this validation
 
 ```mermaid
 flowchart TD
-    Launcher[run_simulation.sh] --> Launch[Existing ROS launch files]
+    Launcher[run_tiago_simulation.sh] --> Launch[Existing ROS launch files]
     Launch --> Webots[Webots apartment / TIAGo++]
     Launch --> Driver[webots_ros2_driver + ros2_control]
     Webots <--> Driver
@@ -92,9 +95,9 @@ official APT layout); the launcher no longer requires one absolute path.
 From this repository:
 
 ```bash
-./run_simulation.sh                    # full robot, cameras and manual base control
-./run_simulation.sh --navigation       # add Nav2 + RViz + position action
-./run_simulation.sh world:="$PWD/worlds/complete_apartment_tiago_ros2.wbt"
+./run_tiago_simulation.sh                    # full robot, cameras and manual base control
+./run_tiago_simulation.sh --navigation       # add Nav2 + RViz + position action
+./run_tiago_simulation.sh world:="$PWD/worlds/complete_apartment_tiago_ros2.wbt"
 ./test.sh                              # build + existing tests + live smoke test
 ```
 
@@ -104,9 +107,9 @@ before incrementally building only the selected profile. Basic mode builds
 package/profile, and mapping adds the explorer, messages and mapping profile.
 By default build/install/log directories live here and are gitignored. This
 deliberately avoids writing outside the checkout. To retain the older README's
-parent-workspace layout, use `SIM_WORKSPACE="$HOME/ros2_ws" ./run_simulation.sh`
+parent-workspace layout, use `SIM_WORKSPACE="$HOME/ros2_ws" ./run_tiago_simulation.sh`
 (and the same variable for `./test.sh`). Do not alternate build directories for
-the same source while a simulation is running. Build-only: `./run_simulation.sh --build-only`.
+the same source while a simulation is running. Build-only: `./run_tiago_simulation.sh --build-only`.
 Both build and test phases have wall-clock timeouts; the interactive launch
 runs until Ctrl-C. Only the launch's own process group is cleaned up.
 

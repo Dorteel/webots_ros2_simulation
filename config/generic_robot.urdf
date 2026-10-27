@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!-- Driver plugin configuration only: no invented links, joints or URDF geometry.
+     This file is not published as a physical robot_description. -->
+<robot name="generic_driver_configuration">
+  <webots>
+    <plugin type="generic_robot.GenericRobot">
+      <positionSpeed>0.5</positionSpeed>
+      <velocityTimeout>0.5</velocityTimeout>
+    </plugin>
+  </webots>
+</robot>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>generic_simulation_bringup</name>
+  <version>0.1.0</version>
+  <description>Independent generic robot driver simulation dependencies.</description>
+  <maintainer email="maintainer@example.com">Project Maintainer</maintainer>
+  <license>Apache-2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>webots_ros2_driver</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>rosgraph_msgs</exec_depend>
+  <exec_depend>ros2launch</exec_depend>
+  <exec_depend>ros2topic</exec_depend>
+  <exec_depend>ros2node</exec_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

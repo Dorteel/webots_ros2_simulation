@@ -12,8 +12,8 @@ case "${1:-}" in
     *) echo "Unknown option: $1" >&2; exit 2 ;;
 esac
 # Exit 2 means unavailable prerequisites; no build or simulation is attempted.
-"$ROOT/run_simulation.sh" --profile "$PROFILE" --check-only
-"$ROOT/run_simulation.sh" --profile "$PROFILE" --build-only
+"$ROOT/run_tiago_simulation.sh" --profile "$PROFILE" --check-only
+"$ROOT/run_tiago_simulation.sh" --profile "$PROFILE" --build-only
 source "${ROS_SETUP:-/opt/ros/jazzy/setup.bash}"
 source "$SIM_WORKSPACE/install/setup.bash"
 source "$ROOT/scripts/environment.sh"
@@ -68,7 +68,7 @@ cleanup() {
 trap cleanup EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
-"$ROOT/run_simulation.sh" > "$SIM_WORKSPACE/log/simulation-test.log" 2>&1 &
+"$ROOT/run_tiago_simulation.sh" > "$SIM_WORKSPACE/log/simulation-test.log" 2>&1 &
 child=$!
 timeout --signal=INT --kill-after=10s 150s python3 "$ROOT/scripts/check_simulation.py" || exit 5
 timeout --signal=INT --kill-after=10s 150s python3 "$ROOT/scripts/check_look_turn.py" || exit 5

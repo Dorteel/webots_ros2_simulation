@@ -23,9 +23,10 @@ simulation_profile() {
     SOURCE_PATHS=("$ROOT/simulation_actions" "$ROOT/dependencies/basic")
     case "$PROFILE" in
         basic) ;;
+        generic|multi-robot) SOURCE_PATHS=("$ROOT/dependencies/generic") ;;
         navigation|mapping)
             SOURCE_PATHS+=("$ROOT/navigate_to_position" "$ROOT/dependencies/navigation") ;;
-        *) echo "Unknown profile: $PROFILE (basic, navigation, mapping)" >&2; return 2 ;;
+        *) echo "Unknown profile: $PROFILE (basic, generic, multi-robot, navigation, mapping)" >&2; return 2 ;;
     esac
     if [[ $PROFILE == mapping ]]; then
         SOURCE_PATHS+=("$ROOT/third_party/explore" "$ROOT/third_party/explore_lite_msgs" "$ROOT/dependencies/mapping")

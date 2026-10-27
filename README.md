@@ -1,11 +1,24 @@
-# TIAGo++ apartment simulation
+# Generic and TIAGo++ Webots simulations
 
-Webots simulates a TIAGo++ robot with RGB/depth cameras, lidar and wheel control.
-Optional ROS 2 Nav2 navigation and SLAM/frontier exploration build on the same
-apartment. A Webots Supervisor provides ground-truth odometry and simulated
-pick/place/open/close actions. See [REPOSITORY_GUIDE.md](REPOSITORY_GUIDE.md) for
-the architecture and interfaces, [dependency profiles](dependencies/README.md)
-for package responsibilities, and [VALIDATION.md](VALIDATION.md) for measured results.
+Two launchers share the Webots/ROS environment while keeping their controllers
+and interfaces separate:
+
+| Launcher | Default and capabilities |
+|---|---|
+| `./run_simulation.sh` | Multi-robot apartment with human, TIAGo and randomized TurtleBot, using independent hardware/sensor interfaces; `--profile generic` selects the empty world. No legacy actions or navigation. |
+| `./run_tiago_simulation.sh` | Original TIAGo apartment, RGB/depth/lidar, wheel control, Supervisor pick/place/open/close and Look/LookAhead/Turn actions; optional navigation and mapping. |
+
+`run_simulation.sh` defaults to `multi-robot` and also accepts `--profile generic`.
+`run_tiago_simulation.sh` retains `basic`, `navigation`, `mapping`, `--navigation`,
+`--check-only`, `--build-only`, and existing `name:=value` launch arguments.
+Old legacy commands must now use the TIAGo launcher; the generic launcher rejects
+legacy profile flags with a migration message. Neither launcher changes action
+semantics. Use separate `ROS_DOMAIN_ID` values if running both workflows at once,
+since each world publishes `/clock` and legacy interfaces use global names.
+
+See [REPOSITORY_GUIDE.md](REPOSITORY_GUIDE.md) for the legacy architecture,
+[dependency profiles](dependencies/README.md) for package responsibilities,
+and the generic sections below for per-robot interfaces.
 
 ## Requirements
 
@@ -34,7 +47,8 @@ Then run the repository installers **manually**:
 
 ```bash
 ./install-webots.sh                  # interactive confirmation before system changes
-./install-dependencies.sh            # basic robot, sensors and control
+./install-dependencies.sh --profile generic  # generic and multi-robot workflows
+./install-dependencies.sh            # original TIAGo basic workflow
 # Optional, cumulative profiles:
 ./install-dependencies.sh --navigation
 ./install-dependencies.sh --exploration  # navigation + SLAM + vendored explorer
@@ -43,7 +57,7 @@ Then run the repository installers **manually**:
 `install-dependencies.sh` detects ROS_DISTRO, requires Jazzy, updates rosdep and
 installs dependencies from the selected `package.xml` files, including tests.
 It leaves package-manager confirmation enabled and is safe to repeat.
-`--profile basic|navigation|mapping` selects the same profiles; `--check` checks
+`--profile basic|navigation|mapping|generic|multi-robot` selects a profile; `--check` checks
 without installation or network updates. No launcher installs dependencies.
 
 `install-webots.sh` follows the [official Cyberbotics APT method](https://cyberbotics.com/doc/guide/installation-procedure):
@@ -84,17 +98,30 @@ your shell startup file only when needed. No launcher path is hardcoded.
 
 ## Run
 
+Generic simulation:
+
 ```bash
-./run_simulation.sh --check-only     # packages, Webots, executables and config; no build
-./run_simulation.sh                  # full robot, RGB/depth, manual wheel control
-./run_simulation.sh --navigation     # add Nav2, position action and RViz
-./run_simulation.sh --profile mapping  # base-only SLAM/exploration; no cameras
+./run_simulation.sh                      # multi-robot apartment (default)
+./run_simulation.sh --profile generic    # empty world
+./run_simulation.sh --profile multi-robot # apartment with two generic drivers
+./run_simulation.sh --check-only
+./run_simulation.sh --build-only
 ```
 
-The launcher validates prerequisites **before building**, incrementally builds
-only the selected profile, sources the overlay and reuses existing launch files.
-Ctrl-C shuts down only its own launch process group. Run one apartment at a time;
-the Supervisor reserves TCP port 8765. Build/install/log directories default to
+Original TIAGo simulation:
+
+```bash
+./run_tiago_simulation.sh --check-only     # prerequisites; no build
+./run_tiago_simulation.sh --build-only     # build legacy packages; no launch
+./run_tiago_simulation.sh                  # full robot, RGB/depth, manual wheel control
+./run_tiago_simulation.sh --navigation     # add Nav2, position action and RViz
+./run_tiago_simulation.sh --profile mapping  # base-only SLAM/exploration; no cameras
+```
+
+Both launchers validate prerequisites **before building**, incrementally build
+only the selected profile, source the overlay and reuse existing launch files.
+Ctrl-C shuts down only its own launch process group. Run one legacy apartment at a time;
+its Supervisor reserves TCP port 8765. Build/install/log directories default to
 this checkout and are ignored by Git. To use another workspace, consistently
 set `SIM_WORKSPACE=/absolute/workspace` for run and test commands. `ROS_SETUP`
 can select a nonstandard Jazzy setup file.
@@ -102,7 +129,7 @@ can select a nonstandard Jazzy setup file.
 Pass existing launch arguments as `name:=value`, for example:
 
 ```bash
-./run_simulation.sh world:="$PWD/worlds/complete_apartment_tiago_ros2.wbt"
+./run_tiago_simulation.sh world:="$PWD/worlds/complete_apartment_tiago_ros2.wbt"
 ```
 
 ## Cameras and control
@@ -177,7 +204,7 @@ The common Supervisor serves `/look_left`, `/look_right` (`Look`),
 `simulation_actions/action/`. Use the full robot in basic simulation:
 
 ```bash
-./run_simulation.sh
+./run_tiago_simulation.sh
 # Another terminal, same ROS_DOMAIN_ID:
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
@@ -206,7 +233,7 @@ look tolerance/timeout, turn default (90 degrees), maximum angular velocity
 stall timeout. Timeouts use wall time and are evaluated each Supervisor step.
 An entirely paused/stuck Webots process cannot process goals or cancellation
 until stepping resumes. Restart the simulation after configuration edits, or use
-`./run_simulation.sh look_turn_config:=/absolute/path/to/look_turn.yaml`.
+`./run_tiago_simulation.sh look_turn_config:=/absolute/path/to/look_turn.yaml`.
 `TIAGO_LOOK_TURN_CONFIG` also selects the file when running the Supervisor directly.
 
 Turns command the real simulated wheel controller through its discovered
@@ -242,3 +269,328 @@ Run `./test.sh` or `./test.sh --all`. Both include the look/turn regressions and
 after the basic sensor smoke check, `scripts/check_look_turn.py` for live action,
 direction, isolation, cancellation/stop and legacy-discovery checks. Deterministic
 ROS tests simulate head hardware and odometry; they do not prove Webots physics.
+
+## Generic per-robot simulation (Phase 1)
+
+The `generic` profile starts a floor, lighting and a small **clock-only** controller.
+It has no predefined physical robots, centralized discovery, navigation or
+apartment dependencies. Each added robot runs an independent
+`webots_ros2_driver` instance with the same `GenericRobot` Python plugin. The
+plugin enumerates its own devices through `getNumberOfDevices()` and
+`getDeviceByIndex()`, reads position sensors and commands ordinary Motor APIs.
+It neither uses Supervisor scene operations nor depends on SMPA.
+
+```bash
+./install-dependencies.sh --profile generic  # if dependencies are missing
+./run_simulation.sh --profile generic --check-only
+./run_simulation.sh --profile generic
+```
+
+To add robots, pause Webots and add Robot nodes or robot PROTOs under the root
+`children`. Give each a **unique name**, set its `controller` to `"<extern>"`, and
+save the world under this repository's `worlds/` directory. Keep the `world clock`
+node. Close Webots and relaunch, supplying the names (no joint/device configuration
+is required):
+
+```bash
+./run_simulation.sh --profile generic world:="$PWD/worlds/my_robots.wbt" \
+  'robots:=["robot_a","robot_b"]'
+```
+
+Robot namespaces are `<lowercase-type>_<number>`, with independent counters
+starting at 1 per normalized type. Plain names are shorthand for both the Webots
+name and type: `TIAGo` becomes `/tiago_1`, and `TurtleBot` becomes `/turtlebot_1`.
+For different Webots names belonging to the same type, supply the type explicitly
+in the existing `robots` list (it is not guessed from the model or name):
+
+```bash
+./run_simulation.sh --profile generic world:="$PWD/worlds/my_robots.wbt" \
+  'robots:=[{"name":"alpha","type":"Tiago"},{"name":"beta","type":"Tiago"}]'
+```
+
+This assigns `/tiago_1` to `alpha` and `/tiago_2` to `beta`. Names are sorted before
+numbering, so reordering the launch list does not change assignments. Type labels
+are lowercased, unsafe characters become underscores, and labels beginning with
+a digit receive a `robot_` prefix. Types that normalize identically share a
+counter. Webots names must still be unique for external-controller attachment.
+Changing robot names/types or the launched robot set can change numbering.
+Restart/relaunch after hardware changes; hot-plugging is not implemented. The
+launcher's namespace map is passed to each generic plugin through its process
+environment, keeping hardware and native sensor publishers in the same namespace.
+These drivers replace the robots' original controllers; models requiring special
+initialization may need additional plugins.
+
+Inspect interfaces in another terminal, using the domain printed by the launcher:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+export ROS_DOMAIN_ID=0                  # match the launcher
+ros2 node list --no-daemon
+ros2 topic list --no-daemon -t
+# Exact namespace for a robot named robot_a:
+ROBOT_NS=/robot_a_1
+ros2 topic echo "$ROBOT_NS/hardware_info" std_msgs/msg/String \
+  --once --qos-durability transient_local --qos-depth 1
+ros2 topic echo "$ROBOT_NS/joint_states" sensor_msgs/msg/JointState --once
+```
+
+Interfaces under each namespace:
+
+- `hardware_info`: retained `std_msgs/String` with versioned JSON describing all
+  enumerated devices, motor limits, associated position sensors, exact command
+  topics, descriptive `motor_id` values and the `joint_feedback` name-to-sensor mapping. ROS has no standard
+  hardware-inventory message; this avoids custom message infrastructure.
+- `joint_states`: `sensor_msgs/JointState` with measured finite positions, stamped
+  in simulation time. Sensorless motors do not get invented feedback. Passive
+  position sensors publish feedback without a command topic. Velocity and effort
+  arrays remain empty. Joints with neither motor nor sensor cannot be discovered
+  through the device API.
+- `motors/<motor_id>/position`: `std_msgs/Float64`, immediate position target
+  in radians or meters. Out-of-range and nonfinite values are rejected. Position
+  speed is capped at the smaller of the motor maximum and `positionSpeed` (default
+  0.5 rad/s or m/s in `config/generic_robot.urdf`).
+- `motors/<motor_id>/velocity`: `std_msgs/Float64`, offered only for motors
+  without position bounds. Uses ordinary velocity mode and rejects values above
+  the motor's maximum speed. Commands must be refreshed within `velocityTimeout`
+  (default 0.5 simulation seconds), otherwise velocity is set to zero.
+- `command_status`: `std_msgs/String` JSON reporting acceptance, rejection or a
+  velocity timeout. Acceptance means the API command was applied, not that the
+  target was reached; use `joint_states` for feedback.
+- `driver/<device-name>/...`: native driver interfaces. Camera defaults include
+  `image_color` and `camera_info`; depth, lidar, distance sensors, GPS, compass,
+  and other supported devices retain their upstream message types and behavior.
+  Most sensor streams activate when subscribed. Use `ros2 topic list -t` to find
+  their actual names. The shared `/clock` is published once per world.
+
+Motor topic names come from the original Webots device names, converted to
+lowercase with invalid ROS characters replaced by underscores. Names starting
+with a digit get a `motor_` prefix. Collisions receive a numeric suffix (`_2`,
+`_3`, etc.) in device discovery order, only when needed to keep IDs unique within
+each robot. For example, `head_1_joint` stays `head_1_joint`, and `right wheel motor`
+becomes `right_wheel_motor`.
+Original names remain in `hardware_info.devices[].name` and `joint_states.name`.
+Use `motor_id`, `position_sensor`, `joint_feedback` and `command_topics` to map
+an exposed topic to its physical joint and feedback sensor.
+
+For TIAGo's discovered `head_1_joint`, **check its limits and units in
+`hardware_info`, and its current position in `joint_states`** before commanding:
+
+```bash
+ROBOT_NS=/tiago_1
+ros2 topic echo "$ROBOT_NS/command_status" std_msgs/msg/String
+# In another sourced terminal with the same ROS_DOMAIN_ID:
+ROBOT_NS=/tiago_1
+ros2 topic pub --once \
+  "$ROBOT_NS/motors/head_1_joint/position" \
+  std_msgs/msg/Float64 '{data: 0.15}'
+```
+
+No motor setters run during discovery. Native sensor plugins, image encoding,
+calibration, transport, external-controller attachment and simulation stepping
+are reused from `webots_ros2_driver`. The small plugin fills its generic
+motor/position-sensor gap; it does not duplicate camera or lidar publishers.
+The `.urdf` file is only the driver's plugin configuration, with no fabricated
+links or joints, and is not published as a physical `robot_description`.
+
+Limitations: bounded motors support position commands only; coupled motors and
+invalid limits are inventoried but not commanded. Torque/force commands,
+trajectory scheduling, `ros2_control`, TF generation and automatic IMU assembly
+are not implemented. Other unsupported device types remain inventory-only.
+Native driver sensor naming rules still apply: use unique device names with
+letters, digits and underscores, beginning with a letter; names that collide
+after upstream sanitization are unsupported. Native frame IDs are not prefixed
+by this plugin. Run one generic world per ROS domain. An explicitly accepted
+position target stays active until replaced; only velocity commands have a
+watchdog. The next control step is a validated `ros2_control` hardware adapter
+and standard controllers, using the same real device ownership and feedback.
+
+## Generic TIAGo Joint Control
+
+The minimal demonstration reuses the stock TIAGo++ PROTO with `supervisor FALSE`
+and the unchanged generic driver. It starts no apartment controllers or action
+servers. Launch from the repository (the PROTO/assets need network access on first
+use unless already cached):
+
+```bash
+ROS_DOMAIN_ID=90 ./run_simulation.sh --profile generic \
+  world:="$PWD/worlds/generic_tiago.wbt" 'robots:=["TIAGo"]'
+```
+
+In another terminal, discover the namespace and inspect devices, limits, sensor
+associations and measured positions:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+export ROS_DOMAIN_ID=90
+ros2 node list --no-daemon
+ros2 topic list --no-daemon -t
+ROBOT_NS=/tiago_1
+ros2 topic echo "$ROBOT_NS/hardware_info" std_msgs/msg/String \
+  --once --qos-durability transient_local --qos-depth 1
+ros2 topic echo "$ROBOT_NS/joint_states" sensor_msgs/msg/JointState --once
+```
+
+Live discovery found 56 devices and 23 commandable motors, including:
+
+| Motor | Position sensor | Position limits (rad) | Command mode |
+|---|---|---|---|
+| `head_1_joint` | `head_1_joint_sensor` | −1.24 to 1.24 | position |
+| `head_2_joint` | `head_2_joint_sensor` | −0.98 to 0.79 | position |
+
+The head motor topic names preserve `head_1_joint` and `head_2_joint`.
+Confirm their command topics in `hardware_info` after any hardware changes.
+Both motors report a 3 rad/s maximum; the generic position-command speed cap is
+0.5 rad/s. Their discovered position topics are:
+
+```text
+/tiago_1/motors/head_1_joint/position
+/tiago_1/motors/head_2_joint/position
+```
+
+Record the initial head positions first. For this fresh world, where both are
+approximately zero, command the small absolute pan target below:
+
+```bash
+HEAD_TOPIC="$ROBOT_NS/motors/head_1_joint/position"
+ros2 topic pub --once "$HEAD_TOPIC" std_msgs/msg/Float64 '{data: 0.1}'
+ros2 topic echo "$ROBOT_NS/joint_states" sensor_msgs/msg/JointState --once
+# Return near the fresh-world initial position; substitute your recorded value
+# if you started from a different position.
+ros2 topic pub --once "$HEAD_TOPIC" std_msgs/msg/Float64 '{data: 0.0}'
+```
+
+To monitor acceptance/rejection, run `ros2 topic echo
+/tiago_1/command_status std_msgs/msg/String` in a separate sourced
+terminal **before** publishing commands; status is not retained. Joint-state
+positions, rather than command acceptance, confirm motion. Stop the simulation
+with **Ctrl-C in the launch terminal**.
+
+Live verification on 2026-10-27, using only the generic position topic:
+
+| Measurement | `head_1_joint` (rad) |
+|---|---:|
+| Initial | −0.000000650848 |
+| Commanded (initial + 0.10) | 0.099999349152 |
+| Measured after movement | 0.099999346353 |
+| Measured after restoring initial target | −0.000000652173 |
+
+The return error was below 1.4×10⁻⁹ rad. A 1.34-rad target was explicitly rejected
+as outside the discovered limits, with no subsequent head movement. The other
+head joint's maximum deviation during the move was below 9×10⁻⁹ rad. The sole
+command subscriber was this robot's `hardware` node; no other actuator was
+commanded. Small physical changes occurred in uncommanded joints (largest arm
+change about 0.00015 rad), so this does not imply an entirely motionless chassis
+or whole-robot pose validation. No generic-controller changes were needed.
+
+## Multi-Robot Apartment Simulation
+
+```bash
+./run_simulation.sh                         # same multi-robot default
+./run_simulation.sh --profile multi-robot
+./run_simulation.sh --profile multi-robot seed:=11  # reproducible initial pose
+```
+
+This loads `worlds/generic_multi_robot_apartment.wbt`, copied from the
+setting-the-table apartment with its objects and human preserved. TIAGo and a
+stock TurtleBot3 Burger named `TurtleBot` each use the unchanged generic driver.
+The old action Supervisor and external ROS Supervisor are replaced by the
+clock-only controller. No navigation, manipulation or SMPA packages are started.
+Stop with **Ctrl-C in the launch terminal**.
+
+TurtleBot is placed **before Webots starts**, by writing a temporary world beside
+the source (preserving relative asset/controller paths). It samples center
+coordinates uniformly from x ∈ [−9.0, −8.5], y ∈ [−5.2, −4.4] m, z = 0, and yaw
+from [−π, π]. This living-room region was checked against the preserved furniture,
+walls, human and TIAGo locations, allowing a 0.15 m footprint radius plus at least
+0.35 m clearance. The world declares these center bounds in its
+`GENERIC_SPAWN_REGION` comment. No live robot teleportation or Supervisor is used.
+The chosen seed and pose are printed; omit `seed` to generate a fresh seed.
+Temporary world/project files are removed on normal launch exit.
+
+Optional `world:="$PWD/worlds/custom_apartment.wbt"` uses another world with the
+same `DEF TURTLEBOT TurtleBot3Burger` header, translation/rotation fields and an
+explicitly validated `GENERIC_SPAWN_REGION` comment. Revalidate the region after
+changing obstacles or the robot footprint: this is not automatic mesh collision
+detection, and lidar checks only cover its scan plane. Seeds reproduce initial
+poses, not every subsequent physics or sensor sample. A forced kill can leave
+temporary `.generic_spawn_*.wbt` files and their hidden `.wbproj` companions.
+
+Inspect both robots in another terminal (match the launcher's domain; default 0):
+
+```bash
+source /opt/ros/jazzy/setup.bash
+export ROS_DOMAIN_ID=0
+TIAGO_NS=/tiago_1
+TURTLE_NS=/turtlebot_1
+ros2 node list --no-daemon
+ros2 topic list --no-daemon -t
+for ROBOT_NS in "$TIAGO_NS" "$TURTLE_NS"; do
+  ros2 topic echo "$ROBOT_NS/hardware_info" std_msgs/msg/String \
+    --once --qos-durability transient_local --qos-depth 1
+  ros2 topic echo "$ROBOT_NS/joint_states" sensor_msgs/msg/JointState --once
+done
+# Native sensor samples (TurtleBot has lidar, not a camera):
+ros2 topic echo "$TURTLE_NS/driver/LDS_01" sensor_msgs/msg/LaserScan --once
+ros2 topic echo "$TIAGO_NS/driver/Astra_rgb/image_color" sensor_msgs/msg/Image \
+  --once --field encoding
+```
+
+`hardware_info` maps each descriptive `motor_id` to its original name, command
+topics, limits, units and feedback sensor. In this world, TIAGo head pan is
+`head_1_joint`; TurtleBot right wheel is `right_wheel_motor` (original device name
+`right wheel motor`). In the fresh world, after checking the current positions
+and limits, these small **absolute** position targets exercise independent motors:
+
+```bash
+HEAD_TOPIC="$TIAGO_NS/motors/head_1_joint/position"
+WHEEL_TOPIC="$TURTLE_NS/motors/right_wheel_motor/position"
+ros2 topic pub --once "$HEAD_TOPIC" std_msgs/msg/Float64 '{data: 0.1}'
+ros2 topic pub --once "$WHEEL_TOPIC" std_msgs/msg/Float64 '{data: 0.12}'
+ros2 topic echo "$TIAGO_NS/joint_states" sensor_msgs/msg/JointState --once
+ros2 topic echo "$TURTLE_NS/joint_states" sensor_msgs/msg/JointState --once
+# Restore approximately zero; substitute the initial values you recorded:
+ros2 topic pub --once "$HEAD_TOPIC" std_msgs/msg/Float64 '{data: 0.0}'
+ros2 topic pub --once "$WHEEL_TOPIC" std_msgs/msg/Float64 '{data: 0.0}'
+```
+
+Monitor `<namespace>/command_status` before publishing to see acceptance or
+rejection. The wheel command causes a small base movement; it is not a navigation
+command. Wheel position is unbounded, but wheel velocity commands are limited to
+±6.67 rad/s and use the generic watchdog. Do not assume all listed motors have
+feedback: the lidar's two internal motors have no position sensors.
+
+Live verification on 2026-10-27:
+
+| Seed/run | Initial x, y (m) | Yaw (rad) | Observed minimum TurtleBot lidar range |
+|---|---|---|---|
+| 11 | −8.773810223245, −4.752182091136 | 2.665393708688 | 1.1190 m |
+| 22 | −8.520895310091, −5.087705127939 | −2.993208024875 | 0.9461 m |
+| 11 repeated | −8.773810223245, −4.752182091136 | 2.665393708688 | 1.1186 m |
+
+Initial poses above are the launch-generated world fields; there is no new
+Supervisor pose/odometry interface. All three live launches ran with both drivers,
+advancing `/clock`, wheel feedback and nonempty lidar scans. The first run also
+received TIAGo's 667-beam lidar and 640×480 BGRA camera messages. TIAGo reported
+57 devices/23 commandable motors; TurtleBot reported 10 devices/4 motors and two
+wheel feedback sensors. Accelerometer and gyro remain inventory-only under the
+existing generic/native driver configuration.
+
+TIAGo's head moved from −0.000000409079 to 0.099999578376 rad for a
+0.099999590921-rad target. TurtleBot's right wheel moved from 0 to 0.11932 rad for
+a 0.12-rad target (sensor resolution 0.00628 rad), then returned to 0. TIAGo's head
+also returned to its initial position within 2×10⁻⁹ rad. The other robot's monitored
+head/wheel coordinates did not change during either command. Each command topic
+had only its own hardware node subscribed; checked clock/joint/lidar topics had
+one publisher each. An out-of-bounds head target and a 7.67-rad/s wheel command
+were rejected without changing their targets.
+
+Environment limitations observed: the original human has an empty trajectory
+argument, so its pedestrian controller exits and the human remains stationary.
+This is preserved, not replaced with a new behavior. The installed Webots lacks
+some local appearance/CapScrew PROTOs referenced by existing connector assets;
+the first run also reported remote visual-asset download failures. Physics and
+ROS checks succeeded, but complete visual parity is not certified on this
+installation. A complete Webots asset installation/cache and working network
+access remain prerequisites for full rendering. Existing apartment mass-ratio
+warnings also remain. No generic-controller changes or test infrastructure were
+introduced for this integration.

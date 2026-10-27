@@ -19,6 +19,8 @@ def check(profile, arguments):
         paths += [root / 'navigate_to_position', root / 'dependencies/navigation']
     if profile == 'mapping':
         paths += [root / 'third_party/explore', root / 'third_party/explore_lite_msgs', root / 'dependencies/mapping']
+    if profile in ('generic', 'multi-robot'):
+        paths = [root / 'dependencies/generic']
     manifests = [ET.parse(path / 'package.xml').getroot() for path in paths]
     local = {manifest.findtext('name') for manifest in manifests}
     dependencies = {entry.text for manifest in manifests for entry in manifest
@@ -34,8 +36,11 @@ def check(profile, arguments):
     modules = ['rclpy', 'yaml', 'webots_ros2_driver.webots_controller',
                'webots_ros2_driver.webots_launcher',
                'webots_ros2_driver.wait_for_controller_connection']
-    if profile != 'basic':
+    if profile in ('navigation', 'mapping'):
         modules += ['nav2_msgs.action', 'nav2_common.launch', 'numpy', 'PIL.Image']
+    if profile in ('generic', 'multi-robot'):
+        modules = ['rclpy', 'launch', 'sensor_msgs.msg', 'std_msgs.msg', 'rosgraph_msgs.msg',
+                   'webots_ros2_driver.utils']
     for module in modules:
         try:
             importlib.import_module(module)
@@ -44,9 +49,11 @@ def check(profile, arguments):
     executables = [('controller_manager', 'spawner'),
                    ('robot_state_publisher', 'robot_state_publisher'),
                    ('tf2_ros', 'static_transform_publisher')]
-    if profile != 'basic':
+    if profile in ('navigation', 'mapping'):
         executables += [('laser_filters', 'scan_to_scan_filter_chain'),
                         ('nav2_map_server', 'map_server'), ('rviz2', 'rviz2')]
+    if profile in ('generic', 'multi-robot'):
+        executables = []
     for package, name in executables:
         try:
             executable = Path(get_package_prefix(package)) / 'lib' / package / name
@@ -67,13 +74,19 @@ def check(profile, arguments):
              Path(overrides.get('look_turn_config', root / 'config/look_turn.yaml')),
              root / 'config/ros2_control_wheel_odom.yml', root / 'config/tiago_arm_tuck.py',
              root / 'controllers/fallback_action_supervisor/fallback_action_supervisor.py']
-    if profile != 'basic':
+    if profile in ('navigation', 'mapping'):
         files += [Path(overrides.get('params_file', root / 'nav2_params_jazzy.yaml'))]
     if profile == 'navigation':
         files += [Path(overrides.get('map', root / 'maps/kitchen.yaml'))]
     if profile == 'mapping':
         files += [Path(overrides.get('doors_config', root / 'config/apartment_mapping_doors.json')),
                   root / 'config/apartment_slam.yaml', root / 'config/apartment_explore.yaml']
+    if profile in ('generic', 'multi-robot'):
+        default_world = 'generic_multi_robot_apartment.wbt' if profile == 'multi-robot' else 'generic_empty.wbt'
+        files = [Path(overrides.get('world', root / 'worlds' / default_world)),
+                 root / 'controllers/world_clock/world_clock.py',
+                 root / 'controllers/generic_robot/generic_robot.py',
+                 root / 'config/generic_robot.urdf']
     for path in files:
         try:
             content = path.read_text()

@@ -4,21 +4,25 @@ set -eo pipefail
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 WORKSPACE=${SIM_WORKSPACE:-$ROOT}
 source "$ROOT/scripts/environment.sh"
-PROFILE=basic
+PROFILE=multi-robot
 BUILD_ONLY=false
 CHECK_ONLY=false
 LAUNCH_ARGUMENTS=()
 while (($#)); do
     case "$1" in
-        --navigation) PROFILE=navigation; shift ;;
+        --navigation) echo "Use ./run_tiago_simulation.sh --navigation for legacy navigation." >&2; exit 2 ;;
         --profile) [[ $# -ge 2 ]] || exit 2; PROFILE=$2; shift 2 ;;
         --build-only) BUILD_ONLY=true; shift ;;
         --check-only) CHECK_ONLY=true; shift ;;
-        --help) echo 'Usage: ./run_simulation.sh [--navigation | --profile basic|navigation|mapping] [--check-only | --build-only] [name:=value ...]'; exit 0 ;;
+        --help) echo 'Usage: ./run_simulation.sh [--profile generic|multi-robot] [--check-only | --build-only] [name:=value ...]'; exit 0 ;;
         *:=*) LAUNCH_ARGUMENTS+=("$1"); shift ;;
         *) echo "Unknown option: $1" >&2; exit 2 ;;
     esac
 done
+case "$PROFILE" in
+    generic|multi-robot) ;;
+    *) echo "Generic profiles: generic, multi-robot. Use ./run_tiago_simulation.sh for basic, navigation or mapping." >&2; exit 2 ;;
+esac
 simulation_environment
 simulation_profile "$PROFILE"
 prerequisites=0
@@ -37,33 +41,12 @@ if ! timeout --signal=INT --kill-after=10s 600s colcon --log-base "$WORKSPACE/lo
 fi
 source "$WORKSPACE/install/setup.bash"
 $BUILD_ONLY && exit 0
-python3 - <<'PY' || exit 2
-import socket
-with socket.socket() as probe:
-    try:
-        probe.bind(('127.0.0.1', 8765))
-    except OSError:
-        raise SystemExit('Supervisor port 8765 is occupied; stop the other apartment simulation first.')
-PY
 export ROS_LOG_DIR=${ROS_LOG_DIR:-$WORKSPACE/log/ros}
 mkdir -p "$ROS_LOG_DIR"
 cd "$ROOT"
-cat <<EOF
-Starting full TIAGo apartment (ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}). Ctrl-C stops this launch.
-In another terminal:
-  source /opt/ros/jazzy/setup.bash
-  source "$WORKSPACE/install/setup.bash"
-  export ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
-  ros2 topic list
-  ros2 topic hz /tiago/camera/color/image_raw
-  ros2 run rqt_image_view rqt_image_view
-  python3 "$ROOT/arrow_teleop.py"
-  ros2 topic pub --once /cmd_vel geometry_msgs/msg/TwistStamped '{}'
-Optional navigation: ./run_simulation.sh --navigation
-EOF
-LAUNCH=tiago_apartment_ros2.launch.py
-if [[ $PROFILE == navigation ]]; then LAUNCH=navigation.launch.py; fi
-if [[ $PROFILE == mapping ]]; then LAUNCH=tiago_apartment_mapping.launch.py; fi
+echo "Starting generic simulation (ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}). Ctrl-C stops this launch."
+LAUNCH=generic.launch.py
+if [[ $PROFILE == multi-robot ]]; then LAUNCH_ARGUMENTS=(scenario:=multi-robot "${LAUNCH_ARGUMENTS[@]}"); fi
 child=
 cleanup() {
     trap '' INT TERM

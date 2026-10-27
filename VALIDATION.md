@@ -1,3 +1,9 @@
+> Launcher migration: historical `run_simulation.sh` commands below refer to the
+> legacy workflow, now invoked with `run_tiago_simulation.sh`. Historical results
+> are unchanged. The current launcher defaults to the multi-robot apartment;
+> use `--profile generic` for the empty world. Historical names below predate
+> the sequential namespaces and motor IDs; see README.md for current commands.
+
 # Validation — environment reproducibility update, 2026-10-15
 
 The environment has changed since the earlier audit below. **No installation
@@ -231,3 +237,32 @@ rotation is a smoke test, not proof of navigation or manipulation correctness.
 Visual appearance, full Nav2 operation and every object action still require
 a follow-up graphics-enabled run. Previous results in
 `tests/MAPPING_VERIFICATION.md` have not been reverified on this host.
+
+
+## Launcher separation verification — 2026-10-27
+
+At this historical stage, `run_simulation.sh` defaulted to the generic empty world;
+`run_tiago_simulation.sh` preserves the original basic/navigation/mapping entry
+point. Its launch/build/environment/cleanup logic is unchanged except for the
+script name and an explicit profile guard. Existing `test.sh` now invokes the
+legacy entry point.
+
+- Both scripts passed Bash syntax checks. All four existing environment regression
+  checks passed. Generic/basic/navigation/mapping prerequisite checks passed.
+- The default generic launch ran with advancing `/clock`, only the world-clock
+  controller, and no ROS actions.
+- The generic multi-robot launch ran with independent TIAGo/TurtleBot inventory
+  and measured joint feedback, advancing `/clock`, and no ROS actions.
+- The legacy basic apartment ran with active `diffdrive_controller` and
+  `joint_state_broadcaster`. RGB (`bgra8`), depth (`32FC1`), lidar and wheel odometry
+  messages were received. `/cmd_vel` retained its `TwistStamped` subscriber.
+- Direct DDS discovery found `/look_left`, `/look_right`, `/look_ahead`,
+  `/turn_left`, `/turn_right`, `/pick`, `/place`, `/place_to_object`,
+  `/place_next_to`, `/place_in_container`, `/open`, and `/close` with their original
+  `simulation_actions` types. Action goals and wheel motion were not executed
+  during this launcher-only check. The CLI daemon initially showed an empty
+  action list; direct rclpy discovery confirmed the live servers.
+- Navigation/mapping options and original launch files were preserved and their
+  prerequisites checked; complete navigation/mapping missions were not rerun.
+- Existing asset/appearance warnings and the stationary human's empty-trajectory
+  warning remain environment/world limitations, not launcher changes.

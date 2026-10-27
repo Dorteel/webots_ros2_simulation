@@ -1,0 +1,42 @@
+#VRML_SIM R2025a utf8
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/pal_robotics/tiagopp/protos/Tiago++.proto"
+WorldInfo {
+  basicTimeStep 32
+}
+Viewpoint {
+  orientation 0.3 0.8 0.5 2.2
+  position 6 6 5
+}
+Background {
+  skyColor [ 0.7 0.8 0.9 ]
+}
+DirectionalLight {
+  direction -1 -1 -2
+}
+Solid {
+  translation 0 0 -0.05
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.65 0.65 0.65
+        roughness 1
+        metalness 0
+      }
+      geometry Box { size 20 20 0.1 }
+    }
+  ]
+  name "floor"
+  boundingObject Box { size 20 20 0.1 }
+}
+Robot {
+  name "world clock"
+  controller "world_clock"
+}
+
+# Stock robot, controlled only through the generic external ROS driver.
+Tiago++ {
+  translation 0 0 0.095
+  name "TIAGo"
+  controller "<extern>"
+  supervisor FALSE
+}

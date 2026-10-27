@@ -11,7 +11,7 @@ while (($#)); do
         --navigation) PROFILE=navigation; shift ;;
         --exploration|--all) PROFILE=mapping; shift ;;
         --check) CHECK=true; shift ;;
-        --help) echo 'Usage: ./install-dependencies.sh [--profile basic|navigation|mapping] [--check]'; exit 0 ;;
+        --help) echo 'Usage: ./install-dependencies.sh [--profile basic|generic|multi-robot|navigation|mapping] [--check]'; exit 0 ;;
         *) echo "Unknown option: $1" >&2; exit 2 ;;
     esac
 done
